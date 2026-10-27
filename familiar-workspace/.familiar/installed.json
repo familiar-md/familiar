@@ -1,0 +1,55 @@
+{
+  "schema": "1.1",
+  "core": {
+    "id": "familiar",
+    "version": "1.0.0",
+    "build": "2f5d4cf2a294"
+  },
+  "adapters": {
+    "claude": {
+      "project-instructions": "active",
+      "file-read": "active",
+      "file-write": "active",
+      "explicit-skills": "active",
+      "implicit-skills": "active",
+      "user-invocation-control": "active",
+      "named-subagents": "active",
+      "mechanical-enforcement": "available",
+      "document-tools": "available",
+      "background-work": "available",
+      "authenticated-knowledge": "unknown",
+      "external-retrieval": "available",
+      "hosted-publication": "available"
+    },
+    "codex": {
+      "project-instructions": "active",
+      "file-read": "active",
+      "file-write": "active",
+      "explicit-skills": "active",
+      "implicit-skills": "active",
+      "user-invocation-control": "active",
+      "named-subagents": "active",
+      "mechanical-enforcement": "available",
+      "document-tools": "available",
+      "background-work": "available",
+      "authenticated-knowledge": "unknown",
+      "external-retrieval": "unknown",
+      "hosted-publication": "unsupported"
+    },
+    "gemini": {
+      "project-instructions": "active",
+      "file-read": "active",
+      "file-write": "active",
+      "explicit-skills": "active",
+      "implicit-skills": "active",
+      "user-invocation-control": "unsupported",
+      "named-subagents": "active",
+      "mechanical-enforcement": "available",
+      "document-tools": "available",
+      "background-work": "unknown",
+      "authenticated-knowledge": "unknown",
+      "external-retrieval": "unknown",
+      "hosted-publication": "unsupported"
+    }
+  }
+}

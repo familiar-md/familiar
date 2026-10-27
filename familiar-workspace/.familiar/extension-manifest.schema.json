@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familiar.local/schemas/extension-manifest-1.1.json",
+  "title": "familiar extension manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract", "id", "display_name", "version", "core", "type", "namespace", "contributions", "capabilities", "unavailable_behavior", "package"],
+  "properties": {
+    "contract": {"const": "1.1"},
+    "id": {"type": "string", "pattern": "^[a-z][a-z0-9-]*$"},
+    "display_name": {"type": "string", "minLength": 1},
+    "version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:[-+][0-9A-Za-z.-]+)?$"},
+    "core": {"type": "string", "minLength": 1},
+    "type": {"enum": ["workflow", "specialty", "enforcement", "integration"]},
+    "namespace": {"type": "string", "pattern": "^[a-z][a-z0-9-]*$"},
+    "contributions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["routes", "skills", "agents", "state_surfaces"],
+      "properties": {
+        "routes": {"type": "array", "items": {"type": "object", "required": ["id", "skill", "select_when"], "properties": {"id": {"type": "string"}, "skill": {"type": "string"}, "select_when": {"type": "string", "minLength": 1}}, "additionalProperties": false}},
+        "skills": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "agents": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "state_surfaces": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["path", "schema_version", "update_behavior", "scaffold"],
+            "properties": {
+              "path": {"type": "string", "minLength": 1},
+              "schema_version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+$"},
+              "update_behavior": {"type": "string", "minLength": 1},
+              "scaffold": {"type": "boolean"}
+            }
+          }
+        },
+        "checkin_fragments": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "track_presets": {"type": "array", "items": {"type": "string"}, "uniqueItems": true}
+      }
+    },
+    "capabilities": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required", "optional"],
+      "properties": {
+        "required": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "optional": {"type": "array", "items": {"type": "string"}, "uniqueItems": true}
+      }
+    },
+    "unavailable_behavior": {"enum": ["hide", "degrade", "report-unavailable"]},
+    "compatible_with": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "conflicts": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "package": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["update_source"],
+      "properties": {
+        "update_source": {"type": ["string", "null"]}
+      }
+    }
+  }
+}

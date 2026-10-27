@@ -1,0 +1,13 @@
+# Normalize text line endings to LF in every checkout so generated adapter fixtures remain
+# byte-for-byte deterministic on Windows, macOS, and Linux.
+* text=auto eol=lf
+
+# Binary assets — do not diff or attempt to merge.
+*.pdf     binary
+*.potx    binary
+*.pptx    binary
+*.docx    binary
+*.xlsx    binary
+*.png     binary
+*.jpg     binary
+*.zip     binary

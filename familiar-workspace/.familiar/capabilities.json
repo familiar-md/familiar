@@ -1,0 +1,19 @@
+{
+  "version": "1.0",
+  "capabilities": [
+    "project-instructions",
+    "explicit-skills",
+    "implicit-skills",
+    "user-invocation-control",
+    "named-subagents",
+    "mechanical-enforcement",
+    "file-read",
+    "file-write",
+    "document-tools",
+    "background-work",
+    "authenticated-knowledge",
+    "external-retrieval",
+    "hosted-publication"
+  ],
+  "states": ["active", "available", "unsupported", "unavailable", "unknown"]
+}

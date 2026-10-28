@@ -1,9 +1,25 @@
-# familiar
+<p align="center">
+  <img src="docs/assets/familiar-hearth-banner.jpg" alt="familiar: bound to your work" width="720">
+</p>
 
-![familiar: bound to your work](docs/assets/familiar-hearth-banner.jpg)
+<p align="center">
+  <strong>A project-memory and workflow layer for LLM agents, where nothing has to be explained twice.</strong>
+</p>
 
-**familiar is a project-memory and workflow layer for LLM agents, where nothing has to be explained
-twice.**
+<p align="center">
+  <a href="https://github.com/familiar-md/familiar/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/familiar-md/familiar?color=d2621a&label=release"></a>
+  <a href="LICENSE"><img alt="Licence: Apache 2.0" src="https://img.shields.io/badge/licence-Apache%202.0-212121"></a>
+  <a href="https://code.claude.com/docs/en/overview"><img alt="Built for Claude Code" src="https://img.shields.io/badge/built%20for-Claude%20Code-d2621a"></a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/familiar-md/familiar/releases">Download</a> ·
+  <a href="https://familiar-md.github.io/familiar/">Docs</a> ·
+  <a href="https://familiar-md.github.io/familiar/start/your-first-session/">Your first session</a> ·
+  <a href="https://familiar-md.github.io/familiar/cheatsheet/">Cheat sheet</a> ·
+  <a href="https://github.com/familiar-md/familiar-hub">Hub</a> ·
+  <a href="https://github.com/familiar-md/familiar-hooks">Hooks</a>
+</p>
 
 familiar is a folder. Download it, rename it to your project's name, and open your AI coding assistant
 inside it. There is nothing to set up and nothing running in the background. The folder holds what the
@@ -24,6 +40,11 @@ From the [Releases page](https://github.com/familiar-md/familiar/releases), down
 
 That is all you need. This page and the documents linked from it are the documentation; none of them
 has to be downloaded.
+
+<p align="center">
+  <img src="docs/assets/fleet-brief-example.png" alt="The fleet hub's daily brief across several fictional projects" width="720">
+  <br><em>The optional <a href="https://github.com/familiar-md/familiar-hub">fleet hub</a> reads every project and writes a daily brief.</em>
+</p>
 
 ## Works with
 

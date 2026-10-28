@@ -2,7 +2,7 @@
 
 **Baseline:** core `1.0.0` · state schema `1.0` · extension contract `1.1` · install record schema `1.1`
 **Verified against:** the maintainer's source repository at release time — its gate suite passes in
-full (135 of 135) before every release. The suite is not in this download; see "How this document stays
+full (136 of 136) before every release. The suite is not in this download; see "How this document stays
 true" and §13.
 **Scope:** familiar **core** only — the `familiar-workspace/` tree as it ships. The extension contract
 appears here as the interface core defines and enforces; no extension is described.
@@ -115,7 +115,7 @@ first time it runs in the project (§4.1, §12). It replaces `project-config.md`
 is still the shipped stub (`revision: 0`); a filled-in configuration beside an unset marker — a
 migrated project — is reconciled in place, never reset to defaults.
 
-`tests/quality_gates.py` (in the maintainer's source repository; not part of this download) holds the 135 executable contracts.
+`tests/quality_gates.py` (in the maintainer's source repository; not part of this download) holds the 136 executable contracts.
 
 ---
 
@@ -1024,8 +1024,8 @@ and degrade as their skills describe, and `doctor.py` (§9.5) reports the whole 
 ## 13. Quality gates
 
 The gate suite lives in the maintainer's source repository, not in this download, and runs before
-every release. It is run as `python tests/quality_gates.py` — 135 tests, all passing at this release;
-its final line reads `Ran 135 tests …
+every release. It is run as `python tests/quality_gates.py` — 136 tests, all passing at this release;
+its final line reads `Ran 136 tests …
 OK`. This section describes what it covers so you know which claims in this manual are mechanically
 defended and which are prose.
 

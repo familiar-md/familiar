@@ -7,8 +7,8 @@ documents, kept here so you can read populated state instead of empty templates.
 Download it as `familiar-demo-<version>.zip` from the Releases page of the familiar repository on
 GitHub: unzipped, it is a complete project
 you can open your AI assistant in. Ask "where are we?" or run the check-in to see familiar answer from
-a project with history. Its dates are from August and September 2026, so expect it to report overdue
-work. Keep it separate from your real projects, and start your own from `familiar-workspace`.
+a project with history. Its dates are moved when each release is built, so it was last checked in
+a few days before you downloaded it. Keep it separate from your real projects, and start your own from `familiar-workspace`.
 
 In this repository the folder holds only the project content; the release adds familiar's own files
 (`.familiar/`, the skill folders and the entry files) when it builds the zip.

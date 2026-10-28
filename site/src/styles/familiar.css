@@ -1,0 +1,39 @@
+/* familiar brand on Starlight: cream, charcoal and the ember glow from the banner. Starlight's own
+   tokens are redefined, so every component follows in both themes. */
+:root {
+  --sl-font-system: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --familiar-display: Georgia, 'Times New Roman', serif;
+}
+:root[data-theme='light'] {
+  --sl-color-accent-low: #f4dcc6;
+  --sl-color-accent: #b4520f;
+  --sl-color-accent-high: #6f310a;
+  --sl-color-white: #212121;
+  --sl-color-gray-1: #2e2a26;
+  --sl-color-gray-2: #463f38;
+  --sl-color-gray-3: #6b6258;
+  --sl-color-gray-4: #9a8f82;
+  --sl-color-gray-5: #d6c8b4;
+  --sl-color-gray-6: #e8dccb;
+  --sl-color-gray-7: #f2eadf;
+  --sl-color-black: #efe6da;
+}
+:root[data-theme='dark'], :root:not([data-theme]) {
+  --sl-color-accent-low: #3d2415;
+  --sl-color-accent: #e0782f;
+  --sl-color-accent-high: #f6c9a3;
+  --sl-color-white: #f5ede2;
+  --sl-color-gray-1: #e8dccb;
+  --sl-color-gray-2: #c9bcaa;
+  --sl-color-gray-3: #a89e91;
+  --sl-color-gray-4: #6f675e;
+  --sl-color-gray-5: #3b3834;
+  --sl-color-gray-6: #2a2826;
+  --sl-color-black: #1b1a19;
+}
+.site-title { font-family: var(--familiar-display); font-weight: 400; font-size: 1.6rem; letter-spacing: -0.01em; }
+.sl-markdown-content h1, .sl-markdown-content h2, .hero h1, h1#_top {
+  font-family: var(--familiar-display); font-weight: 400;
+}
+.hero img { border-radius: 8px; }
+.sl-markdown-content img { border-radius: 6px; border: 1px solid var(--sl-color-gray-5); }

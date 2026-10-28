@@ -16,8 +16,8 @@
 ## What this is for
 
 The fleet hub (`familiar-hub/`, a separate folder opened on its own) answers questions across every
-registered project. The hub is distributed separately and is not yet published; this core release does
-not include it. The hub creates `~/.familiar/fleet.md` when it is set up; until then there is nothing
+registered project. The hub is distributed separately, from
+https://github.com/familiar-md/familiar-hub; this core release does not include it. The hub creates `~/.familiar/fleet.md` when it is set up; until then there is nothing
 to register in. The hub reads `~/.familiar/fleet.md` to know which projects exist. This branch is how a
 project gets onto that list and comes off it. Whether a project is live (`active`, `paused`,
 `reference`, `closed`) is the hub's to record, in the registry's `lifecycle` column, not this

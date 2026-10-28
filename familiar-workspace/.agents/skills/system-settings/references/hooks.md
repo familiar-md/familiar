@@ -25,8 +25,9 @@ file itself.
 ## Procedure
 
 1. Check for `.familiar/hooks/install_hooks.py` and `.familiar/hooks/catalog.json`. If either is missing,
-   say that hooks are an optional separate download that has not been added to this project, that
-   its own install file says how to add it, and stop.
+   say that hooks are an optional separate download that has not been added to this project: get
+   `familiar-hooks-<version>.zip` from https://github.com/familiar-md/familiar-hooks/releases and copy
+   the `.familiar` folder inside it onto this project. Then stop.
 2. Find a Python as `routes.md` → Running familiar's scripts says. Do not guess one.
 3. Ask which host the hooks are for, defaulting to the one this session is running in: `claude` or
    `codex`. For Gemini CLI, say that no hook file can be written for it and the package's install

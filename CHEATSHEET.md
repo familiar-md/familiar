@@ -1,8 +1,9 @@
 # familiar cheat sheet
 
-One page of commands for familiar core, the fleet hub and the optional hooks. The commands are
+One page of commands for familiar core, the fleet hub and the optional hooks. A printable version
+with a switch for your assistant is `docs/cheatsheet.html`. The commands are
 shown in their Claude Code form. On Codex use `$checkin` instead of `/ili-checkin`. On Gemini CLI,
-ask for a skill by name ("run the checkin skill"). [`GUIDE.md`](GUIDE.md) explains each skill.
+ask for a skill by name ("run the checkin skill"). [`README.md`](README.md#the-skills) explains each skill.
 
 ## In a project
 
@@ -58,8 +59,8 @@ To keep a project out, set its `included` cell to `no` in `~/.familiar/fleet.md`
 
 ## Optional hooks
 
-From [familiar-hooks](https://github.com/familiar-md/familiar-hooks). Copy its `.familiar/hooks/`
-folder into the project first. Then run `/ili-system-settings` → Hooks, or use the tool directly:
+From [familiar-hooks](https://github.com/familiar-md/familiar-hooks), per project. Copy the `.familiar`
+folder from its download onto the project first. Then run `/ili-system-settings` → Hooks, or use the tool directly:
 
 | Command | Does |
 |---|---|

@@ -2,14 +2,14 @@
 
 **Baseline:** core `1.0.0` · state schema `1.0` · extension contract `1.1` · install record schema `1.1`
 **Verified against:** the maintainer's source repository at release time — its gate suite passes in
-full (134 of 134) before every release. The suite is not in this download; see "How this document stays
+full (135 of 135) before every release. The suite is not in this download; see "How this document stays
 true" and §13.
 **Scope:** familiar **core** only — the `familiar-workspace/` tree as it ships. The extension contract
 appears here as the interface core defines and enforces; no extension is described.
 
 > This document is the consolidated technical description of familiar core: every mechanism, where
-> it lives, what enforces it, and where it stops. `README.md` is the product overview, `INSTALL.md`
-> the operator procedures, `GUIDE.md` the day-to-day user guide. Where any of those disagrees with the
+> it lives, what enforces it, and where it stops. `README.md` is the product overview and user guide,
+> `INSTALL.md` the operator procedures. Where either disagrees with the
 > executable behavior, the executable behavior wins and the prose is the defect.
 
 ## How this document stays true
@@ -95,7 +95,7 @@ familiar-workspace/
 ├── .familiar/
 │   ├── routes.md, state-schema.md, extension-contract.md,
 │   │   capabilities.json, extension-manifest.schema.json    protocol
-│   ├── core/                           19 protocol .md files, including bootstrap.md
+│   ├── core/                           20 protocol .md files, including bootstrap.md
 │   ├── scripts/                        stdlib helpers: project_check.py, doctor.py, ...
 │   ├── installed.json                  core version, per-adapter capability states
 │   └── release-manifests/              built releases only: fingerprints of release-owned files
@@ -115,7 +115,7 @@ first time it runs in the project (§4.1, §12). It replaces `project-config.md`
 is still the shipped stub (`revision: 0`); a filled-in configuration beside an unset marker — a
 migrated project — is reconciled in place, never reset to defaults.
 
-`tests/quality_gates.py` (in the maintainer's source repository; not part of this download) holds the 134 executable contracts.
+`tests/quality_gates.py` (in the maintainer's source repository; not part of this download) holds the 135 executable contracts.
 
 ---
 
@@ -138,7 +138,9 @@ gates.
 
 **Cost profile.** The always-loaded protocol floor is `bootstrap.md` at 500 words / 3,529 characters — at the
 declared ceiling. Startup also reads the bounded preference and title context (§4.1).
-The route registry adds ~635 words when read. Other context is on demand.
+The route registry adds 941 words when read, held under a 1,000-word ceiling. Other context is on
+demand. The entry files, the registry and one skill together come to a few thousand tokens; the host's
+own instructions and tools are usually several times that.
 On a host that eagerly surfaces skill descriptions, add the description lines of
 whichever skills that host exposes (§10.3).
 
@@ -173,9 +175,7 @@ justifies either substitute.
 The startup reads are an explicit exception in `CORE-PROGRESSIVE-DISCLOSURE`. They establish
 preferences and binding before routing without requiring a particular first tool call, which could
 otherwise conflict with locating the marker itself. They do not authorize reading tasks, knowledge,
-or project history before routing. Earlier startup instructions were strengthened after hosts skipped
-the preference read; the reads remain mandatory. Live host verification of this revised wording is
-still required before claiming the canary works reliably across hosts.
+or project history before routing. The reads are mandatory.
 
 The signature is a **confirmation that the bootstrap is active**, and the file says so explicitly:
 it does not claim mechanical enforcement is available. This distinction was deliberate — the marker
@@ -186,7 +186,7 @@ all. A signature baked into the template would make every project emit the same 
 would confirm nothing.
 
 The two halves of the line prove two different reads: the name proves `project-config.md` was read,
-the signature proves the preferences were. Since 2026-10-24 each project has **its own** signature,
+the signature proves the preferences were. Each project has **its own** signature,
 in its `5-System/user-preferences.md`; the global file holds only a default, shown by a project that
 has none of its own. A per-project key is the stronger canary — it can only come from reading this
 project's file, not from a key the agent has seen in every other project — and it is the project's
@@ -217,13 +217,8 @@ shipped `.md`, `.py`, `.ps1`, and `.json` file and fails on a citation to a rule
 exists, so a rule can be reworded but not silently renumbered. Legacy numeric-rule citations are
 forbidden by the repository's own working rules.
 
-`CORE-WORKSPACE-SILO` replaced two separate rules on 2026-09-02: a write-scope rule (write only
-inside the active project) and a project-silo rule (never inspect another registered project). That
-split made sense when a project read broadly across a parent folder but wrote only to a walled-off
-subfolder, and separately could never look at another registered project in a fleet. Under Design A
-the entire `familiar-workspace/` folder *is* the project: read and write are both scoped to it,
-symmetrically, and "another project" simply means a different folder entirely — there is no fleet
-registry left to be siloed from.
+`CORE-WORKSPACE-SILO` is one rule for both directions: the project folder *is* the project, read and
+write are both scoped to it, symmetrically, and "another project" simply means a different folder.
 
 | Rule | States | Failure mode it prevents |
 |---|---|---|
@@ -285,8 +280,8 @@ Seven routes:
 | `project.schedule` | Maintain tasks or milestones | `triage` (user-only) |
 | `system.maintenance` | Maintain familiar or the project shell: update, workspace tidy, tracks, closeout | `system-settings` (user-only) |
 
-There is no fleet-scope route. `triage` is project-scope only, like every other skill — the fleet
-registry it once could optionally read no longer exists (§6.4 history).
+There is no fleet-scope route. `triage` is project-scope only, like every other skill; the
+cross-project view is the separate fleet hub (§6.4).
 
 A route ID appearing on more than one row would be **one route with several distinct triggers**, not
 a duplicate — rule 6 says so explicitly. `project.output` repeats: drafting a deliverable and
@@ -345,9 +340,8 @@ proves every skill is reachable.
 
 ### 5.4 Explicit-only, unrouted
 
-Empty as of 2026-09-02. `artifact` was withdrawn from core and `tidy-workspace` became a branch of
-the `system-settings` router, so every remaining skill is reachable from the table above. The section stays
-because the category is real: a skill too consequential or too narrow to reach by route match is
+Empty: every core skill is reachable from the table above. The section stays because the category
+is real: a skill too consequential or too narrow to reach by route match is
 listed here and named only by the user, and `test_all_core_skills_are_routed_or_listed_as_exceptions`
 accepts either placement.
 
@@ -360,37 +354,20 @@ that point the branch's own context contract governs — its Required, Condition
 Capabilities and Completion declarations replace the router's, which covered only the menu. A run
 therefore loads the menu plus one procedure, the same budget as invoking one skill directly.
 
-| Router | Branches | Separate skill before 2026-09-02 |
-|---|---|---|
-| `system-settings` | `update`, `tidy-workspace`, `tracks`, `project-closeout`, `preferences`, `fleet`, `hooks` | yes, each one except `hooks` (added 2026-10-27); router named `system` until its 2026-09-02 rename |
-| `draft-document` | `deck`, `document`, `review`, `workbook` | `deck` and `document` yes; `review` added 2026-10-04, `workbook` 2026-10-24 |
-| `handoff` | `session-handoff`, `assignment` | yes, each one |
-| `save` | `progress`, `to-memory` | yes, each one |
-
-`system-settings` once shipped a branch named `machine-setup`, until the fleet elimination under Design A
-(§6.4 history) removed the machine-wide preferences library and template library it customized;
-without a fleet or a shared machine-level surface to configure, the branch had almost nothing left to
-do and was dropped rather than kept as a stub.
+| Router | Branches |
+|---|---|
+| `system-settings` | `update`, `tidy-workspace`, `tracks`, `project-closeout`, `preferences`, `fleet`, `hooks` |
+| `draft-document` | `deck`, `document`, `review`, `workbook` |
+| `handoff` | `session-handoff`, `assignment` |
+| `save` | `progress`, `to-memory` |
 
 Two branches write outside the project, each to one file under `~/.familiar/` and only on an explicit
 request, declared in the branch's own contract as the exception to `CORE-WORKSPACE-SILO`: `preferences`
 writes `user-preferences.md`, and `fleet` writes this project's own row of `fleet.md` (register,
 unregister by setting `included` to `no`); lifecycle is the hub's, in its registry. The cross-project overview
-that reads `fleet.md` is a separate fleet hub, distributed on its own and not yet published. The hub
+that reads `fleet.md` is a separate fleet hub, distributed on its own. The hub
 alone creates `fleet.md` (`fleet_overview.py --discover <dir> --apply`, a script, so it works the same
 on every host); the branch edits an existing file and, when there is none, says to set up the hub.
-
-**Almost.** It also owned the familiar signature ask, and that went with it — leaving the shipped
-`5-System/user-preferences.md` carrying a real signature that no route ever replaced, so every project
-built from the release would have emitted the same key. The ask moved to the
-setup skill's step 2 at that point, then re-homed again 2026-09-04 when that skill itself retired,
-to `checkin`, which asked once on its first real run. Asking inside a conversation about something
-else proved a poor home, so on 2026-10-09 the ask moved to its own branch, `preferences`, and
-`checkin` now only points there when no signature exists anywhere (§4.1, §12). On 2026-10-24 the
-signature became per project, and `checkin` points there when this project has none of its own; it
-still does not ask. The shipped template still carries no signature line at all. The general lesson is worth
-more than either fix: when a surface is retired, its *contributions* need re-homing individually, not
-just its file deleting.
 
 Consolidating them removed entries from the command list for operations that share an occasion —
 housekeeping, producing a deliverable, moving work off the user's plate, filing durable state — but
@@ -506,14 +483,9 @@ actually enforce; the rest is a constraint on how the user works, stated in `INS
 in both directions, full stop. Nothing in a sibling project is ever read, and nothing is written
 outside the active workspace.
 
-This is a genuine narrowing from the pre-Design-A rule, worth stating plainly rather than leaving as
-an implication. The old project-silo rule this replaced permitted exactly one documented
-exception — an explicit fleet-triage route that could read a fixed, narrow slice of another
-*registered* project (its status snapshot, frontier tasks, at-risk timeline milestones, and open
-handoff cover lines) through a fleet registry of known projects. Design A eliminated the fleet
-registry entirely, and `fleet.triage` with it (§5.1) — there is no longer a mechanism by which one
-project could even name another to read from. `triage`, the skill that once ran at fleet scope, is
-project-scope only now, like every other skill.
+A project never reads another project. The cross-project view is the fleet hub, a separate folder
+outside every project that reads each registered project as data (§5.4a → `fleet`); nothing inside a
+project can name another project to read from.
 
 ### 6.5 Extension state surfaces
 
@@ -619,7 +591,7 @@ only through their router's menu. They are covered by the contract gates via `CO
 | `system-settings` | `tracks` | Own the whole track lifecycle: propose, add, split, merge, retire |
 | `system-settings` | `project-closeout` | Reconcile final state and produce a derived closeout summary |
 | `system-settings` | `preferences` | Set this project's familiar signature (in `5-System/user-preferences.md`), the default signature, and standing preferences (in the global `~/.familiar/user-preferences.md`) |
-| `system-settings` | `fleet` | Register or unregister this project in `~/.familiar/fleet.md`; the hub owns lifecycle; the hub that reads it is distributed separately and not yet published |
+| `system-settings` | `fleet` | Register or unregister this project in `~/.familiar/fleet.md`; the hub owns lifecycle; the hub that reads it is distributed separately |
 | `draft-document` | `deck` | Build or revise a presentation |
 | `draft-document` | `document` | Create or revise a written document (`.docx` or degraded Markdown) |
 | `draft-document` | `review` | Tracked-change and comment-reply passes on a team-owned Word file (`tracked_edit.py`) |
@@ -629,16 +601,6 @@ only through their router's menu. They are covered by the contract gates via `CO
 | `save` | `progress` | Reconcile every track at a break boundary; writes no new surface |
 | `save` | `to-memory` | Route an out-of-band note to the right memory surface; owns capture routing |
 
-Three skills were withdrawn from core on 2026-09-02 and are not shipped: `artifact` (a hosted-publication surface that was never implemented),
-`calendar` (self-marked incomplete — no calendar integration exists), and `system-audit` (maintainer
-tooling that had no business in an end-user skill list). `triage-tasks` and `triage-projects` merged
-into `triage` in the same pass; they were one procedure at two scopes. `deck`, `document`,
-`assignment`, and `to-memory` stopped being separately-invocable skills the same day, folded into the
-`draft-document` and `handoff`/`save` routers (§5.4a) — same rationale as the original
-`system` consolidation, applied where the merged branches also happened to already be, or become,
-user-only. Two critique skills moved out of core on 2026-09-04 into an optional extension; this manual covers
-core only. The setup skill retired from core entirely on 2026-09-04, once
-`checkin` absorbed the one piece of its work — establishing a fresh project — that still needs a human (§12).
 
 ### 8.3 Procedure files
 
@@ -659,10 +621,9 @@ bodies short:
 | `plain-language.md` | authored output longer than a chat reply | §9 |
 | `familiar-voice.md` | only when project config enables it | Optional companion voice |
 | `retrieval-fallback.md` | when `named-subagents` ≠ `active` | §10.2 |
+| `running-scripts.md` | only when a script cannot run | What to do when Python or a package is missing |
 
-`_index.md` is the map of which file loads when. `00-core.md`, a compatibility pointer from an earlier
-architecture, was **removed at `0.3.0`** and is not part of this release; the maintainer's gate treats
-any mention of it in runtime content as a failure.
+`_index.md` is the map of which file loads when.
 
 ---
 
@@ -793,8 +754,8 @@ what breaks without it, and the command that fixes it on that machine (a `~/.fam
 system Python refuses `pip`, per PEP 668), and exits `0` when every required check passes. It avoids
 3.10 syntax so it can diagnose an older Python. Every other shipped script starts with a guard that
 stops on Python older than 3.10 with a plain message instead of a traceback, and `routes.md` →
-Running familiar's scripts tells the assistant how to pick the interpreter and when to offer an
-install. It is read-only. A PowerShell `doctor.ps1` shipped beside it until 1.0.0 and was retired once
+Running familiar's scripts tells the assistant how to pick the interpreter, and `running-scripts.md`
+when to offer an install. It is read-only. A PowerShell `doctor.ps1` shipped beside it until 1.0.0 and was retired once
 `doctor.py` covered Windows.
 
 **`document-tools` is recorded `available`, never `active`, on every adapter.** There is no
@@ -906,13 +867,12 @@ Workers ship as `.claude/agents/*.md`, `.codex/agents/*.toml`, and
 current model rather than embedding Claude model names. Skills invoke a worker by its project-level
 name (for an extension, `<namespace>-<agent>`, §11.3).
 
-`INSTALL.md` → Host support is the user-facing comparison of all three, and `GUIDE.md` covers invoking
+`INSTALL.md` → Host support is the user-facing comparison of all three, and `README.md` covers invoking
 skills on each. Both are hand-written from this matrix. Host APIs change independently, so a change to
 the matrix should land together with matching documentation updates.
 
 **Hosts not listed.** Other coding hosts read `AGENTS.md` (Cursor, GitHub Copilot in VS Code, and
-OpenCode do, for example), so the bootstrap loads there, but `installed.json` has no row for them and
-nothing has been verified on them. The rule in `extension-contract.md` is: a host with no row treats
+OpenCode do, for example), so the bootstrap loads there, but `installed.json` has no row for them. The rule in `extension-contract.md` is: a host with no row treats
 every capability as `unknown`. It performs worker contracts inline through `retrieval-fallback.md`,
 and it reports an extension route as unverified on this host and asks the user before running it,
 rather than refusing silently or running silently. Some of these hosts read both `.claude/skills/` and
@@ -958,7 +918,7 @@ for the maintainer's own extensions, through the gate suite in the source reposi
   contract version the shipped schema defines.
 - `test_extension_manifests_resolve_and_do_not_collide`:
   - required fields are present, contract is `1.1`, and `id` equals `namespace`;
-  - the `core` range floor is at least the Design A version;
+  - the `core` range floor is at least the first supported core version;
   - the manifest version matches the package's `VERSION`;
   - every declared skill exists;
   - skill and materialized agent names do not collide with core or with each other.
@@ -1016,7 +976,7 @@ reads `core.build` from both `installed.json` files. A release build
 stamps `core.build` with the commit it came from (with `-dirty` if the tree had uncommitted
 changes); a copy taken straight from the maintainer's source tree has none.
 - A newer version is an update.
-- The same version with a different build is also an update (added in 0.3.1).
+- The same version with a different build is also an update.
 - The same version with a missing build is reported as undecidable, and the user chooses.
 
 Update then checks the `state-schema` lines, since a mismatch is a migration no procedure performs.
@@ -1042,9 +1002,8 @@ when a release file does not match its own manifest. Extensions are updated only
 named with `--extension`; each installed extension's declared `core` range is checked either way.
 `--apply` copies every file it replaces, and the old marker, into
 `5-System/_update-backups/<old>-to-<new>_<date>/` first, then sets only the `familiar-version:` line and
-runs `project_check.py`. An earlier in-place design replaced `.familiar/` wholesale, which deleted
-every installed extension's package and checked the schema only after the damage; listing files per
-owner and checking first is what makes in-place safe now.
+runs `project_check.py`. Listing files per owner and checking before writing is what makes an
+in-place update safe: an extension's package is never part of core's update.
 
 One hazard remains. Several files under `4-Trackers/`, `3-Knowledge/` and `2-Drafts/` carry release
 prose alongside project data, and they move across unchanged. A format change in a new release does
@@ -1065,12 +1024,10 @@ and degrade as their skills describe, and `doctor.py` (§9.5) reports the whole 
 ## 13. Quality gates
 
 The gate suite lives in the maintainer's source repository, not in this download, and runs before
-every release. It is run as `python tests/quality_gates.py` — 134 tests, all passing at this release;
-its final line reads `Ran 134 tests …
+every release. It is run as `python tests/quality_gates.py` — 135 tests, all passing at this release;
+its final line reads `Ran 135 tests …
 OK`. This section describes what it covers so you know which claims in this manual are mechanically
-defended and which are prose. Design A cut 21 installer/transaction/extension-lifecycle/release tests that no longer
-apply to a pre-baked workspace and added one new gate (below) that did not exist before; the ~20
-gates that test contracts and content survived, with paths updated to `familiar-workspace/`.
+defended and which are prose.
 
 **Bootstrap and routing (6)** — bootstrap size, rule presence and neutrality; the registry's size and
 resolution rules; `AGENTS.md`'s embedded bootstrap matching `.familiar/core/bootstrap.md`;
@@ -1138,8 +1095,8 @@ copy, is `.familiar/scripts/doctor.py` (§9.5) for the document toolchain and
    regeneration script. Any material addition requires a subtraction.
 8. **Host features evolve independently.** Active native workers are backed by the
    maintainer's native-install fixtures, but host-format changes can still require updates to the
-   shipped worker files and documentation. Hosts other than Claude Code, Codex and Gemini CLI are
-   untested (§10.3).
+   shipped worker files and documentation. Hosts other than these three have no capability record
+   (§10.3).
 
 ---
 
@@ -1148,7 +1105,7 @@ copy, is `.familiar/scripts/doctor.py` (§9.5) for the document toolchain and
 **Protocol (`.familiar/core/`):** `bootstrap.md`, `_index.md`, `routes.md`, `state-schema.md`,
 `extension-contract.md`, `familiar-behavior.md`,
 `file-handling.md`, `voice.md`, `plain-language.md`, `familiar-voice.md`,
-`retrieval-fallback.md`, `status-format.md`, `handoff-format.md`,
+`retrieval-fallback.md`, `running-scripts.md`, `status-format.md`, `handoff-format.md`,
 `check-in.md`, `ingest.md`, `deck-rules.md`, `deck-build.md`, `docx-rules.md`,
 `calendar-rules.md`. `capabilities.json`
 and `extension-manifest.schema.json` sit one level up, at `.familiar/` alongside the `core/` folder.
@@ -1190,15 +1147,12 @@ only). It checks the optional document toolchain (§9.5), and `INSTALL.md` names
 ```json
 {
   "schema": "1.1",
-  "core": { "id": "familiar", "version": "0.4.4" },
+  "core": { "id": "familiar", "version": "1.0.0" },
   "adapters": { "claude": { "project-instructions": "active", "...": "..." } }
 }
 ```
 
 A release build adds `"build": "<commit>"` inside `core` (§12.1). The source tree never carries it.
-
-`claude_skills` was removed 2026-09-03: it recorded whether Claude Code's skills came from the
-project or from the plugin, a choice that only existed in an earlier, installer-based design.
 
 There is no separate extensions registry file: an installed extension is discovered by its package's
 presence under `.familiar/extensions/<id>/package/` plus its own `familiar-extension.json` manifest

@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>familiar cheat sheet</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: one printable sheet. A control strip picks the assistant and the add-ons; the project
+   skills run full width, the hub and hooks sit side by side below, each hidden when switched off. */
+:root {
+  --bg: #efe6da;        /* cream, from the banner */
+  --surface: #f7f1e8;
+  --ink: #212121;       /* charcoal */
+  --muted: #655c52;
+  --line: #d6c8b4;
+  --ember: #d2621a;     /* the glow behind "ili" */
+  --ember-ink: #933f0d;
+  --chip: #e8dccb;
+  --display: Georgia, "Times New Roman", serif;
+  --body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1b1a19; --surface: #252321; --ink: #efe6da; --muted: #a89e91; --line: #3b3834;
+    --ember: #e0782f; --ember-ink: #f0a070; --chip: #322e2a; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #1b1a19; --surface: #252321; --ink: #efe6da; --muted: #a89e91; --line: #3b3834;
+  --ember: #e0782f; --ember-ink: #f0a070; --chip: #322e2a; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font: 15px/1.5 var(--body);
+}
+.page {
+  max-width: 68rem; margin: 0 auto;
+  padding-block: 2rem 3rem;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; gap: 1.75rem;
+}
+header { display: grid; gap: .35rem; }
+.wordmark { font: 400 clamp(2.4rem, 6vw, 3.4rem)/1 var(--display); letter-spacing: -.01em; margin: 0; }
+.wordmark .ili { color: var(--ember-ink); }
+.sub { margin: 0; color: var(--muted); max-width: 62ch; }
+
+.controls {
+  display: flex; flex-wrap: wrap; gap: 1rem 2rem; align-items: flex-start;
+  padding-block: .9rem; border-block: 1px solid var(--line);
+}
+.control { display: grid; gap: .4rem; }
+.label { font-size: .72rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.seg { display: flex; flex-wrap: wrap; gap: .35rem; }
+.seg button, .toggle {
+  font: 500 .85rem/1 var(--body); color: var(--ink); background: var(--surface);
+  border: 1px solid var(--line); border-radius: 999px; padding: .5rem .85rem; cursor: pointer;
+}
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.toggle { display: inline-flex; gap: .45rem; align-items: center; }
+.toggle .dot { width: .6rem; height: .6rem; border-radius: 50%; border: 1.5px solid var(--muted); }
+.toggle[aria-pressed="true"] .dot { background: var(--ember); border-color: var(--ember); }
+button:focus-visible { outline: 2px solid var(--ember); outline-offset: 2px; }
+
+section { display: grid; gap: .75rem; min-width: 0; }
+h2 { font: 400 1.55rem/1.2 var(--display); margin: 0; text-wrap: balance; }
+h2 small { font: 500 .8rem var(--body); color: var(--muted); margin-left: .5rem; }
+p { margin: 0; max-width: 68ch; }
+.note { color: var(--muted); font-size: .9rem; }
+code, .cmd { font-family: var(--mono); font-size: .86em; }
+.cmd { color: var(--ember-ink); font-weight: 500; white-space: nowrap; }
+
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); }
+table { width: 100%; border-collapse: collapse; }
+th, td { text-align: left; vertical-align: top; padding: .6rem .8rem; border-bottom: 1px solid var(--line); }
+tr:last-child td { border-bottom: 0; }
+th { font-size: .72rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+td.when { min-width: 14rem; }
+.chips { display: flex; flex-wrap: wrap; gap: .3rem; }
+.chip { font-size: .78rem; padding: .15rem .5rem; border-radius: 4px; background: var(--chip); white-space: nowrap; }
+.auto { font-size: .72rem; font-weight: 600; color: var(--ember-ink); margin-left: .35rem; }
+
+.folders { display: grid; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); gap: .5rem; }
+.folder { border-top: 2px solid var(--ember); padding-top: .4rem; }
+.folder code { font-weight: 500; }
+.folder div { color: var(--muted); font-size: .88rem; }
+
+.pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 30rem), 1fr)); gap: 1.75rem; }
+footer { color: var(--muted); font-size: .85rem; border-top: 1px solid var(--line); padding-top: 1rem; }
+footer a, .note a, p a { color: var(--ember-ink); }
+
+@media print {
+  :root { --bg: #fff; --surface: #fff; --ink: #000; --muted: #444; --line: #bbb; --chip: #eee; --ember-ink: #7a3409; color-scheme: light; }
+  .controls { display: none; }
+  .page { padding-block: 0; gap: 1rem; }
+  section { break-inside: avoid; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <h1 class="wordmark">fam<span class="ili">ili</span>ar</h1>
+    <p class="sub">Every command on one page. Pick your assistant, switch on the add-ons you use, and print
+      it or keep it open beside your project.</p>
+  </header>
+
+  <div class="controls" aria-label="Sheet settings">
+    <div class="control">
+      <span class="label" id="host-label">Your assistant</span>
+      <div class="seg" role="group" aria-labelledby="host-label" id="host"></div>
+    </div>
+    <div class="control">
+      <span class="label" id="addon-label">Add-ons</span>
+      <div class="seg" role="group" aria-labelledby="addon-label" id="addons"></div>
+    </div>
+  </div>
+
+  <section id="core">
+    <h2>In a project <small>familiar core</small></h2>
+    <p class="note" id="host-note"></p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Start it with</th><th>Use it to</th><th>Branches</th></tr></thead>
+        <tbody id="skills"></tbody>
+      </table>
+    </div>
+    <p class="note">Name a branch to skip the menu: <span class="cmd" id="branch-example"></span>.
+      Skills marked <span class="auto" style="margin:0">may start itself</span> can be started by the assistant
+      when your request fits; it waits for you to ask for every other one. "Save progress" and "hand this
+      off" in plain words also work.</p>
+  </section>
+
+  <section>
+    <h2>Where things go</h2>
+    <div class="folders">
+      <div class="folder"><code>1-Inputs/</code><div>Your sources, admin and templates. Never edited.</div></div>
+      <div class="folder"><code>2-Drafts/</code><div>Decks and documents, versioned, never overwritten.</div></div>
+      <div class="folder"><code>3-Knowledge/</code><div>One cited page per ingested source.</div></div>
+      <div class="folder"><code>4-Trackers/</code><div>Tasks, timeline, meetings.</div></div>
+      <div class="folder"><code>5-System/</code><div>Settings, status, decisions, handoffs.</div></div>
+    </div>
+  </section>
+
+  <div class="pair">
+    <section id="hub" data-addon="hub">
+      <h2>In the fleet hub <small>familiar-hub</small></h2>
+      <p class="note">Open your assistant in the hub folder, start <span class="cmd" data-skill="fleet"></span>
+        and ask in plain words. <a href="https://github.com/familiar-md/familiar-hub">Get the hub</a>.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Ask about</th><th>Branch</th></tr></thead>
+          <tbody id="hub-rows"></tbody>
+        </table>
+      </div>
+      <p class="note">To keep a project out, set its <code>included</code> cell to <code>no</code> in
+        <code>~/.familiar/fleet.md</code>, or use <span class="cmd" data-skill="system-settings"></span> → Fleet
+        inside the project.</p>
+    </section>
+
+    <section id="hooks" data-addon="hooks">
+      <h2>Optional hooks <small>familiar-hooks</small></h2>
+      <p class="note">Per project. Copy the <code>.familiar</code> folder from the hooks download onto the
+        project, then use <span class="cmd" data-skill="system-settings"></span> → Hooks, or the tool directly.
+        Restart the session after applying. <a href="https://github.com/familiar-md/familiar-hooks">Get the hooks</a>.</p>
+      <p class="note" id="hooks-host-note"></p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Hook</th><th>Does</th></tr></thead>
+          <tbody id="hook-rows"></tbody>
+        </table>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Run in the project folder</th><th>Does</th></tr></thead>
+          <tbody>
+            <tr><td><code>python .familiar/hooks/install_hooks.py list</code></td><td>List the hooks and which are on</td></tr>
+            <tr><td><code>python .familiar/hooks/install_hooks.py preview &lt;id&gt;</code></td><td>Show exactly what would change</td></tr>
+            <tr><td><code>python .familiar/hooks/install_hooks.py apply &lt;id&gt; --yes</code></td><td>Turn hooks on (<code>--group guards</code>, <code>--all</code>)</td></tr>
+            <tr><td><code>python .familiar/hooks/install_hooks.py remove &lt;id&gt; --yes</code></td><td>Turn them off again</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">The guards are a deterrent, not a security boundary. They run Python around every tool
+        call, so check before installing them on managed work hardware.</p>
+    </section>
+  </div>
+
+  <footer>
+    familiar is built and tested with Claude Code. An extension adds its own skills: ask your assistant
+    "what familiar skills do you have?" in the project to see them all.
+    <a href="https://github.com/familiar-md/familiar">github.com/familiar-md/familiar</a>
+  </footer>
+</div>
+
+<script type="application/json" id="sheet-data">
+{
+  "skills": [
+    {"id": "checkin", "does": "Reconcile project state and report health. The first run sets up a fresh project.", "branches": []},
+    {"id": "ongoing-work", "does": "See what is open and in progress. Writes nothing.", "branches": [], "auto": true},
+    {"id": "ingest", "does": "Turn a source document into cited notes in 3-Knowledge/, or answer from it in chat.", "branches": [], "auto": true},
+    {"id": "deliverable-brief", "does": "Settle a deliverable's message, audience and outline before drafting.", "branches": []},
+    {"id": "draft-document", "does": "Build a deck, a document or a workbook, or review a team-owned Word file.", "branches": ["Deck", "Document", "Review", "Workbook"]},
+    {"id": "save", "does": "Reconcile state before a break, or file a note or task change.", "branches": ["Save progress", "To memory"]},
+    {"id": "handoff", "does": "Park work for a later session, or write a brief for someone outside the project.", "branches": ["Session handoff", "Assignment brief"]},
+    {"id": "triage", "does": "Sort the work you can start today by effort or urgency. Writes nothing.", "branches": []},
+    {"id": "online-research", "does": "Research a question against outside sources, with citations.", "branches": []},
+    {"id": "system-settings", "does": "Housekeeping for the installation and the project shell.", "branches": ["Update", "Workspace tidy", "Tracks", "Project closeout", "Preferences", "Fleet", "Hooks"]}
+  ],
+  "hub": [
+    {"ask": "What is active, overdue and next (the default)", "branch": "overview"},
+    {"ask": "What you can start now", "branch": "tasks"},
+    {"ask": "The next two weeks, and weeks where projects collide", "branch": "timelines"},
+    {"ask": "Stale or unreadable projects", "branch": "health"},
+    {"ask": "Today's brief", "branch": "brief"},
+    {"ask": "The week ahead", "branch": "weekly"},
+    {"ask": "Moving a date, finishing a task, moving a meeting (previewed first)", "branch": "update"},
+    {"ask": "Your time off", "branch": "time off"},
+    {"ask": "Pausing or closing a project", "branch": "lifecycle"},
+    {"ask": "First-run walkthrough (runs by itself the first time)", "branch": "setup"}
+  ],
+  "hooks": [
+    {"id": "session-title", "does": "Names each Claude Code session (<signature>) <project name>"},
+    {"id": "session-title-hub", "does": "Names a hub session familiar hub"},
+    {"id": "guard-writes", "does": "Denies writes outside the project, into 1-Inputs/ or into .familiar/"},
+    {"id": "guard-delete", "does": "Denies shell deletes outside the host's scratch folder"},
+    {"id": "guard-reads", "does": "Denies reads outside the project"},
+    {"id": "guard-boundary", "does": "Keeps maintainer tooling and project markers apart"},
+    {"id": "check-office", "does": "Flags a truncated .docx, .pptx or .xlsx"},
+    {"id": "check-naming", "does": "Flags a misnamed file in 2-Drafts/"},
+    {"id": "check-citation", "does": "Flags a knowledge page missing its citation field"}
+  ]
+}
+</script>
+<script>
+(function () {
+  var data = JSON.parse(document.getElementById("sheet-data").textContent);
+  var HOSTS = {
+    claude: { name: "Claude Code", cmd: function (s, b) { return "/ili-" + s + (b ? " " + b : ""); },
+              note: "Type /ili to list every familiar skill." },
+    codex:  { name: "Codex", cmd: function (s, b) { return "$" + s + (b ? " " + b : ""); },
+              note: "Or open the /skills picker." },
+    gemini: { name: "Gemini CLI", cmd: function (s, b) { return "run the " + s + " skill" + (b ? ", " + b : ""); },
+              note: "Ask for a skill by name, then confirm when asked. /skills lists what it found." },
+    other:  { name: "Other", cmd: function (s, b) { return "ask for " + s + (b ? ", " + b : ""); },
+              note: "Ask for a skill by name. An assistant that reads both skill folders may list each skill twice." }
+  };
+  var ADDONS = { hub: "Fleet hub", hooks: "Hooks" };
+  var state = { host: "claude", hub: true, hooks: true };
+  try {
+    var saved = JSON.parse(localStorage.getItem("familiar-sheet") || "{}");
+    if (HOSTS[saved.host]) state.host = saved.host;
+    if (typeof saved.hub === "boolean") state.hub = saved.hub;
+    if (typeof saved.hooks === "boolean") state.hooks = saved.hooks;
+  } catch (e) {}
+
+  function el(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; }
+  function save() { try { localStorage.setItem("familiar-sheet", JSON.stringify(state)); } catch (e) {} }
+
+  var hostBox = document.getElementById("host");
+  Object.keys(HOSTS).forEach(function (k) {
+    var b = el("button", null, HOSTS[k].name); b.type = "button"; b.id = "host-" + k;
+    b.addEventListener("click", function () { state.host = k; save(); render(); });
+    hostBox.appendChild(b);
+  });
+  var addonBox = document.getElementById("addons");
+  Object.keys(ADDONS).forEach(function (k) {
+    var b = el("button", "toggle"); b.type = "button"; b.id = "addon-" + k;
+    b.appendChild(el("span", "dot")); b.appendChild(document.createTextNode(ADDONS[k]));
+    b.addEventListener("click", function () { state[k] = !state[k]; save(); render(); });
+    addonBox.appendChild(b);
+  });
+
+  function render() {
+    var h = HOSTS[state.host];
+    Object.keys(HOSTS).forEach(function (k) { document.getElementById("host-" + k).setAttribute("aria-pressed", String(k === state.host)); });
+    Object.keys(ADDONS).forEach(function (k) {
+      document.getElementById("addon-" + k).setAttribute("aria-pressed", String(state[k]));
+      document.querySelectorAll('[data-addon="' + k + '"]').forEach(function (n) { n.hidden = !state[k]; });
+    });
+    document.getElementById("host-note").textContent = "Shown for " + h.name + ". " + h.note;
+    document.getElementById("branch-example").textContent = h.cmd("save", "progress");
+    document.querySelectorAll("[data-skill]").forEach(function (n) { n.textContent = h.cmd(n.getAttribute("data-skill")); });
+
+    var body = document.getElementById("skills"); body.textContent = "";
+    data.skills.forEach(function (s) {
+      var tr = el("tr");
+      var c1 = el("td"); c1.appendChild(el("span", "cmd", h.cmd(s.id)));
+      if (s.auto) c1.appendChild(el("span", "auto", "may start itself"));
+      var c3 = el("td"); var chips = el("div", "chips");
+      if (!s.branches.length) chips.appendChild(el("span", "note", "—"));
+      s.branches.forEach(function (b) { chips.appendChild(el("span", "chip", b)); });
+      c3.appendChild(chips);
+      tr.appendChild(c1); tr.appendChild(el("td", "when", s.does)); tr.appendChild(c3);
+      body.appendChild(tr);
+    });
+
+    var hub = document.getElementById("hub-rows"); hub.textContent = "";
+    data.hub.forEach(function (r) {
+      var tr = el("tr"); tr.appendChild(el("td", null, r.ask));
+      var td = el("td"); td.appendChild(el("span", "chip", r.branch)); tr.appendChild(td); hub.appendChild(tr);
+    });
+
+    var hooks = document.getElementById("hook-rows"); hooks.textContent = "";
+    data.hooks.forEach(function (r) {
+      var tr = el("tr"); var td = el("td"); td.appendChild(el("code", null, r.id));
+      tr.appendChild(td); tr.appendChild(el("td", null, r.does)); hooks.appendChild(tr);
+    });
+    document.getElementById("hooks-host-note").textContent =
+      state.host === "claude" ? "" :
+      state.host === "codex" ? "On Codex the installer writes .codex/hooks.json; session titles are Claude Code only." :
+      "Hooks belong to the assistant, not familiar: this one may need them added by hand, or may have none.";
+    document.getElementById("hooks-host-note").hidden = state.host === "claude";
+  }
+  render();
+})();
+</script>
+</body>
+</html>

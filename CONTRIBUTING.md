@@ -1,7 +1,7 @@
 # Contributing
 
 familiar has a single maintainer, so response times vary. Issues are welcome and are the most useful
-contribution, especially reports from hosts and operating systems that have not been tested.
+contribution, especially reports from assistants and operating systems other than Claude Code on Windows.
 
 Questions, ideas and "how do I…" threads go in this repository's
 [Discussions](https://github.com/familiar-md/familiar/discussions) tab; keep Issues for something broken
@@ -11,9 +11,9 @@ or a specific change you'd like made.
 
 A useful issue lets the maintainer reproduce what you saw. Please include:
 
-- The assistant and its version: Claude Code, Codex, or Gemini CLI (run its `--version`), and the model it was using if you know it.
+- The assistant and its version (for example, run `claude --version`), and the model it was using if you know it.
 - Your operating system and, if the problem involves documents or PDFs, the output of `python .familiar/scripts/doctor.py` (`python3` on macOS).
-- Your familiar version (the `VERSION` file in the download).
+- Your familiar version (`familiar-version:` in the project's `.familiar-project` file).
 - The `familiar bound` line from the start of the session, or a note that there was none.
 - What you asked, as exactly as you remember it, and which skill ran.
 - What you expected, and what happened instead. Quote error messages in full.

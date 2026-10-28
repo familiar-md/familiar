@@ -4,12 +4,14 @@ This is what a familiar project looks like after a few weeks of real use. It is 
 engagement (Northgate, a regional logistics consolidation) with fictional people, numbers, and
 documents, kept here so you can read populated state instead of empty templates.
 
-It is a reading sample, not a runnable project. A real familiar project also carries the release's
-`.familiar/`, `.claude/`, `.agents/`, `.codex/`, `.gemini/` folders and its `CLAUDE.md`/`AGENTS.md`/
-`GEMINI.md` entry files; those are omitted here because they are byte-identical to the release you
-already downloaded and would double its size. To try familiar, rename a fresh copy of
-`familiar-workspace/` and open a coding host inside it — it's usable immediately, no setup step
-needed. Do not copy this folder.
+Download it as `familiar-demo-<version>.zip` from the Releases page of the familiar repository on
+GitHub: unzipped, it is a complete project
+you can open your AI assistant in. Ask "where are we?" or run the check-in to see familiar answer from
+a project with history. Its dates are from August and September 2026, so expect it to report overdue
+work. Keep it separate from your real projects, and start your own from `familiar-workspace`.
+
+In this repository the folder holds only the project content; the release adds familiar's own files
+(`.familiar/`, the skill folders and the entry files) when it builds the zip.
 
 ## What to look at
 

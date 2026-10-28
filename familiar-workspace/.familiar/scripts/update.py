@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """update.py — bring an existing familiar project up to this release, in place.
 
-    python <new release>/familiar-workspace/.familiar/scripts/update.py --project "<project>"
-    python <new release>/familiar-workspace/.familiar/scripts/update.py --project "<project>" --apply
+    python <new familiar-workspace folder>/.familiar/scripts/update.py --project "<project>"
+    python <new familiar-workspace folder>/.familiar/scripts/update.py --project "<project>" --apply
     ... --extension "<new extension drop-in folder>"     # repeatable; updates that extension too
 
 Run it from the NEW release's copy, from a terminal, not from inside a session: it reads one folder
@@ -182,7 +182,8 @@ def plan(project: Path, release: Path, extension_roots: list) -> tuple:
     core_old = load_manifest(project / MANIFEST_DIR / "familiar.json")
     if core_old is None:
         raise Stop("the project has no core release manifest, so edited files cannot be told from "
-                   "untouched ones. Use the manual procedure in INSTALL.md -> Updating")
+                   "untouched ones. Use the manual procedure in INSTALL.md -> Updating "
+                   "(https://github.com/familiar-md/familiar/blob/main/INSTALL.md#updating)")
 
     owners = [("familiar", release, core_old, core_new)]
     sources = {}

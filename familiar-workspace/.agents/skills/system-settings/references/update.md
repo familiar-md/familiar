@@ -27,7 +27,7 @@
 - **Excluded context:** Project source documents, synthesized knowledge, other projects, and every content folder — this branch does not open or touch them.
 - **Updates:** `nothing`. This branch only reads and reports.
 - **Capabilities:** file-read.
-- **Completion:** The installed and new-release versions are reported, schema compatibility is checked, and the user has the exact updater command (or the hand procedure when the project has no release manifest) from `INSTALL.md` → Updating.
+- **Completion:** The installed and new-release versions are reported, schema compatibility is checked, and the user has the exact updater command (or the hand procedure when the project has no release manifest) from `INSTALL.md` → Updating (https://github.com/familiar-md/familiar/blob/main/INSTALL.md#updating).
 
 ## What this branch does
 
@@ -88,12 +88,13 @@ If this project has `.familiar/release-manifests/familiar.json`, give the user t
 with both absolute paths filled in, to run from a terminal with the session closed:
 
 ```text
-python "<new release>/familiar-workspace/.familiar/scripts/update.py" --project "<this project's folder>"
+python "<new familiar-workspace folder>/.familiar/scripts/update.py" --project "<this project's folder>"
 ```
 
 Tell them it only reports, that the same command with `--apply` writes, and that each installed
 extension needs `--extension "<its new drop-in folder>"` to be updated too (list the extensions under
-`.familiar/extensions/`). Point to `INSTALL.md` → Updating → With the updater for the steps.
+`.familiar/extensions/`). Point to `INSTALL.md` → Updating → With the updater for the steps
+(online at https://github.com/familiar-md/familiar/blob/main/INSTALL.md#updating; the download does not include it).
 
 If the project has no release manifest, the updater will stop. Send the user to `INSTALL.md` →
 Updating → Updating by hand instead: a new folder from the new release, extensions re-dropped, the

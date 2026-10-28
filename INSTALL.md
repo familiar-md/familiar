@@ -1,38 +1,36 @@
 # familiar installation
 
-There is no installer. `familiar-workspace/` is the release — a folder you download, rename, and
-open your coding assistant inside. Nothing runs on your machine to set it up.
+There is no installer. The release is a folder you download, rename, and open your AI coding
+assistant inside. Nothing runs on your machine to set it up.
 
 ## Prerequisites
 
-- One of Claude Code, Codex, or Gemini CLI, installed and signed in. Install each from its vendor's
-  own page: [Claude Code](https://code.claude.com/docs/en/overview),
-  [Codex](https://developers.openai.com/codex), [Gemini CLI](https://geminicli.com/docs/). Codex and
-  Gemini CLI are installed through Node.js tooling, and each needs its own account or subscription.
+- An AI coding assistant that reads instructions from the folder it is opened in, installed and
+  signed in. familiar is built and tested with [Claude Code](https://code.claude.com/docs/en/overview)
+  and follows the open `AGENTS.md` and agent skills conventions; the workspace also carries the files
+  [Codex](https://developers.openai.com/codex) and [Gemini CLI](https://geminicli.com/docs/) look for.
+  Each assistant needs its own account or subscription.
 - Python 3.10 or newer, recommended. The assistant offers to install it, and any missing package, the
   first time a step needs one (see [Optional document toolchain](#optional-document-toolchain)).
   Without it, tracking a project, check-ins, and text ingest still work, with the assistant doing
   the bookkeeping checks by hand and saying so. Document builds and PDF extraction need it.
 
-[`GUIDE.md`](GUIDE.md) walks through the first session and the everyday workflow.
+[`README.md`](README.md#your-first-session) walks through the first session and the everyday workflow.
 
 ## Getting started
 
-1. Download the latest release from
+1. Download `familiar-workspace-<version>.zip` from
    [github.com/familiar-md/familiar/releases](https://github.com/familiar-md/familiar/releases) and
-   unpack it. It contains a `familiar-workspace/` folder plus this
-   file, `README.md`, `GUIDE.md`, `MANUAL.md`, `CHANGELOG.md`, `CONTRIBUTING.md`, `SECURITY.md`,
-   `LICENSE`, `VERSION`, and an `examples/` folder. **`familiar-workspace/` is the
-   product**; the rest is documentation you can keep wherever you like.
+   unzip it. It holds one folder, `familiar-workspace/`, and the licence.
 2. Rename `familiar-workspace/` to whatever you want to call this project, and move it where you
    want it. That folder *is* the project — see
-   [`README.md`](README.md#what-a-project-looks-like) for its layout. familiar reads and writes only
+   [`README.md`](README.md#where-things-live) for its layout. familiar reads and writes only
    inside it (`CORE-WORKSPACE-SILO`); nothing outside the folder is in scope.
 3. If you already have source material to start from, put it under `1-Inputs/Sources/`, `1-Inputs/Admin/`,
    or `1-Inputs/Templates/` before your first session.
-4. Open Claude Code, Codex, or Gemini CLI with that folder as the working directory. Each host's entry
-   file (`CLAUDE.md`, `AGENTS.md`, or `GEMINI.md`) is already present and self-contained — there is
-   nothing else to point the host at.
+4. Open your assistant with that folder as the working directory. Its entry file (`CLAUDE.md`,
+   `AGENTS.md`, or `GEMINI.md`) is already present and self-contained — there is nothing else to point
+   it at.
 
 The renamed folder does not have to be the top level of what you'd otherwise call "the project." It's
 equally supported to paste it as a subfolder one level inside an existing project directory that
@@ -62,11 +60,11 @@ Every host reads the same content, from different native locations:
 | Codex | `.agents/skills/` | `.codex/agents/*.toml` | Start a skill with `$skill-name` or the `/skills` picker. `agents/openai.yaml` per skill sets `interface.display_name` and whether Codex may pick the skill from your request: it may for `ingest` and `ongoing-work`, and may not for the other seven. |
 | Gemini CLI | `.agents/skills/` | `.gemini/agents/*.md` | No per-skill command: ask for a skill by name ("run the triage skill") and confirm when asked. Skill names show with no namespace prefix — a spec limit, not a bug. |
 
-**Other hosts.** Cursor, GitHub Copilot (VS Code), and OpenCode read `AGENTS.md` and both skill
-folders, so familiar's bootstrap should load, but none has been tested with familiar. Skills may
-appear twice because both folders are read. These hosts have no row in `.familiar/installed.json`,
-so familiar treats every capability as `unknown`, performs worker steps inline, and reports an
-extension route as unverified and asks before running it.
+**Other assistants.** An assistant that reads `AGENTS.md` and the skill folders (Cursor, GitHub
+Copilot in VS Code and OpenCode among them) should load familiar's bootstrap. Skills may appear twice
+because both folders are read. Such an assistant has no row in `.familiar/installed.json`, so familiar
+treats every capability as `unknown`, performs worker steps inline, and asks before running an
+extension route.
 
 `python` below means Python 3.10 or newer under whichever command this machine has: `python3`,
 `python`, or `py`. The assistant picks it the same way (`routes.md` → Running familiar's scripts).
@@ -117,8 +115,7 @@ every path beneath it, which on Windows can push a deep project against the `MAX
   check reports `"build": false` and the skill degrades (plain text/Markdown for `document`; explicit
   `unavailable` for `deck`, which has no plain-text fallback).
 - LibreOffice, optionally, for visual rendering. The build scripts look for `soffice` on `PATH` and in
-  its default install folder (macOS app bundle, Windows Program Files, common Linux locations); only
-  the Windows location has been tested. Without it, the build still succeeds and validates
+  its default install folder (macOS app bundle, Windows Program Files, common Linux locations). Without it, the build still succeeds and validates
   structurally, but reports `"visual_validation": false`.
 
 The project ships a cross-platform preflight that checks all of this at once and explains what
@@ -137,14 +134,13 @@ script. It reports your machine, not
 familiar — a failure there never means the installation is broken, only that a document or deck
 build would be. On Windows, run it the same way (`py -3` if `python` is not found).
 
-This is a genuine gap on a host with no Python, or a non-Claude model with no equivalent
-document-authoring skill loaded — do not assume it works everywhere because it works on one machine.
+Document builds need Python on the machine: an assistant that cannot run it cannot build a deck.
 
 ## Updating
 
 Updating means bringing a project you already have up to a newer release. Use the updater script
 when your project has a release manifest — the file `.familiar/release-manifests/familiar.json`,
-which every project started from release `0.6.4` or later carries. Use the [manual
+which every release carries. Use the [manual
 procedure](#updating-by-hand) below when it does not, or when you would rather move your content by hand.
 
 ### With the updater
@@ -155,12 +151,12 @@ only when your copy is still exactly what your old release shipped. Your content
 notes below the `<!-- familiar:end -->` marker in `CLAUDE.md`, `AGENTS.md` and `GEMINI.md`, and any
 release file you edited are left as they are. It deletes nothing.
 
-1. Download the new release and unpack it as its own new folder. Do not unpack it into, or over,
-   your project. Close any coding-host session that is open in the project.
+1. Download the new `familiar-workspace-<version>.zip` and unzip it as its own new folder. Do not
+   unzip it into, or over, your project. Close any assistant session that is open in the project.
 2. See what would change. Nothing is written:
 
    ```text
-   python "<new release>/familiar-workspace/.familiar/scripts/update.py" --project "<your project folder>"
+   python "<new familiar-workspace folder>/.familiar/scripts/update.py" --project "<your project folder>"
    ```
 
    → verify: the report lists each release file as `same`, `update` (replaced, safely),
@@ -238,17 +234,14 @@ Keep the old folder unchanged until you've confirmed the new one works; it's you
 Once you're satisfied, archive or delete it yourself — familiar does not do this step for you and
 does not need to.
 
-**Why the updater can work in place.** An earlier design replaced release-owned folders inside the
-project wholesale. That silently deleted any installed extension's package (`.familiar/extensions/`
-lives under one of those folders), and it checked for a schema migration only after the
-replacement. The updater avoids both: it touches only the files a release manifest lists, one owner
+**Why the updater can work in place.** It touches only the files a release manifest lists, one owner
 at a time, so an extension's files are never part of core's update, and it checks the schema and the
 release's own integrity before it writes anything.
 
 ## The fleet hub
 
-The fleet hub is a separate folder (`familiar-hub/`) that answers questions across all your
-registered projects. It is not part of this download: get it from
+The fleet hub is a separate folder that answers questions across all your registered projects. It
+is not part of this download: get it from
 [familiar-hub](https://github.com/familiar-md/familiar-hub), whose `INSTALL-HUB.md` covers setup and what the
 hub reads. Setting up the hub creates `~/.familiar/fleet.md`, the list of your projects; after that,
 `/system-settings` → Fleet adds, removes or updates a project's own row. Without a hub, the Fleet

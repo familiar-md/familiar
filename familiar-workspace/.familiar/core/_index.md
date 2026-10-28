@@ -14,6 +14,7 @@ Read `bootstrap.md` first. It is the only always-loaded core protocol.
 | `voice.md` | Writing voice, the avoid-list, and the pre-delivery check | whenever output is written, including a chat reply |
 | `plain-language.md` | Which shape the writing takes and the sentence rules that bind under it | when producing or editing anything longer than a chat reply |
 | `familiar-voice.md` | Optional conversational companion voice | only when project configuration enables familiar voice |
+| `running-scripts.md` | What to do when Python or a package a script needs is missing | only when a script cannot run |
 | `retrieval-fallback.md` | Inline retrieval/review behavior without named workers | loaded by `bootstrap.md` before worker dispatch when the active adapter's `named-subagents` capability is anything other than `active` |
 
 `routes.md`, `state-schema.md` and `extension-contract.md` each exist twice: canonically here, and

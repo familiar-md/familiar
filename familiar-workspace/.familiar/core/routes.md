@@ -64,18 +64,8 @@ in the answer, that it is outside the project and nothing from it is kept here, 
 `python3`, `python`, `py` whose `--version` reports 3.10 or newer. Find it once and keep using it for
 the session.
 
-A script that cannot run is never worked around silently. When no Python qualifies, or a script stops
-with "familiar needs Python" or a missing package:
-
-1. Run `.familiar/scripts/doctor.py` with any Python that exists, and tell the user in plain words
-   what will not work.
-2. Offer to install what is missing with the command doctor prints. With no Python at all, use
-   `winget install 9NQ7512CXL7T -e` on Windows, the python.org installer on macOS, or the system
-   package manager on Linux. Install only on the user's yes (`CORE-HUMAN-APPROVAL`). A command
-   starting with `sudo` asks for the user's password: give it to them to run in their own terminal.
-   A new terminal or session may be needed before the new command is found.
-3. If the user declines or the install fails, do the step by hand where the skill allows it, and say
-   in the reply that it was done by hand.
+A script that cannot run is never worked around silently: when no Python qualifies, or a script stops
+with "familiar needs Python" or a missing package, follow `.familiar/core/running-scripts.md`.
 
 ## Explicit-only, not routed
 
@@ -91,9 +81,7 @@ load that one file — from there the branch's own context contract governs, not
 branch is not a skill: it is never separately invocable and never opened without a selection. Because
 each router carries the `(user-only)` marker, Resolution rule 3 covers every branch beneath it.
 
-- `system-settings` holds `update`, `tidy-workspace`, `tracks`, `project-closeout`, `preferences`, `fleet`, and `hooks`, each a
-  separate skill until 2026-09-02 (named `system` before its 2026-09-02 rename).
-- `draft-document` holds `deck` and `document`, each a separate skill until 2026-09-02, plus `review`
-  (2026-10-04) and `workbook` (2026-10-24).
-- `handoff` holds `session-handoff` and `assignment`, each a separate skill until 2026-09-02.
-- `save` holds `progress` and `to-memory`, each a separate skill until 2026-09-02.
+- `system-settings` holds `update`, `tidy-workspace`, `tracks`, `project-closeout`, `preferences`, `fleet`, and `hooks`.
+- `draft-document` holds `deck`, `document`, `review`, and `workbook`.
+- `handoff` holds `session-handoff` and `assignment`.
+- `save` holds `progress` and `to-memory`.

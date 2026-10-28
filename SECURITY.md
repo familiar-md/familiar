@@ -32,7 +32,7 @@ script, do one of these things when it should not:
   mechanical enforcement, so a model can ignore them; the project says so openly. A report that a
   specific wording reliably leads a model to break a rule is welcome as an ordinary issue, unless it
   meets the list above.
-- Problems in an extension built by someone else, or on a host familiar lists as untested.
+- Problems in an extension built by someone else, or on an assistant familiar has no capability record for.
 - Anything that needs prior write access to your project folder.
 
 ## Supported versions

@@ -28,6 +28,10 @@
 Download one folder, give it your project's name, and open your AI coding agent inside it. Every
 session then starts from the project's record instead of from nothing.
 
+<p align="center">
+  <img src="docs/assets/familiar-demo-session.png" alt="The fictional demo project answering a first hello with its bound line: (ili) familiar bound, then the project name" width="560">
+</p>
+
 - **Remembers the project.** What it is, what has been decided, what is open, and where each fact
   came from, kept as plain Markdown in the folder.
 - **Answers from your sources.** Claims trace to your own documents with a page or section locator,
@@ -38,10 +42,6 @@ session then starts from the project's record instead of from nothing.
   nothing to sign up for. Every rule, skill and template is a file you can read and change. Nothing
   is stored outside the folder; the agent you open in it sends what it reads to its own provider,
   under that provider's terms.
-
-<p align="center">
-  <img src="docs/assets/familiar-demo-session.png" alt="The fictional demo project answering a first hello with its bound line: (ili) familiar bound, then the project name" width="560">
-</p>
 
 <p align="center">
   <img src="docs/assets/familiar-workspace-flow.svg" alt="Reference files are copied into the workspace's 1-Inputs, ingested into 3-Knowledge and drafted into 2-Drafts; approved files are renamed and copied back out to your project folder" width="720">

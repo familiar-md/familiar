@@ -1,7 +1,7 @@
 /* familiar brand on Starlight: cream, charcoal and the ember glow from the banner. Starlight's own
    tokens are redefined, so every component follows in both themes. */
 /* IM Fell Great Primer (SIL OFL, see public/fonts/), self-hosted. It has no bold, so the browser
-   would smear if synthesised, so synthesis is off and emphasis is carried by colour. */
+   synthesises bold where Starlight asks for it. */
 @font-face { font-family: 'IM Fell Great Primer'; font-style: normal; font-weight: 400; font-display: swap;
   src: url('/familiar/fonts/IMFellGreatPrimer-Regular.woff2') format('woff2'); }
 @font-face { font-family: 'IM Fell Great Primer'; font-style: italic; font-weight: 400; font-display: swap;
@@ -11,6 +11,7 @@
   --familiar-display: 'IM Fell Great Primer', Georgia, 'Times New Roman', serif;
   --sl-text-body: 1.125rem;
 }
+html { font-size: 112.5%; }   /* Great Primer has a small x-height; an 18px root keeps it readable */
 :root[data-theme='light'] {
   --sl-color-accent-low: #f4dcc6;
   --sl-color-accent: #b4520f;

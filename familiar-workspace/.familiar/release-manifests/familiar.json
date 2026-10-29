@@ -4,7 +4,7 @@
     "CLAUDE.md": "3cf764dea24bca29f6240494c489d05f726ae15bc08f463a030c2f9d6e17506b",
     "GEMINI.md": "0478a9466476df523adf9b78d0e9eceb5568afca4693ba743578f68ea4abecd4"
   },
-  "build": "843c2f817fda-dirty",
+  "build": "a7daf4b7ee4b",
   "files": {
     ".agents/skills/deliverable-brief/SKILL.md": "a148c3608fbff11063dbb423ec3d38628a5fcf932f3aa8e7d590e3a091c84da3",
     ".agents/skills/deliverable-brief/agents/openai.yaml": "8a7f16a234f2cfa7ba94081b40ffeaa652d9b29637785643cec87feb6d48839c",
@@ -111,7 +111,7 @@
     ".familiar/core/voice.md": "9106488a202900a83674bed11fe8b10a8264c6991ac46b77d2ecbefb188e9333",
     ".familiar/extension-contract.md": "174c6121668e4d0d3a02857268d03bfd1fbcd85407163f4e977c9434e4270b40",
     ".familiar/extension-manifest.schema.json": "63ddb2b401c4f580dcec8370089ba54f9169077edfbf3a3a38037d16f6be6b6c",
-    ".familiar/installed.json": "d3756eb896159198fcad51948d6751b3a0f28d6d882b2393ddf67a3ed9003970",
+    ".familiar/installed.json": "fc5b4158755aa4d894a76239536c5d6808fd8836bca7ed376bc152547a9ccd78",
     ".familiar/routes.md": "8d5264322c0522aff8f3c11e6c779498e104e439787f583a220183dd018ef1d9",
     ".familiar/scripts/doctor.py": "125a95f07a676b855d0b525aab677874ad96f8ce18d69f32f1a11664ab35d23f",
     ".familiar/scripts/draft_save.py": "b764f80ed0ac2dc4e89db383bcd15179a64eba7df116353948973b9a439b378f",

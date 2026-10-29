@@ -1,17 +1,17 @@
 /* familiar brand on Starlight: cream, charcoal and the ember glow from the banner. Starlight's own
    tokens are redefined, so every component follows in both themes. */
-/* IM Fell Great Primer (SIL OFL, see public/fonts/), self-hosted. It has no bold, so the browser
-   synthesises bold where Starlight asks for it. */
-@font-face { font-family: 'IM Fell Great Primer'; font-style: normal; font-weight: 400; font-display: swap;
-  src: url('/familiar/fonts/IMFellGreatPrimer-Regular.woff2') format('woff2'); }
-@font-face { font-family: 'IM Fell Great Primer'; font-style: italic; font-weight: 400; font-display: swap;
-  src: url('/familiar/fonts/IMFellGreatPrimer-Italic.woff2') format('woff2'); }
+/* Goudy Bookletter 1911 (SIL OFL, see public/fonts/), self-hosted. It has one weight and no italic, so
+   synthesis is off and emphasis is carried by colour. */
+@font-face { font-family: 'Goudy Bookletter 1911'; font-style: normal; font-weight: 400; font-display: swap;
+  src: url('/familiar/fonts/GoudyBookletter1911-Regular.woff2') format('woff2'); }
 :root {
-  --sl-font-system: 'IM Fell Great Primer', Georgia, 'Times New Roman', serif;
-  --familiar-display: 'IM Fell Great Primer', Georgia, 'Times New Roman', serif;
+  --sl-font-system: 'Goudy Bookletter 1911', Georgia, 'Times New Roman', serif;
+  --familiar-display: 'Goudy Bookletter 1911', Georgia, 'Times New Roman', serif;
   --sl-text-body: 1.125rem;
 }
-html { font-size: 112.5%; }   /* Great Primer has a small x-height; an 18px root keeps it readable */
+html { font-size: 112.5%; }   /* an 18px root keeps Goudy readable */
+body { font-synthesis: none; }
+strong, b { color: var(--sl-color-white); }
 :root[data-theme='light'] {
   --sl-color-accent-low: #f4dcc6;
   --sl-color-accent: #b4520f;
@@ -45,3 +45,6 @@ html { font-size: 112.5%; }   /* Great Primer has a small x-height; an 18px root
 }
 .hero img { border-radius: 8px; }
 .sl-markdown-content img { border-radius: 6px; border: 1px solid var(--sl-color-gray-5); }
+
+/* The wordmark is never set in the site font: the hero carries it as the SVG banner, so the text title is kept for screen readers only. */
+.hero h1 { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }

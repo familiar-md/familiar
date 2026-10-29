@@ -131,9 +131,11 @@ for (const p of pages) {
 rmSync(join(SITE, 'public', 'assets'), { recursive: true, force: true });
 cpSync(join(ROOT, 'docs', 'assets'), join(SITE, 'public', 'assets'), { recursive: true });
 rmSync(join(SITE, 'public', 'cheatsheet'), { recursive: true, force: true });
-if (existsSync(join(ROOT, 'docs', 'cheatsheet.html'))) {
+// The site serves the core-only sheet; docs/cheatsheet.html (core, hub, hooks) stays the repo's printable copy.
+const SHEET = ['cheatsheet-core.html', 'cheatsheet.html'].find((f) => existsSync(join(ROOT, 'docs', f)));
+if (SHEET) {
   mkdirSync(join(SITE, 'public', 'cheatsheet'), { recursive: true });
-  cpSync(join(ROOT, 'docs', 'cheatsheet.html'), join(SITE, 'public', 'cheatsheet', 'index.html'));
+  cpSync(join(ROOT, 'docs', SHEET), join(SITE, 'public', 'cheatsheet', 'index.html'));
 }
 
 // The sidebar, in document order.

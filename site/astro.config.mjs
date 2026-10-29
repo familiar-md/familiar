@@ -13,7 +13,7 @@ export default defineConfig({
   integrations: [
     starlight({
       title: 'familiar',
-      description: 'A project-memory and workflow layer for LLM agents, where nothing has to be explained twice.',
+      description: 'A project-memory and workflow layer that makes AI agents instantly familiar with your work, progress, and decisions.',
       social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/familiar-md/familiar' }],
       logo: { light: './src/assets/logo-light.svg', dark: './src/assets/logo-dark.svg', alt: 'familiar', replacesTitle: true },
       customCss: ['./src/styles/familiar.css'],

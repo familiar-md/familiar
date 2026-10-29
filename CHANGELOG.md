@@ -11,9 +11,9 @@ an extension's contract only comes with a new major version, and
 
 ## [1.0.0] - 2026-10-27
 
-First public release. familiar is a project-memory and workflow layer for LLM agents: a plain folder
+First public release. A project-memory and workflow layer that makes AI agents instantly familiar with your work, progress, and decisions. It is a plain folder
 you rename to your project and open your AI coding assistant inside, with project state, sources,
-drafts and history kept as Markdown files beside your work, so nothing has to be explained twice.
+drafts and history kept as Markdown files beside your work.
 Built and tested with Claude Code; it follows the open `AGENTS.md` and agent skills conventions and
 carries the files Codex and Gemini CLI look for.
 

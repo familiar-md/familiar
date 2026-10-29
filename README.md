@@ -29,7 +29,7 @@ Download one folder, give it your project's name, and open your AI coding agent 
 session then starts from the project's record instead of from nothing.
 
 <p align="center">
-  <img src="docs/assets/familiar-demo-session.png" alt="The fictional demo project answering a first hello with its bound line: (ili) familiar bound, then the project name" width="560">
+  <img src="docs/assets/familiar-demo-session.png" alt="The fictional demo project answering a first hello with its bound line: (ili) familiar bound, then the project name" width="100%">
 </p>
 
 - **Remembers the project.** What it is, what has been decided, what is open, and where each fact

@@ -1,22 +1,16 @@
 /* familiar brand on Starlight: cream, charcoal and the ember glow from the banner. Starlight's own
    tokens are redefined, so every component follows in both themes. */
-/* Two self-hosted SIL OFL faces (see public/fonts/): Goudy Bookletter 1911 for headings, Cormorant
-   Garamond for body text. Goudy has one weight and no italic, so synthesis is off; Cormorant is
-   variable (300-700) with a real italic, and body text sits at 500 because 400 reads thin on screen. */
+/* Headings use self-hosted Goudy Bookletter 1911 (SIL OFL, see public/fonts/). It has one weight and no
+   italic, so synthesis is off. Body text is the system Georgia stack, not a web font. */
 @font-face { font-family: 'Goudy Bookletter 1911'; font-style: normal; font-weight: 400; font-display: swap;
   src: url('/familiar/fonts/GoudyBookletter1911-Regular.woff2') format('woff2'); }
-@font-face { font-family: 'Cormorant Garamond'; font-style: normal; font-weight: 300 700; font-display: swap;
-  src: url('/familiar/fonts/CormorantGaramond-Variable.woff2') format('woff2'); }
-@font-face { font-family: 'Cormorant Garamond'; font-style: italic; font-weight: 300 700; font-display: swap;
-  src: url('/familiar/fonts/CormorantGaramond-Italic-Variable.woff2') format('woff2'); }
 :root {
-  --sl-font-system: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --sl-font-system: Georgia, 'Times New Roman', serif;
   --familiar-display: 'Goudy Bookletter 1911', Georgia, 'Times New Roman', serif;
-  --sl-text-body: 1.125rem;
   --sl-sidebar-width: 14rem;   /* 18.75rem at a 20px root left the text column too narrow for tables */
 }
-html { font-size: 125%; }   /* a 20px root: both faces have a small x-height, 18px still read small */
-body { font-synthesis: none; font-weight: 500; }
+html { font-size: 112.5%; }   /* an 18px root: Goudy headings have a small x-height, 16px read small */
+body { font-synthesis: none; }
 strong, b { color: var(--sl-color-white); }
 :root[data-theme='light'] {
   --sl-color-accent-low: #f4dcc6;
@@ -30,7 +24,9 @@ strong, b { color: var(--sl-color-white); }
   --sl-color-gray-5: #d6c8b4;
   --sl-color-gray-6: #e8dccb;
   --sl-color-gray-7: #f2eadf;
-  --sl-color-black: #efe6da;
+  --sl-color-black: #f7f1e8;   /* main body: lightest, as dark's main is its darkest */
+  --sl-color-bg-sidebar: var(--sl-color-gray-6);   /* same pairing as dark: nav and sidebar share one tone */
+  --sl-color-bg-nav: var(--sl-color-gray-6);
 }
 :root[data-theme='dark'], :root:not([data-theme]) {
   --sl-color-accent-low: #3d2415;

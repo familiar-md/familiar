@@ -95,11 +95,13 @@ install.sections.forEach((s, i) => {
 });
 anchors['INSTALL.md'][''] = pages.find((p) => p.doc === 'INSTALL.md').url;
 
-// MANUAL: the preamble becomes the manual's first page.
+// MANUAL: the preamble (baseline and scope) leads the first page, as for INSTALL.
 const manual = split(read('MANUAL.md'));
-addPage('MANUAL.md', 'manual', 'About this manual', manual.preamble.replace(/^# .+$/m, ''));
-for (const s of manual.sections) addPage('MANUAL.md', 'manual', s.title, demote(s.lines.join('\n')));
-anchors['MANUAL.md'][''] = `${BASE}/manual/about-this-manual/`;
+manual.sections.forEach((s, i) => {
+  const lead = i === 0 ? manual.preamble.replace(/^# .+$/m, '').trim() + '\n\n' : '';
+  addPage('MANUAL.md', 'manual', s.title, lead + demote(s.lines.join('\n')));
+});
+anchors['MANUAL.md'][''] = pages.find((p) => p.doc === 'MANUAL.md').url;
 
 function mapTarget(doc, target) {
   if (/^(https?:|mailto:|\/)/.test(target)) return target;

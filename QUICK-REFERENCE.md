@@ -1,34 +1,36 @@
 # familiar skills quick reference
 
-One page of commands for familiar core, the fleet hub and the optional hooks. A printable version
-with a switch for your assistant is `docs/quick-reference.html`. The commands are
-shown in their Claude Code form. On Codex use `$project-status` instead of `/ili-project-status`. On Gemini
-CLI, ask for a skill by name ("run the project-status skill"). [`docs/using-familiar.md`](docs/using-familiar.md#the-skills) explains each skill.
+One page of commands for familiar core, the fleet hub and the optional hooks. A printable version,
+with a switch for your agent, is `docs/quick-reference.html`. This page shows the commands in their
+Claude Code form. On Codex, use `$project-status` instead of `/ili-project-status`. On Gemini CLI, ask
+for a skill by name ("run the project-status skill").
+[`docs/using-familiar.md`](docs/using-familiar.md#the-skills) explains each skill.
 
 ## In a project
 
 | Command | Use it to | Branches |
 |---|---|---|
-| `/ili-project-status` | Check in and reconcile state (the first run sets up a fresh project), see where things stand, or sort what you can start today. | Check-in, Ongoing, Triage |
-| `/ili-ingest` | Turn a source document into a cited knowledge page in `3-Knowledge/` that later sessions read instead of the original. | — |
-| `/ili-deliverable-brief` | Optional, for a large or complex deliverable: settle its message, audience, key points and outline before building, so the draft needs fewer rounds. | — |
-| `/ili-draft-document` | Build a deck, a document or a workbook, or review a team-owned Word file. | Deck, Document, Review, Workbook |
-| `/ili-save` | Reconcile state before a break, or file a note or task change. | Save progress, To memory |
+| `/ili-project-status` | Check in and bring the project up to date, see where things stand, or sort what you can start today. The first run sets up a new project. | Check-in, Ongoing, Triage |
+| `/ili-ingest` | Turn a source document into a knowledge page with citations, in `3-Knowledge/`. Later sessions read the page instead of the original. | — |
+| `/ili-deliverable-brief` | Optional, for a large or complex deliverable. Agree its message, audience, key points and outline before building. The draft then needs fewer rounds. | — |
+| `/ili-draft-document` | Build a deck, a document or a workbook, or review a Word file that your team owns. | Deck, Document, Review, Workbook |
+| `/ili-save` | Bring the project up to date before a break, or file one note or task change. | Save progress, To memory |
 | `/ili-handoff` | Park work for a later session, or write a brief for someone outside the project. | Session handoff, Assignment brief |
-| `/ili-online-research` | Research a question against outside sources, with citations. | — |
-| `/ili-system-settings` | Housekeeping for the installation and the project shell. | Update, Workspace tidy, Tracks, Project closeout, Preferences, Hooks |
+| `/ili-online-research` | Answer a question from outside sources, with citations. | — |
+| `/ili-system-settings` | Housekeeping for the installation and the project folders. | Update, Workspace tidy, Tracks, Project closeout, Preferences, Hooks |
 
 Type `/ili` to list them all. Name a branch to skip the menu: `/ili-save progress`,
-`/ili-draft-document deck`. Every skill waits for its command; the assistant can tell you which one
-fits but never starts it. The one exception: "save progress" or "remember this" in plain words
-starts `save`.
+`/ili-draft-document deck`. A skill starts only from its command. The agent can tell you which skill
+fits, but it never starts one. The one exception is `save`: "save progress" or "remember this" in
+plain words starts it.
 
-**Where things go:** sources in `1-Inputs/` (never edited), drafts in `2-Drafts/`, compiled notes in
-`3-Knowledge/`, tasks and dates in `4-Trackers/`, state and memory in `5-System/`.
+**Where things go:** sources in `1-Inputs/` (the agent only reads them), drafts in `2-Drafts/`,
+knowledge pages in `3-Knowledge/`, tasks, dates and meetings in `4-Trackers/`, state and memory in
+`5-System/`.
 
 ## In the fleet hub
 
-Open your host in the hub folder, then run `/ili-fleet` and ask in plain words. See
+Open your agent in the hub folder, then run `/ili-fleet` and ask in plain words. See
 [familiar-hub](https://github.com/familiar-md/familiar-hub).
 
 | Ask about | Branch | |
@@ -39,10 +41,10 @@ Open your host in the hub folder, then run `/ili-fleet` and ask in plain words. 
 | Stale or unreadable projects | health | |
 | Today's brief | brief | `_overview/brief-latest.html` |
 | The week ahead | weekly | `_overview/weekly-latest.html` |
-| Moving a date, finishing a task, moving a meeting | update | preview first, nothing written without your yes |
+| Moving a date, finishing a task, moving a meeting | update | previews first, writes nothing until you say yes |
 | Your time off | time off | `~/.familiar/time-off.md` |
 | Pausing or closing a project | lifecycle | hub-owned |
-| Adding, excluding or recategorising a project | registry | hub-owned |
+| Adding, excluding or recategorizing a project | registry | hub-owned |
 | First-run walkthrough | setup | runs by itself the first time |
 
 `/ili-fleet` runs these for you when you ask in plain words. From a terminal in the hub folder:
@@ -56,12 +58,14 @@ Open your host in the hub folder, then run `/ili-fleet` and ask in plain words. 
 | `python scripts/schedule.py status` | Show what is scheduled |
 | `python scripts/fleet_overview.py --set-included "<name>" no` | Keep a project out (its row stays) |
 
-The hub keeps the registry; nothing inside a project writes it.
+The hub keeps the registry. Nothing inside a project writes to it.
 
 ## Optional hooks
 
-From [familiar-hooks](https://github.com/familiar-md/familiar-hooks), per project. Copy the `.familiar`
-folder from its download onto the project first. Then run `/ili-system-settings hooks`; it lists, previews and installs them for you. From a terminal instead:
+From [familiar-hooks](https://github.com/familiar-md/familiar-hooks). Hooks are set for each project.
+First copy the `.familiar` folder from the hooks download onto the project. Then run
+`/ili-system-settings hooks`. It lists, previews and installs the hooks for you. To do it from a
+terminal instead:
 
 | Command | Does |
 |---|---|
@@ -82,5 +86,6 @@ folder from its download onto the project first. Then run `/ili-system-settings 
 | `check-naming` | Flags a misnamed file in `2-Drafts/` |
 | `check-citation` | Flags a knowledge page missing its citation field |
 
-Restart the session after applying. The guards are a deterrent, not a security boundary. They run
-Python around every tool call, so check before installing them on managed work hardware.
+Start a new session after you turn hooks on. The guards add a mechanical check, but they are not a
+guarantee or a security boundary. They run Python around every tool call. On a work computer that
+your employer manages, check the rules before you install them.

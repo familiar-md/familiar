@@ -1,170 +1,185 @@
 # familiar installation
 
-There is no installer. The release is a folder you download, rename, and open your AI coding
-assistant inside. Nothing runs on your machine to set it up.
+There is no installer. The release is a folder that you download, rename, and open your AI coding
+agent inside. Nothing runs on your computer to set it up.
 
 ## Prerequisites
 
-- An AI coding assistant that reads instructions from the folder it is opened in, installed and
-  signed in. familiar is built and tested with [Claude Code](https://code.claude.com/docs/en/overview)
-  and follows the open `AGENTS.md` and agent skills conventions; the workspace also carries the files
-  [Codex](https://developers.openai.com/codex) and [Gemini CLI](https://geminicli.com/docs/) look for.
-  Each assistant needs its own account or subscription.
-- Python 3.10 or newer, recommended. The assistant offers to install it, and any missing package, the
-  first time a step needs one (see [Optional document toolchain](#optional-document-toolchain)).
-  Without it, tracking a project, check-ins, and text ingest still work, with the assistant doing
-  the bookkeeping checks by hand and saying so. Document builds and PDF extraction need it.
+- **An AI coding agent** that reads instructions from the folder it opens in, installed and signed
+  in. familiar is built and tested with [Claude Code](https://code.claude.com/docs/en/overview). It
+  follows the open `AGENTS.md` and agent skills conventions. The workspace also has the files that
+  [Codex](https://developers.openai.com/codex) and [Gemini CLI](https://geminicli.com/docs/) look
+  for. Each agent needs its own account or subscription.
+- **Python 3.10 or newer** (recommended). The first time a step needs Python or a missing package,
+  the agent offers to install it. See [Optional document toolchain](#optional-document-toolchain).
+  Without Python, project tracking, check-ins and text ingest still work. The agent then does the
+  bookkeeping checks itself and tells you so. Document builds and PDF extraction need Python.
 
-[`docs/using-familiar.md`](docs/using-familiar.md#your-first-session) walks through the first session and the everyday workflow.
+[`docs/using-familiar.md`](docs/using-familiar.md#your-first-session) walks through the first session
+and everyday work.
 
 ## Getting started
 
 1. Download `familiar-workspace-<version>.zip` from
    [github.com/familiar-md/familiar/releases](https://github.com/familiar-md/familiar/releases) and
-   unzip it. It holds one folder, `familiar-workspace/`, and the licence.
-2. Rename `familiar-workspace/` to whatever you want to call this project, and move it where you
-   want it. That folder *is* the project — see
-   [`docs/using-familiar.md`](docs/using-familiar.md#where-things-live) for its layout. familiar reads and writes only
-   inside it (`CORE-WORKSPACE-SILO`); nothing outside the folder is in scope.
-3. If you already have source material to start from, put it under `1-Inputs/Sources/`, `1-Inputs/Admin/`,
-   or `1-Inputs/Templates/` before your first session.
-4. Open your assistant with that folder as the working directory. Its entry file (`CLAUDE.md`,
-   `AGENTS.md`, or `GEMINI.md`) is already present and self-contained — there is nothing else to point
-   it at.
+   unzip it. It holds one folder, `familiar-workspace/`, and the license.
+2. Rename `familiar-workspace/` to your project's name, and move it where you want it. That folder
+   *is* the project. [`docs/using-familiar.md`](docs/using-familiar.md#where-things-live) shows its
+   layout. familiar reads and writes only inside this folder.
+3. If you already have source material, put it in `1-Inputs/Sources/`, `1-Inputs/Admin/` or
+   `1-Inputs/Templates/` before your first session.
+4. Open your agent with that folder as the working folder. Its entry file (`CLAUDE.md`, `AGENTS.md`
+   or `GEMINI.md`) is already in the folder. You do not need to point the agent at anything else.
 
-> **Already have a project folder?** The workspace can sit inside it, one level down, beside your
-> other files. Open the agent in the workspace folder, not the outer one. familiar works only inside
-> the workspace; you move files across by hand: sources in, finished drafts out.
+> **Already have a project folder?** Put the workspace inside it, one level down, beside your other
+> files. Open the agent in the workspace folder, not the outer one. familiar works only inside the
+> workspace. You move files across yourself: sources in, finished drafts out.
 > [Where things live](docs/using-familiar.md#where-things-live) shows both layouts.
 
 ## First run
 
-There is no setup step to invoke. The project marker (`.familiar-project`) ships already in place,
-so familiar binds and loads project state from the first message in the folder.
+There is no setup step. The project marker (`.familiar-project`) is already in place, so familiar
+loads the project from the first message in the folder.
 
-The first time you run `/project-status` → Check-in, it establishes the project: it asks for and confirms a Project
-Name, stamps `.familiar-project`'s `created` date, and asks for the project's signature, written to
-its `5-System/user-preferences.md`. Skip that question and `/system-settings` → Preferences sets it
-later; Preferences also sets a default signature and standing preferences for every project. Every
-later check-in just reconciles state as usual.
+The first `/ili-project-status check-in` sets up the project:
+
+- It asks for the project name and confirms it.
+- It writes the `created` date into `.familiar-project`.
+- It asks for the project's signature and saves it in `5-System/user-preferences.md`.
+
+If you skip the signature, set it later with `/ili-system-settings preferences`. Preferences also
+sets a default signature and standing preferences for every project. Later check-ins only bring the
+project state up to date.
 
 ## Host support
 
-Every host reads the same content, from different native locations:
+Every agent reads the same content, from the folders that agent looks in:
 
-| Host | Skills | Subagents | Notes |
+| Agent | Skills | Subagents | Notes |
 |---|---|---|---|
 | Claude Code | `.claude/skills/` | `.claude/agents/*.md` | |
-| Codex | `.agents/skills/` | `.codex/agents/*.toml` | Start a skill with `$skill-name` or the `/skills` picker. `agents/openai.yaml` per skill sets `interface.display_name` and whether Codex may pick the skill from your request: it may not, for any of the eight. |
-| Gemini CLI | `.agents/skills/` | `.gemini/agents/*.md` | No per-skill command: ask for a skill by name ("run the project-status skill") and confirm when asked. Skill names show with no namespace prefix — a spec limit, not a bug. |
+| Codex | `.agents/skills/` | `.codex/agents/*.toml` | Start a skill with `$skill-name` or the `/skills` picker. Codex never starts a familiar skill on its own. Each skill's `agents/openai.yaml` sets this. |
+| Gemini CLI | `.agents/skills/` | `.gemini/agents/*.md` | No command per skill. Ask for a skill by name ("run the project-status skill") and confirm when asked. Skill names show without a prefix. This is a limit of the skills format, not a bug. |
 
-**Other assistants.** An assistant that reads `AGENTS.md` and the skill folders (Cursor, GitHub
-Copilot in VS Code and OpenCode among them) should load familiar's bootstrap. Skills may appear twice
-because both folders are read. Such an assistant has no row in `.familiar/installed.json`, so familiar
-treats every capability as `unknown`, performs worker steps inline, and asks before running an
-extension route.
+**Other agents.** An agent that reads `AGENTS.md` and the skill folders is expected to load familiar.
+Cursor, GitHub Copilot in VS Code and OpenCode are examples. Skills can appear twice, because the
+agent reads both skill folders. familiar has no record of what such an agent supports. It treats
+every capability as `unknown`, does subagent steps itself, and asks before it starts an extension
+skill.
 
-`python` below means Python 3.10 or newer under whichever command this machine has: `python3`,
-`python`, or `py`. The assistant picks it the same way (`routes.md` → Running familiar's scripts).
-On macOS the built-in `/usr/bin/python3` is Apple's own older copy; install current Python from
-python.org.
+In this guide, `python` means Python 3.10 or newer under the command your computer uses: `python3`,
+`python` or `py`. The agent picks the command the same way. On macOS, the built-in
+`/usr/bin/python3` is an older copy from Apple. Install a current Python from python.org.
 
-`.claude/skills/` and `.agents/skills/` hold byte-identical copies of every shared skill file (a
-quality gate enforces this): host skill-discovery paths differ, and Windows symlinks aren't reliable
-enough to point one at the other. The one deliberate difference is the `agents/openai.yaml` inside
-each skill under `.agents/skills/`, which carries the Codex invocation policy that Claude Code
-expresses through `SKILL.md` frontmatter instead — so the two trees are not identical file-for-file.
+`.claude/skills/` and `.agents/skills/` hold the same skill files, because agents look in different
+folders. The one difference is `agents/openai.yaml` in each skill under `.agents/skills/`. It holds
+the Codex settings that Claude Code reads from `SKILL.md` instead. If you edit a skill, edit both
+copies.
 
-A capability is `active` only once its released implementation and a live health check both pass;
-otherwise it is reported `available`, `unsupported`, `unavailable`, or `unknown` — never a claimed
-fallback. Current state per host is recorded in `.familiar/installed.json`.
+A capability is `active` only after its released version and a live health check both pass.
+Otherwise familiar reports it as `available`, `unsupported`, `unavailable` or `unknown`. It never
+claims a fallback. `.familiar/installed.json` records the current state for each agent.
 
 ## Synced folders and concurrent use
 
-familiar supports **one writer at a time**. Keeping a project in OneDrive, SharePoint, Dropbox, iCloud Drive, or a
-similar synced folder is fine, and so is one person moving between machines — what is not supported
-is two sessions writing the same project at once, on synced storage or off it.
+familiar supports **one writer at a time**. You can keep a project in OneDrive, SharePoint, Dropbox,
+iCloud Drive or a similar synced folder. You can move between computers. Do not let two sessions
+write the same project at the same time, on synced storage or off it.
 
-The rule that normally prevents a session overwriting newer work is `CORE-STALE-WRITE`: reread a
-living state file's revision before replacing it, and stop if it moved. That check reads local disk.
-A sync client reconciles *after* a write has already landed, so two machines can both read revision
-3, both write revision 4, and neither check fires. The sync client then either picks a winner or
-writes a conflict copy beside the original. familiar cannot see that collision happen, and a prose
-rule is not a lock — treat this as a real constraint on how you work, not a warning it can enforce.
+Before familiar replaces a state file, it reads the file's revision again. If the revision changed,
+it stops. That check reads the local disk. A sync app copies changes *after* the write. Two computers
+can both read revision 3 and both write revision 4, and neither check stops them. The sync app then
+keeps one version or writes a conflict copy beside the original. familiar cannot see this happen.
+The rule is an instruction, not a lock, so the limit is real.
 
-What it does do is refuse to write past the evidence. Before updating a living state file it looks
-for a conflict copy alongside it (`tasks-DESKTOP-A1B2.md`, `timeline (conflicted copy
-2026-09-11).md`, or iCloud Drive's `tasks 2.md`) and stops and reports rather than writing. Clearing one is yours to do —
-`CORE-NO-DELETE` means familiar will not remove it for you, and it must never merge one silently or
-read one as real state.
+familiar does stop when it sees a conflict copy. Before it updates a state file, it looks for a
+conflict copy beside it, such as `tasks-DESKTOP-A1B2.md`, `timeline (conflicted copy 2026-09-11).md`
+or iCloud Drive's `tasks 2.md`. If it finds one, it stops and reports it. You remove the copy
+yourself. familiar never deletes it, never merges it without telling you, and never reads it as the
+real state.
 
-Two smaller effects of the same setup are worth knowing. A file left as an online-only placeholder
-(OneDrive Files On-Demand) reads as an error rather than an absence, so a report may say
-"unreadable" where "not downloaded" is the truth. And a synced SharePoint root adds a long prefix to
-every path beneath it, which on Windows can push a deep project against the `MAX_PATH` limit.
+Two smaller effects:
+
+- **Online-only files.** A file that is only a placeholder (OneDrive Files On-Demand) reads as an
+  error, not as missing. A report can say "unreadable" when the file is only "not downloaded".
+- **Long paths.** A synced SharePoint folder adds a long prefix to every path. On Windows, a deep
+  project can then reach the `MAX_PATH` limit.
 
 ## Optional document toolchain
 
-`document-tools` (used by the `draft-document` skill for `.pptx`/`.docx` output) is recorded
-`available`, not `active` — there is no install-time verification. Each build runs its own script's
-`--health-check` first and reports honestly from that:
+The `draft-document` skill builds `.pptx` and `.docx` files with `document-tools`. This capability
+is `available`, not `active`, because nothing checks it at install time. Each build runs its
+script's `--health-check` first and reports the result:
 
-- Python 3.10 or newer (`python3` on macOS), plus `python-pptx` (deck) or `python-docx >= 1.2.0` (document) — without these the health
-  check reports `"build": false` and the skill degrades (plain text/Markdown for `document`; explicit
-  `unavailable` for `deck`, which has no plain-text fallback).
-- LibreOffice, optionally, for visual rendering. The build scripts look for `soffice` on `PATH` and in
-  its default install folder (macOS app bundle, Windows Program Files, common Linux locations). Without it, the build still succeeds and validates
-  structurally, but reports `"visual_validation": false`.
+- **Python 3.10 or newer** (`python3` on macOS), plus `python-pptx` for decks or
+  `python-docx >= 1.2.0` for documents. Without these, the health check reports `"build": false`.
+  A document then comes out as plain text or Markdown. A deck has no plain-text fallback, so it
+  reports `unavailable`.
+- **LibreOffice** (optional), for a visual check. The build scripts look for `soffice` on `PATH` and
+  in its default install folder on macOS, Windows and Linux. Without LibreOffice, the build still
+  succeeds and checks the file structure, but reports `"visual_validation": false`.
 
-The project ships a cross-platform preflight that checks all of this at once and explains what
-breaks without each piece. Run it from the project folder:
+The project includes a preflight that checks all of this at once. It tells you what breaks without
+each piece. Run it from the project folder:
 
 ```text
 python .familiar/scripts/doctor.py
 ```
 
-(`python3` on macOS and most Linux.) It uses only the standard library, runs even on a Python too old
-for familiar so it can say so, checks the Windows-only items only on Windows, and exits `0` when every
-required check passes. Each FAIL line ends with the command that fixes it on that machine. Where the
-system Python refuses `pip` installs (Debian, Ubuntu, Homebrew; PEP 668), it puts the packages in a
-familiar-only virtual environment at `~/.familiar/venv`, which the assistant then uses for every
-script. It reports your machine, not
-familiar — a failure there never means the installation is broken, only that a document or deck
-build would be. On Windows, run it the same way (`py -3` if `python` is not found).
+Use `python3` on macOS and most Linux. On Windows, use `py -3` if `python` is not found.
 
-Document builds need Python on the machine: an assistant that cannot run it cannot build a deck.
+- It uses only the standard library. It runs on a Python that is too old for familiar, so that it
+  can tell you so.
+- It checks Windows-only items only on Windows.
+- It exits `0` when every required check passes. Each FAIL line ends with the command that fixes it
+  on that computer.
+- Some systems block `pip` installs into the system Python (Debian, Ubuntu, Homebrew, PEP 668). On
+  those, it puts the packages in a virtual environment for familiar at `~/.familiar/venv`. The agent
+  then uses it for every script.
+
+The preflight checks your computer, not familiar. A failure does not mean that the installation is
+broken. It means that a document or deck build would fail. An agent that cannot run Python cannot
+build a deck.
 
 ## Updating
 
-Updating brings a project you already have up to a newer release. Core, extensions and the hooks
-package update together.
+An update brings an existing project up to a newer release. Core, extensions and the hooks package
+update together.
 
 1. Download the new `familiar-workspace-<version>.zip` from the
-   [Releases page](https://github.com/familiar-md/familiar/releases), plus the newer zip of any
-   extension or of the hooks package you use.
-2. Put the zips in your project's `_update/` folder. There is no need to unzip them.
+   [Releases page](https://github.com/familiar-md/familiar/releases). Also download the newer zip of
+   each extension and of the hooks package, if you use them.
+2. Put the zips in your project's `_update/` folder. Do not unzip them.
 3. Open your agent in the project and run `/ili-system-settings update` (`$system-settings` on
    Codex).
-   → verify: it lists what would change for each package, and anything it will leave alone.
-4. Answer yes to apply it.
+
+   → verify: it lists what will change for each package, and what it will leave alone.
+4. Answer yes to apply the update.
+
    → verify: it reports `applied` and a backup folder under `5-System/_update-backups/`.
-5. Start a new session; nothing from the new release is live until then. Delete the zips from
-   `_update/` when you like.
+5. Start a new session. Nothing from the new release is live until then. You can then delete the
+   zips from `_update/`.
 
-**What it keeps.** Your content folders, your own notes below the `<!-- familiar:end -->` marker in
-`CLAUDE.md`, `AGENTS.md` and `GEMINI.md`, and any familiar file you edited (reported as
-`diverged`). Files a release no longer ships move into the backup, so nothing is deleted. To roll
-back, copy the backup folder's contents over the project.
+**What it keeps.** The updater keeps:
 
-**Extensions.** Each extension with a zip in `_update/` updates in the same run. One without is
-left as it is, and the report warns if the new core version is outside the range it declares. An
-extension built from [familiar-template](https://github.com/familiar-md/familiar-template) carries a
-release manifest once its author runs `check_extension.py --release`; one without a manifest is
-updated by copying its folders onto the project again.
+- your content folders
+- your own notes below the `<!-- familiar:end -->` marker in `CLAUDE.md`, `AGENTS.md` and
+  `GEMINI.md`
+- every familiar file you edited (reported as `diverged`)
 
-**If the report starts with `STOP`,** nothing was written. A different `state-schema` is a
-migration: read the release notes in [`CHANGELOG.md`](CHANGELOG.md) first. A missing manifest means
-[updating by hand](#updating-by-hand).
+Files that a release no longer includes move into the backup, so nothing is deleted. To roll back,
+copy the contents of the backup folder over the project.
+
+**Extensions.** Each extension with a zip in `_update/` updates in the same run. An extension without
+a zip stays as it is. If the new core version is outside the range that extension declares, the
+report warns you. An extension built from
+[familiar-template](https://github.com/familiar-md/familiar-template) has a release manifest after its
+author runs `check_extension.py --release`. To update an extension without a manifest, copy its
+folders onto the project again.
+
+**If the report starts with `STOP`,** nothing was written. A different `state-schema` means a
+migration. Read the release notes in [`CHANGELOG.md`](CHANGELOG.md) first. A missing manifest means
+that you update [by hand](#updating-by-hand).
 
 ### From a terminal
 
@@ -173,84 +188,85 @@ python .familiar/scripts/update.py --project . --from _update            # repor
 python .familiar/scripts/update.py --project . --from _update --apply    # back up, then write
 ```
 
-A project set up from `1.0.0` has an updater without `--from`. For that one update, unzip the new
-release outside the project and run its copy instead:
-`python "<new familiar-workspace folder>/.familiar/scripts/update.py" --project "<your project>"`,
-adding `--extension "<folder>"` per extension and `--apply` to write.
+The updater in a `1.0.0` project has no `--from` option. For that one update, unzip the new release
+outside the project and run its copy of the updater:
+
+```text
+python "<new familiar-workspace folder>/.familiar/scripts/update.py" --project "<your project>"
+```
+
+Add `--extension "<folder>"` for each extension, and `--apply` to write.
 
 ### Format notes in tracker files
 
-The format notes at the top of `tasks.md`, `timeline.md`, `_knowledge-index.md`, `_abbreviations.md`
-and `2-Drafts/_draft-index.md` sit beside your data, so no update replaces them. The rules
-themselves live in `.familiar/core/state-schema.md`, which every update brings. If a release's notes
-say a table's columns changed, compare by hand.
+`tasks.md`, `timeline.md`, `_knowledge-index.md`, `_abbreviations.md` and
+`2-Drafts/_draft-index.md` start with format notes. These notes sit beside your data, so no update
+replaces them. The rules live in `.familiar/core/state-schema.md`, which every update brings. If a
+release's notes say that a table's columns changed, compare the notes by hand.
 
 ### Updating by hand
 
-This path starts a new folder from the release and moves your own content across, instead of
-replacing files inside the project you already have. Because nothing is deleted until you choose to,
-it cannot half-succeed: stop at any point and the old folder is exactly as it was.
+This method starts a new folder from the release and moves your content into it. It does not
+replace files inside your existing project. Nothing is deleted until you choose, so it cannot fail
+halfway. If you stop at any step, the old folder stays exactly as it was.
 
-1. Download the new release and unpack it as its own new folder, same as [Getting
-   started](#getting-started) — do not unpack it into, or over, your existing project folder.
-2. Open both `.familiar-project` files (old project, new folder) and compare their `state-schema:`
-   lines. **If they differ, stop here** — that is a schema migration, not a routine update, and this
-   procedure does not perform one. Check [`CHANGELOG.md`](CHANGELOG.md) and the release notes on the
-   GitHub Releases page, or ask for help before going further.
-3. If your project has any installed extensions, re-drop each one from its own download onto the new folder, the
-   same way you dropped it on originally.
-4. **Copy** these five folders from your old project folder into the new one, overwriting the fresh
-   copies the release shipped: **`1-Inputs/`, `3-Knowledge/`, `2-Drafts/`, `4-Trackers/`, `5-System/`.** Do not
-   move them yet: the old folder remains your rollback until you have tested the new one. These are
-   the standard data folders; separately carry forward any user-created host settings, custom skills,
-   or optional guard configuration you deliberately want to keep.
-   **Then restore the new release's own copy of every `_about.md`** (one per folder, including the
-   root one) **and `3-Knowledge/_page-template.md`** over whatever step 4 just brought in from the old
-   folder. Both carry zero per-project data — nothing you write ever lands in them — so there is
-   nothing to lose by taking the release's fresh copy, and doing so is how their wording keeps up with
-   the product instead of freezing at whatever release the project started on.
-   If you added your own instructions to `CLAUDE.md`, `AGENTS.md` or `GEMINI.md`, they sit below
-   that file's `<!-- familiar:end -->` marker: copy those lines to the same place in the new
-   folder's file. Everything above the marker is the release's and comes fresh with it.
-5. In the new folder's `.familiar-project`, replace only the `created:` line with the value from
-   your old project's `.familiar-project`. Leave its `familiar-version:` and `state-schema:` lines
-   exactly as the new release set them.
-6. Open your coding host in the new folder and start a new session — skills, agents, and entry files
-   are read at session start, so nothing from the new release is live until then.
+1. Download the new release and unzip it as a new folder, as in [Getting started](#getting-started).
+   Do not unzip it into or over your existing project folder.
+2. Open both `.familiar-project` files (old project and new folder) and compare their
+   `state-schema:` lines. **If they differ, stop here.** That is a schema migration, not a routine
+   update, and this method does not do one. Read [`CHANGELOG.md`](CHANGELOG.md) and the release
+   notes on the GitHub Releases page, or ask for help.
+3. If your project has extensions, copy each one from its own download onto the new folder, the same
+   way you added it the first time.
+4. **Copy** these five folders from the old project into the new one, and replace the new copies:
+   **`1-Inputs/`, `2-Drafts/`, `3-Knowledge/`, `4-Trackers/`, `5-System/`.** Copy them, do not move
+   them. The old folder is your rollback until you have tested the new one. Also copy any of your
+   own agent settings, custom skills or hook settings that you want to keep.
+5. Put back the new release's copy of every `_about.md` (one per folder, including the root one) and
+   of `3-Knowledge/_page-template.md`. Step 4 replaced them with the old copies. These files hold no
+   project data, so you lose nothing, and their wording stays current.
+6. If you added your own instructions to `CLAUDE.md`, `AGENTS.md` or `GEMINI.md`, they are below the
+   `<!-- familiar:end -->` marker. Copy those lines to the same place in the new folder's file.
+   Everything above the marker belongs to the release and comes with it.
+7. In the new folder's `.familiar-project`, replace only the `created:` line with the line from your
+   old `.familiar-project`. Do not change its `familiar-version:` and `state-schema:` lines.
+8. Open your agent in the new folder and start a new session. The agent reads skills, subagents and
+   entry files when a session starts, so nothing from the new release is live until then.
 
-Keep the old folder unchanged until you've confirmed the new one works; it's your entire rollback.
-Once you're satisfied, archive or delete it yourself — familiar does not do this step for you and
-does not need to.
+Keep the old folder unchanged until you know that the new one works. It is your only rollback. When
+you are sure, archive or delete it yourself. familiar does not do this step.
 
 ## The fleet hub
 
-The fleet hub is a separate folder that answers questions across all your registered projects. It
-is not part of this download: get it from
-[familiar-hub](https://github.com/familiar-md/familiar-hub), whose `INSTALL-HUB.md` covers setup and what the
-hub reads. Setting up the hub creates `~/.familiar/fleet.md`, the list of your projects, and the hub keeps it:
-ask `/fleet` to add, exclude or recategorise a project. Nothing inside a project writes the list.
-Whether a project is active, paused or closed is recorded in the hub, not in the project.
+The fleet hub is a separate folder that answers questions across all your registered projects. It is
+not part of this download. Get it from [familiar-hub](https://github.com/familiar-md/familiar-hub).
+Its `INSTALL-HUB.md` covers setup and what the hub reads. Hub setup creates `~/.familiar/fleet.md`,
+the list of your projects, and the hub keeps that list. To add, exclude or recategorize a project,
+ask `/ili-fleet`. Nothing inside a project writes to the list. The hub, not the project, records
+whether a project is active, paused or closed.
 
 ## Extensions
 
-An extension adds skills, agents and knowledge for a specialty. Like the workspace, it has no
+An extension adds skills, subagents and knowledge for a specialty. Like the workspace, it has no
 installer. To add one, copy its top-level folders (`.claude/`, `.agents/`, `.codex/`, `.gemini/`,
-`.familiar/`) into the project root, merging with what is already there. Nothing in an extension
-overwrites core files. Start a new session and its skills appear. No extension is part of this
-release; to write your own, start from
-[familiar-template](https://github.com/familiar-md/familiar-template) ("Use this template"), which
+`.familiar/`) into the project root, and merge them with the folders that are already there. An
+extension never overwrites core files. Start a new session, and its skills appear.
+
+This release includes no extensions. To write your own, start from
+[familiar-template](https://github.com/familiar-md/familiar-template) ("Use this template"). It
 follows `.familiar/core/extension-contract.md`. Each extension's own `_about.md` says what it adds.
 
 ### Adding several at once
 
-Say you want the fleet hub, the hooks package and two extensions of your own:
+For example, you want the fleet hub, the hooks package and two extensions of your own:
 
-1. **The hub** is not added to a project. Unzip it as its own folder beside your projects; its
+1. **The hub** does not go into a project. Unzip it as its own folder beside your projects. Its
    `INSTALL-HUB.md` covers the rest.
-2. **The hooks:** copy the `.familiar/` folder from the hooks zip onto the project, then run
-   `/ili-system-settings hooks` to switch on the ones you want. Copying alone turns nothing on.
-3. **Each extension:** copy its top-level folders onto the project root, one after the other. Order
-   does not matter.
+2. **The hooks:** copy the `.familiar/` folder from the hooks zip onto the project. Then run
+   `/ili-system-settings hooks` and turn on the hooks you want. Copying alone turns nothing on.
+3. **Each extension:** copy its top-level folders onto the project root, one after the other. The
+   order does not matter.
 4. Start a new session.
-   → verify: typing `/ili` lists each extension's skills, and `/ili-system-settings hooks` lists the
-   hooks as installed.
+
+   → verify: `/ili` lists each extension's skills, and `/ili-system-settings hooks` shows the hooks
+   as installed.

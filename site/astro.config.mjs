@@ -16,6 +16,8 @@ export default defineConfig({
       description: 'A project-memory and workflow layer that makes AI agents instantly familiar with your work, progress, and decisions.',
       social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/familiar-md/familiar' }],
       logo: { light: './src/assets/logo-light.svg', dark: './src/assets/logo-dark.svg', alt: 'familiar', replacesTitle: true },
+      // The default favicon is the charcoal tile; dark browser tab bars get the cream tile.
+      head: [{ tag: 'link', attrs: { rel: 'icon', type: 'image/svg+xml', href: '/familiar/favicon-light.svg', media: '(prefers-color-scheme: dark)' } }],
       customCss: ['./src/styles/familiar.css'],
       sidebar,
     }),

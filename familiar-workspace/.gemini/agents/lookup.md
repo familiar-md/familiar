@@ -36,8 +36,11 @@ by checking whether that extension's own skill folder is present, instead of ass
 
 1. `_knowledge-index.md` — pick the page. Pages are named for their source.
 2. Open the page. Pages are small; read the whole thing.
-3. If the page and its locators do not cover the question, **grep** the matching
-   `_extract-<stable-source-ID>.md` file directly in `3-Knowledge/` — never read an extract whole.
+3. If the page and its locators do not cover the question, **grep** its extract,
+   `3-Knowledge/_extract-<source_id>.md`, named by the page's own `source_id` field; a page
+   without one takes the `Source ID` from its row in `_source-register.md`. When no file has that
+   name, look for an extract named after the page or its source file before reporting the gap.
+   Never read an extract whole.
    They run to tens of thousands of tokens. Grep for your terms, then read only the matching
    region with an offset and limit. The `<!-- PDF page N -->` markers give you the locator.
 4. Stop there. Do not open raw files in `Inputs`. Verifying an exact value against the original

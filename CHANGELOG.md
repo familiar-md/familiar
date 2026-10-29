@@ -9,6 +9,17 @@ an extension's contract only comes with a new major version, and
 
 ## [Unreleased]
 
+## [1.0.2] - 2026-10-29
+
+### Changed
+
+- Before a deliverable that leaves the project takes figures from knowledge pages whose values were
+  never checked against their source, the drafting skills name those pages and offer the check
+  first. It is an offer; you can go ahead without it.
+- A knowledge page's `source_id` is now stated as the link to its full extracted text
+  (`_extract-<source_id>.md`); lookup uses it, falling back to the source register for older pages.
+  `project_check.py` reports pages and extracts that the field does not link.
+
 ## [1.0.1] - 2026-10-29
 
 ### Added

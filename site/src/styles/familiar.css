@@ -59,3 +59,7 @@ strong, b { color: var(--sl-color-white); }
    smaller size so a tree fits the column. */
 .expressive-code pre[data-language='text'] span { color: var(--sl-color-gray-1) !important; }
 .expressive-code pre[data-language='text'] { font-size: 0.8em; }
+
+/* Card icon tiles: Starlight cycles orange, purple, green, red per card; all four take the ember accent. */
+.card, .card:nth-child(n) { --sl-card-border: var(--sl-color-accent); --sl-card-bg: var(--sl-color-accent-low); }
+.card .icon { color: var(--sl-color-accent-high); }

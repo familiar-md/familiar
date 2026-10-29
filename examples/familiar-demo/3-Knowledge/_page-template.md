@@ -7,7 +7,8 @@
 ```markdown
 ---
 source: <exact source filename in 1-Inputs/Sources>
-source_id: <the source's `Source ID` in `3-Knowledge/_source-register.md`>
+source_id: <the source's `Source ID` in `3-Knowledge/_source-register.md`. The source's full extracted
+  text, when it has one, is `3-Knowledge/_extract-<source_id>.md`; lookup finds it by this field.>
 source_title: <human title>
 type: <one of, exactly as written: published article | news article | website | report |
   guidance / regulatory | meeting notes / transcript | internal document | scope record |

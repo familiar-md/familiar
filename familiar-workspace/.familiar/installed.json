@@ -2,8 +2,8 @@
   "schema": "1.1",
   "core": {
     "id": "familiar",
-    "version": "1.0.1",
-    "build": "e9a578d683ef"
+    "version": "1.0.2",
+    "build": "86d316bb5ffb"
   },
   "adapters": {
     "claude": {

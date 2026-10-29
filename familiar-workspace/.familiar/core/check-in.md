@@ -101,7 +101,8 @@ First run `python .familiar/scripts/project_check.py`. It is read-only and print
 - open tasks with no owner or date, or past due;
 - open milestones past their date;
 - schedule files older than `timeline.md`;
-- knowledge pages past their `review_by` date;
+- knowledge pages past their `review_by` date, and pages and extracts whose `source_id` does not
+  link them;
 - index gaps, byte-identical inputs, sync conflict copies, and retired `/familiar:` names.
 
 Use its findings as evidence, and confirm any you act on. If it cannot run, say so in one line and

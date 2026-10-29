@@ -8,7 +8,7 @@
 
 <p align="center">
   <a href="https://github.com/familiar-md/familiar/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/familiar-md/familiar?color=d2621a&label=release"></a>
-  <a href="LICENSE"><img alt="Licence: Apache 2.0" src="https://img.shields.io/badge/licence-Apache%202.0-212121"></a>
+  <a href="LICENSE"><img alt="License: Apache 2.0" src="https://img.shields.io/badge/license-Apache%202.0-212121"></a>
 </p>
 
 <p align="center">
@@ -40,14 +40,14 @@ session then starts from the project's record instead of from nothing.
   drafts, research and handoffs.
 - **Free, open source, and yours.** Plain Markdown and a few small scripts: no account, no server,
   nothing to sign up for. Every rule, skill and template is a file you can read and change. Nothing
-  is stored outside the folder; the agent you open in it sends what it reads to its own provider,
+  is stored outside the folder. The agent you open in it sends what it reads to its own provider,
   under that provider's terms.
 
 <p align="center">
   <img src="docs/assets/familiar-workspace-flow.svg" alt="Reference files are copied into the workspace's 1-Inputs, ingested into 3-Knowledge and drafted into 2-Drafts; approved files are renamed and copied back out to your project folder" width="720">
 </p>
 
-## Who it's for
+## Who it is for
 
 Anyone whose work is a set of separate projects, each with its own documents, decisions and open
 questions:
@@ -65,11 +65,11 @@ questions:
 
 One folder per project, so each matter, client or engagement keeps its own record.
 
-> **Privacy is not part of this project.** familiar is plain Markdown files and small scripts; it
-> adds no encryption, access control, redaction or confidentiality protection, and it makes no
-> compliance claims. Whatever your AI agent reads from the folder is sent to that agent's provider,
-> under the provider's terms. If your work carries confidentiality duties (client privilege, NDAs,
-> health or personal data, employer policy), check that your agent, its settings and your folder's
+> **Privacy is not part of this project.** familiar is plain Markdown files and small scripts. It
+> adds no encryption, access control, redaction or confidentiality protection. It makes no compliance
+> claims. Whatever your AI agent reads from the folder goes to that agent's provider, under the
+> provider's terms. Your work can carry confidentiality duties: client privilege, NDAs, health or
+> personal data, employer policy. If it does, check that your agent, its settings and your folder's
 > sync or backup location meet them before you put that material in. That responsibility is yours.
 
 1. Download `familiar-workspace-<version>.zip` from the [Releases page](https://github.com/familiar-md/familiar/releases) and unzip it.

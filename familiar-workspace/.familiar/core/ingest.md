@@ -58,7 +58,8 @@ no preference. A wave never exceeds the host's own concurrency limit.
 
 A page's figures are checked against its own extract before a deliverable relies on them. Offer the
 check after a bulk ingest, and before a deliverable that leaves the project cites pages that were
-never checked. Run it only on the user's yes.
+never checked (the drafting skills make that offer, per `file-handling.md` → Grounding and
+provenance). Run it only on the user's yes.
 
 1. **Compare, do not rewrite.** One worker per page when `named-subagents` is `active` (in the
    user's wave size, as above), otherwise one page at a time. Each gets the page and its

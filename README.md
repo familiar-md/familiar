@@ -15,7 +15,7 @@
   <a href="https://github.com/familiar-md/familiar/releases">Download</a> ·
   <a href="https://familiar-md.github.io/familiar/">Docs</a> ·
   <a href="https://familiar-md.github.io/familiar/start/your-first-session/">Your first session</a> ·
-  <a href="https://familiar-md.github.io/familiar/cheatsheet/">Skills quick reference</a>
+  <a href="https://familiar-md.github.io/familiar/quick-reference/">Skills quick reference</a>
 </p>
 
 <p align="center">
@@ -58,7 +58,7 @@ Walkthrough: [Your first session](https://familiar-md.github.io/familiar/start/y
 
 ## Learn more
 
-The guide, skills quick reference, manual and install notes are on the [documentation site](https://familiar-md.github.io/familiar/); the same text is in this repo as [`docs/using-familiar.md`](docs/using-familiar.md), [`INSTALL.md`](INSTALL.md), [`MANUAL.md`](MANUAL.md) and [`CHEATSHEET.md`](CHEATSHEET.md). What changed in each release: [`CHANGELOG.md`](CHANGELOG.md).
+The guide, skills quick reference, manual and install notes are on the [documentation site](https://familiar-md.github.io/familiar/); the same text is in this repo as [`docs/using-familiar.md`](docs/using-familiar.md), [`INSTALL.md`](INSTALL.md), [`MANUAL.md`](MANUAL.md) and [`QUICK-REFERENCE.md`](QUICK-REFERENCE.md). What changed in each release: [`CHANGELOG.md`](CHANGELOG.md).
 
 ## License
 

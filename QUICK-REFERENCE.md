@@ -1,7 +1,7 @@
 # familiar skills quick reference
 
 One page of commands for familiar core, the fleet hub and the optional hooks. A printable version
-with a switch for your assistant is `docs/cheatsheet.html`. The commands are
+with a switch for your assistant is `docs/quick-reference.html`. The commands are
 shown in their Claude Code form. On Codex use `$project-status` instead of `/ili-project-status`. On Gemini
 CLI, ask for a skill by name ("run the project-status skill"). [`docs/using-familiar.md`](docs/using-familiar.md#the-skills) explains each skill.
 

@@ -7,5 +7,5 @@ src/content/docs/use/
 src/content/docs/install/
 src/content/docs/manual/
 public/assets/
-public/cheatsheet/
+public/quick-reference/
 src/sidebar.generated.json

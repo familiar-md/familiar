@@ -106,7 +106,7 @@ function mapTarget(doc, target) {
   const [path, hash = ''] = target.split('#');
   const file = path === '' ? doc : posix.normalize(posix.join(posix.dirname(doc), path));
   if (anchors[file]) return anchors[file][hash] ?? anchors[file][''];
-  if (file === 'CHEATSHEET.md') return `${BASE}/cheatsheet/`;
+  if (file === 'QUICK-REFERENCE.md') return `${BASE}/quick-reference/`;
   if (file.startsWith('docs/assets/')) return `${BASE}/assets/${file.slice('docs/assets/'.length)}`;
   return `${REPO}${file}${hash ? '#' + hash : ''}`;
 }
@@ -130,12 +130,12 @@ for (const p of pages) {
 // Static files the pages link to.
 rmSync(join(SITE, 'public', 'assets'), { recursive: true, force: true });
 cpSync(join(ROOT, 'docs', 'assets'), join(SITE, 'public', 'assets'), { recursive: true });
-rmSync(join(SITE, 'public', 'cheatsheet'), { recursive: true, force: true });
-// The site serves the core-only sheet; docs/cheatsheet.html (core, hub, hooks) stays the repo's printable copy.
-const SHEET = ['cheatsheet-core.html', 'cheatsheet.html'].find((f) => existsSync(join(ROOT, 'docs', f)));
+rmSync(join(SITE, 'public', 'quick-reference'), { recursive: true, force: true });
+// The site serves the core-only sheet; docs/quick-reference.html (core, hub, hooks) stays the repo's printable copy.
+const SHEET = ['quick-reference-core.html', 'quick-reference.html'].find((f) => existsSync(join(ROOT, 'docs', f)));
 if (SHEET) {
-  mkdirSync(join(SITE, 'public', 'cheatsheet'), { recursive: true });
-  cpSync(join(ROOT, 'docs', SHEET), join(SITE, 'public', 'cheatsheet', 'index.html'));
+  mkdirSync(join(SITE, 'public', 'quick-reference'), { recursive: true });
+  cpSync(join(ROOT, 'docs', SHEET), join(SITE, 'public', 'quick-reference', 'index.html'));
 }
 
 // The sidebar, in document order.
@@ -146,7 +146,7 @@ const group = (label, key, collapsed = false) => ({
 const sidebar = [
   group('Getting started', 'start'),
   group('Using familiar', 'use'),
-  { label: 'Skills quick reference', link: '/cheatsheet/' },
+  { label: 'Skills quick reference', link: '/quick-reference/' },
   group('Install and update', 'install', true),
   group('Manual', 'manual', true),
   {

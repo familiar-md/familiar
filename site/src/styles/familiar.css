@@ -9,7 +9,7 @@
   --familiar-display: 'Goudy Bookletter 1911', Georgia, 'Times New Roman', serif;
   --sl-text-body: 1.125rem;
 }
-html { font-size: 112.5%; }   /* an 18px root keeps Goudy readable */
+html { font-size: 125%; }   /* a 20px root: Goudy's x-height is small, 18px still read small */
 body { font-synthesis: none; }
 strong, b { color: var(--sl-color-white); }
 :root[data-theme='light'] {

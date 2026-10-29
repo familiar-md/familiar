@@ -18,7 +18,7 @@ Built and tested with Claude Code; it follows the open `AGENTS.md` and agent ski
 carries the files Codex and Gemini CLI look for.
 
 - Eight skills: `project-status`, `ingest`, `deliverable-brief`, `draft-document`, `save`,
-  `handoff`, `online-research` and `system-settings` (see [`README.md`](README.md#the-skills)
+  `handoff`, `online-research` and `system-settings` (see [the guide](docs/using-familiar.md#the-skills)
   and the [cheat sheet](CHEATSHEET.md)).
 - Project memory with one home per fact: configuration, status snapshot and log, tasks, timeline,
   meetings, decisions and handoffs, each with a revision check against stale writes.

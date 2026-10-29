@@ -5,10 +5,10 @@
     python <new familiar-workspace folder>/.familiar/scripts/update.py --project "<project>" --apply
     ... --extension "<new extension drop-in folder>"     # repeatable; updates that extension too
 
-Run it from the NEW release's copy, from a terminal, not from inside a session: it reads one folder
-(the release) and writes another (the project), which a session bound to either cannot do
-(CORE-WORKSPACE-SILO). The default release is the folder this script sits in; `--release` names
-another. Report only unless `--apply`.
+Run the NEW release's copy against the project: from a terminal, or from a session open in the
+project (`/system-settings` → Update), where the release is a folder the user named and is only read
+(CORE-WORKSPACE-SILO); every write lands in the project. The default release is the folder this
+script sits in; `--release` names another. Report only unless `--apply`.
 
 It decides file by file against the project's own release manifests
 (`.familiar/release-manifests/<owner>.json`, one per owner: core is `familiar`, each extension its
@@ -18,7 +18,9 @@ own id), which record what the release that last wrote each file shipped:
   update    the project's copy still matches what its old release shipped, so replacing it loses nothing
   diverged  it matches neither: someone edited it. Left alone and reported
   add       the new release has it and the project does not
-  retired   the old release shipped it and the new one does not. Left in place (CORE-NO-DELETE)
+  retired   the old release shipped it and the new one does not. An untouched copy is moved into the
+            update's backup folder, so a retired skill stops loading and nothing is lost
+            (CORE-NO-DELETE); an edited one is left in place and reported
 
 The entry files (`AGENTS.md`, `CLAUDE.md`, `GEMINI.md`) are compared and replaced only between
 their `<!-- familiar:start -->` / `<!-- familiar:end -->` markers; text outside them is the user's.
@@ -127,7 +129,7 @@ def in_range(version: str, spec: str) -> bool:
 def classify(project: Path, source: Path, old: dict, new: dict) -> dict:
     """Sort one owner's files. `spliced` is the subset of `update`/`add` written by block."""
     result = {k: [] for k in ("same", "update", "diverged", "add", "retired")}
-    result["spliced"] = set()
+    result["spliced"], result["untouched"] = set(), set()
     old_files = {**old.get("retired", {}), **old.get("files", {})}
     old_blocks = old.get("blocks", {})
     for rel, want in sorted(new.get("files", {}).items()):
@@ -165,6 +167,11 @@ def classify(project: Path, source: Path, old: dict, new: dict) -> dict:
     shipped = set(new.get("files", {})) | set(new.get("blocks", {}))
     result["retired"] = sorted(r for r in set(old_files) | set(old_blocks)
                                if r not in shipped and (project / r).is_file())
+    for rel in result["retired"]:
+        dst = project / rel
+        if fingerprint(dst.read_bytes()) == old_files.get(rel) or \
+                (rel in old_blocks and block_fingerprint(dst) == old_blocks[rel]):
+            result["untouched"].add(rel)
     return result
 
 
@@ -222,6 +229,7 @@ def apply(project: Path, reports: list, new_version: str) -> str:
     old_version = marker_field(project, "familiar-version")
     backup = project / BACKUP_DIR / f"{old_version}-to-{new_version}_{date.today().isoformat()}"
     replaced = [rel for _, _, _, result in reports for rel in result["update"]]
+    withdrawn = [rel for _, _, _, result in reports for rel in result["retired"] if rel in result["untouched"]]
     if old_version != new_version:
         replaced.append(".familiar-project")
     for rel in replaced:
@@ -229,6 +237,18 @@ def apply(project: Path, reports: list, new_version: str) -> str:
         if not (backup / rel).exists():
             (backup / rel).parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(project / rel, backup / rel)
+    for rel in withdrawn:
+        # Moved, not deleted: the backup keeps it. A folder it leaves empty goes too, so a retired
+        # skill's folder does not linger.
+        (backup / rel).parent.mkdir(parents=True, exist_ok=True)
+        if (backup / rel).exists():
+            (project / rel).unlink()
+        else:
+            shutil.move(str(project / rel), str(backup / rel))
+        folder = (project / rel).parent
+        while folder != project and folder.is_dir() and not any(folder.iterdir()):
+            folder.rmdir()
+            folder = folder.parent
     for _, root, _, result in reports:
         for rel in result["update"] + result["add"]:
             dst = project / rel
@@ -248,10 +268,11 @@ def apply(project: Path, reports: list, new_version: str) -> str:
         old = load_manifest(out) or {}
         old_fps = {**old.get("retired", {}), **old.get("files", {})}
         # Retired files left in place stay listed, so every later run still reports them.
-        record = dict(new, retired={rel: old_fps[rel] for rel in result["retired"] if rel in old_fps})
+        record = dict(new, retired={rel: old_fps[rel] for rel in result["retired"]
+                                    if rel in old_fps and rel not in result["untouched"]})
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(json.dumps(record, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    return str(backup) if replaced else "none needed"
+    return str(backup) if replaced or withdrawn else "none needed"
 
 
 def main(argv=None) -> int:
@@ -278,7 +299,8 @@ def main(argv=None) -> int:
         for key in ("diverged", "add", "update", "retired"):
             for rel in result[key]:
                 tail = "   (edited here; left alone)" if key == "diverged" else \
-                       "   (no longer shipped; left in place)" if key == "retired" else ""
+                       ("   (no longer shipped; moved to the backup)" if rel in result["untouched"]
+                        else "   (no longer shipped, edited here; left in place)") if key == "retired" else ""
                 print(f"      {key:8} {rel}{tail}")
     for note in notes:
         print(f"  {note}")

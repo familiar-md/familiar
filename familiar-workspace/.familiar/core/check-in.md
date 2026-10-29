@@ -1,6 +1,6 @@
 # Recurring project check-in
 
-Use this procedure only through the `checkin` skill. Pre-draft from current state and ask only for
+Use this procedure only through `/project-status` → Check-in. Pre-draft from current state and ask only for
 changes the project files cannot answer.
 
 ## 0. Establish a fresh project

@@ -3,7 +3,7 @@
 <!-- last-updated: not-yet-written -->
 # Project Context — NOT YET WRITTEN
 
-> **Stub.** `checkin` replaces this whole file, on its first real run in this project, with the
+> **Stub.** `/project-status` → Check-in replaces this whole file, on its first real run in this project, with the
 > stable facts of the project: background, objective, scope, exclusions, constraints, stakeholders,
 > and baseline timeline. Shape: `.familiar/core/state-schema.md` → Template — `project-context.md`.
 >

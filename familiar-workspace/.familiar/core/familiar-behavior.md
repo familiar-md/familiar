@@ -5,7 +5,7 @@ behavior for a selected project route; it is never an additional startup checkli
 
 ## Start or configure
 
-When the workspace or authoritative configuration is absent, name `/checkin` (under `project.status`)
+When the workspace or authoritative configuration is absent, name `/project-status` → Check-in (under `project.status`)
 as the command that establishes it and let the user start it — per Resolution rule 3, never run it.
 A quick setup may defer context. A full setup records only confirmed facts and installed extension
 contributions.

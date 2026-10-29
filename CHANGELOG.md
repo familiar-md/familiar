@@ -17,8 +17,8 @@ drafts and history kept as Markdown files beside your work, so nothing has to be
 Built and tested with Claude Code; it follows the open `AGENTS.md` and agent skills conventions and
 carries the files Codex and Gemini CLI look for.
 
-- Ten skills: `checkin`, `ongoing-work`, `ingest`, `deliverable-brief`, `draft-document`, `save`,
-  `handoff`, `triage`, `online-research` and `system-settings` (see [`README.md`](README.md#the-skills)
+- Eight skills: `project-status`, `ingest`, `deliverable-brief`, `draft-document`, `save`,
+  `handoff`, `online-research` and `system-settings` (see [`README.md`](README.md#the-skills)
   and the [cheat sheet](CHEATSHEET.md)).
 - Project memory with one home per fact: configuration, status snapshot and log, tasks, timeline,
   meetings, decisions and handoffs, each with a revision check against stale writes.

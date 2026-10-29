@@ -11,6 +11,6 @@ of source, template, example, admin.
 
 | Source ID | Version | Path | Aliases | Roles | Status | Knowledge page | Supersedes | Last processed | Note |
 |---|---|---|---|---|---|---|---|---|---|
-| 2026-07-20-Northgate-SOW | b2dd48f50858 | 1-Inputs/Sources/2026-07-20_Northgate-SOW.md |  | source | ingested | 3-Knowledge/2026-07-20_Northgate-SOW.md |  | 2026-08-24 |  |
-| 2026-07-22-Kickoff-Notes | bcf3778024a7 | 1-Inputs/Sources/Meetings/2026-07-22_Kickoff-Notes.md |  | source | ingested | 3-Knowledge/2026-07-22_Kickoff-Notes.md |  | 2026-08-24 |  |
-| 2026-06-region-logistics-market-note | 2ad5b75c8070 | 1-Inputs/Sources/2026-06-region-logistics-market-note.md |  | source | ingested | 3-Knowledge/2026-06_Regional-Logistics-Market-Note.md |  | 2026-08-24 |  |
+| 2026-08-03-Cauldron-SOW | e741dca30c78 | 1-Inputs/Sources/2026-08-03_Cauldron-SOW.md |  | source | ingested | 3-Knowledge/2026-08-03_Cauldron-SOW.md |  | 2026-08-24 |  |
+| 2026-08-10-Kickoff-Notes | 39fd502930e1 | 1-Inputs/Sources/Meetings/2026-08-10_Kickoff-Notes.md |  | source | ingested | 3-Knowledge/2026-08-10_Kickoff-Notes.md |  | 2026-08-24 |  |
+| 2026-07-regional-expansion-market-note | 345f4427c728 | 1-Inputs/Sources/2026-07-regional-expansion-market-note.md |  | source | ingested | 3-Knowledge/2026-07_Regional-Expansion-Market-Note.md |  | 2026-08-24 |  |

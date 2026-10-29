@@ -1,10 +1,10 @@
 // Generates the site's pages from the repo's own Markdown, so the site and the GitHub docs never
-// disagree: README.md (Getting started, Using familiar), INSTALL.md (Install and update) and
+// disagree: docs/using-familiar.md (Getting started, Using familiar), INSTALL.md (Install and update) and
 // MANUAL.md (Manual). Each `## ` section becomes one page; its `###` headings move up one level.
 // Links between the documents are rewritten to the pages they land on; links to other repo files
 // go to GitHub. Run by `npm run build` and `npm run dev`; never edit the generated pages.
 import { readFileSync, writeFileSync, mkdirSync, rmSync, cpSync, existsSync } from 'node:fs';
-import { dirname, join } from 'node:path';
+import { dirname, join, posix } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const SITE = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -13,12 +13,12 @@ const DOCS = join(SITE, 'src', 'content', 'docs');
 const BASE = '/familiar';
 const REPO = 'https://github.com/familiar-md/familiar/blob/main/';
 
-// Which README sections go where, in reading order. A README section not listed is left off the site
-// (Versioning and License live in the footer and on GitHub).
+// Which sections of docs/using-familiar.md go where, in reading order. A section not listed is left off the site
+// (License lives in the footer and on GitHub).
 const README_GROUPS = {
-  start: ['Download', 'Works with', 'Your first session'],
-  use: ['The everyday loop', 'The skills', 'Where things live', 'One folder per project',
-        'What familiar will not do', 'Working with synced folders', 'Troubleshooting', 'Going further'],
+  start: ['Download', 'Works with', 'Your first session', 'Working in sessions'],
+  use: ['How the workspace fits your project', 'An example day', 'The skills', 'Where things live',
+        'What the agent will not do', 'Working with synced folders', 'Troubleshooting', 'Going further'],
 };
 
 function slugify(text) {
@@ -62,7 +62,7 @@ function demote(body) {
 
 // pages: [{doc, group, slug, title, body}]; anchors: doc -> {headingSlug: url}
 const pages = [];
-const anchors = { 'README.md': {}, 'INSTALL.md': {}, 'MANUAL.md': {} };
+const anchors = { 'docs/using-familiar.md': {}, 'INSTALL.md': {}, 'MANUAL.md': {} };
 
 function addPage(doc, group, title, body) {
   const slug = slugify(plainTitle(title)).replace(/^-+|-+$/g, '') || 'overview';
@@ -75,16 +75,17 @@ function addPage(doc, group, title, body) {
 
 const read = (name) => readFileSync(join(ROOT, name), 'utf8');
 
-// README
-const readme = split(read('README.md'));
+// The user guide (docs/using-familiar.md); the README is only the short front page.
+const GUIDE = 'docs/using-familiar.md';
+const readme = split(read(GUIDE));
 for (const [group, titles] of Object.entries(README_GROUPS)) {
   for (const title of titles) {
     const section = readme.sections.find((s) => s.title === title);
-    if (!section) throw new Error(`README.md has no "## ${title}" section; update README_GROUPS in sync-docs.mjs`);
-    addPage('README.md', group, title, demote(section.lines.join('\n')));
+    if (!section) throw new Error(`${GUIDE} has no "## ${title}" section; update README_GROUPS in sync-docs.mjs`);
+    addPage(GUIDE, group, title, demote(section.lines.join('\n')));
   }
 }
-anchors['README.md'][''] = `${BASE}/start/download/`;
+anchors[GUIDE][''] = `${BASE}/start/download/`;
 
 // INSTALL: the opening paragraph leads the first page.
 const install = split(read('INSTALL.md'));
@@ -103,7 +104,7 @@ anchors['MANUAL.md'][''] = `${BASE}/manual/about-this-manual/`;
 function mapTarget(doc, target) {
   if (/^(https?:|mailto:|\/)/.test(target)) return target;
   const [path, hash = ''] = target.split('#');
-  const file = path === '' ? doc : path.replace(/^\.\//, '');
+  const file = path === '' ? doc : posix.normalize(posix.join(posix.dirname(doc), path));
   if (anchors[file]) return anchors[file][hash] ?? anchors[file][''];
   if (file === 'CHEATSHEET.md') return `${BASE}/cheatsheet/`;
   if (file.startsWith('docs/assets/')) return `${BASE}/assets/${file.slice('docs/assets/'.length)}`;
@@ -156,4 +157,4 @@ const sidebar = [
   },
 ];
 writeFileSync(join(SITE, 'src', 'sidebar.generated.json'), JSON.stringify(sidebar, null, 2) + '\n');
-console.log(`sync-docs: ${pages.length} pages from README.md, INSTALL.md and MANUAL.md`);
+console.log(`sync-docs: ${pages.length} pages from docs/using-familiar.md, INSTALL.md and MANUAL.md`);

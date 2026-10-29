@@ -2,28 +2,26 @@
 
 One page of commands for familiar core, the fleet hub and the optional hooks. A printable version
 with a switch for your assistant is `docs/cheatsheet.html`. The commands are
-shown in their Claude Code form. On Codex use `$checkin` instead of `/ili-checkin`. On Gemini CLI,
-ask for a skill by name ("run the checkin skill"). [`README.md`](README.md#the-skills) explains each skill.
+shown in their Claude Code form. On Codex use `$project-status` instead of `/ili-project-status`. On Gemini
+CLI, ask for a skill by name ("run the project-status skill"). [`docs/using-familiar.md`](docs/using-familiar.md#the-skills) explains each skill.
 
 ## In a project
 
 | Command | Use it to | Branches |
 |---|---|---|
-| `/ili-checkin` | Reconcile project state and report health. The first run sets up a fresh project. | — |
-| `/ili-ongoing-work` | See what is open and in progress. Writes nothing. | — |
-| `/ili-ingest` | Turn a source document into cited notes in `3-Knowledge/`, or answer from it in chat. | — |
+| `/ili-project-status` | Check in and reconcile state (the first run sets up a fresh project), see where things stand, or sort what you can start today. | Check-in, Where are we, Triage |
+| `/ili-ingest` | Turn a source document into a cited knowledge page in `3-Knowledge/` that later sessions read instead of the original. | — |
 | `/ili-deliverable-brief` | Settle a deliverable's message, audience and outline before drafting. | — |
 | `/ili-draft-document` | Build a deck, a document or a workbook, or review a team-owned Word file. | Deck, Document, Review, Workbook |
 | `/ili-save` | Reconcile state before a break, or file a note or task change. | Save progress, To memory |
 | `/ili-handoff` | Park work for a later session, or write a brief for someone outside the project. | Session handoff, Assignment brief |
-| `/ili-triage` | Sort the work you can start today by effort or urgency. Writes nothing. | — |
 | `/ili-online-research` | Research a question against outside sources, with citations. | — |
-| `/ili-system-settings` | Housekeeping for the installation and the project shell. | Update, Workspace tidy, Tracks, Project closeout, Preferences, Fleet, Hooks |
+| `/ili-system-settings` | Housekeeping for the installation and the project shell. | Update, Workspace tidy, Tracks, Project closeout, Preferences, Hooks |
 
 Type `/ili` to list them all. Name a branch to skip the menu: `/ili-save progress`,
-`/ili-draft-document deck`. Only `ingest` and `ongoing-work` may start without the command; the
-assistant must wait for you to ask for every other skill. "Save progress" and "hand this off" in
-plain words also work.
+`/ili-draft-document deck`. Every skill waits for its command; the assistant can tell you which one
+fits but never starts it. The one exception: "save progress" or "remember this" in plain words
+starts `save`.
 
 **Where things go:** sources in `1-Inputs/` (never edited), drafts in `2-Drafts/`, compiled notes in
 `3-Knowledge/`, tasks and dates in `4-Trackers/`, state and memory in `5-System/`.
@@ -44,23 +42,26 @@ Open your host in the hub folder, then run `/ili-fleet` and ask in plain words. 
 | Moving a date, finishing a task, moving a meeting | update | preview first, nothing written without your yes |
 | Your time off | time off | `~/.familiar/time-off.md` |
 | Pausing or closing a project | lifecycle | hub-owned |
+| Adding, excluding or recategorising a project | registry | hub-owned |
 | First-run walkthrough | setup | runs by itself the first time |
 
-| Script, run in the hub folder | Does |
+`/ili-fleet` runs these for you when you ask in plain words. From a terminal in the hub folder:
+
+| Script | Does |
 |---|---|
 | `python scripts/fleet_overview.py --discover <folder> --apply` | Find projects and register them in `~/.familiar/fleet.md` |
 | `python scripts/brief.py` | Write today's brief now |
 | `python scripts/weekly.py` | Write the week-ahead brief now |
 | `python scripts/schedule.py enable --time 08:00 --days weekdays --print` | Preview a daily schedule; rerun with `--yes` to apply |
 | `python scripts/schedule.py status` | Show what is scheduled |
+| `python scripts/fleet_overview.py --set-included "<name>" no` | Keep a project out (its row stays) |
 
-To keep a project out, set its `included` cell to `no` in `~/.familiar/fleet.md`, or run
-`/ili-system-settings` → Fleet inside the project.
+The hub keeps the registry; nothing inside a project writes it.
 
 ## Optional hooks
 
 From [familiar-hooks](https://github.com/familiar-md/familiar-hooks), per project. Copy the `.familiar`
-folder from its download onto the project first. Then run `/ili-system-settings` → Hooks, or use the tool directly:
+folder from its download onto the project first. Then run `/ili-system-settings hooks`; it lists, previews and installs them for you. From a terminal instead:
 
 | Command | Does |
 |---|---|

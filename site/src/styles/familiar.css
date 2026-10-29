@@ -1,8 +1,15 @@
 /* familiar brand on Starlight: cream, charcoal and the ember glow from the banner. Starlight's own
    tokens are redefined, so every component follows in both themes. */
+/* IM Fell Great Primer (SIL OFL, see public/fonts/), self-hosted. It has no bold, so the browser
+   would smear if synthesised, so synthesis is off and emphasis is carried by colour. */
+@font-face { font-family: 'IM Fell Great Primer'; font-style: normal; font-weight: 400; font-display: swap;
+  src: url('/familiar/fonts/IMFellGreatPrimer-Regular.woff2') format('woff2'); }
+@font-face { font-family: 'IM Fell Great Primer'; font-style: italic; font-weight: 400; font-display: swap;
+  src: url('/familiar/fonts/IMFellGreatPrimer-Italic.woff2') format('woff2'); }
 :root {
-  --sl-font-system: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --familiar-display: Georgia, 'Times New Roman', serif;
+  --sl-font-system: 'IM Fell Great Primer', Georgia, 'Times New Roman', serif;
+  --familiar-display: 'IM Fell Great Primer', Georgia, 'Times New Roman', serif;
+  --sl-text-body: 1.125rem;
 }
 :root[data-theme='light'] {
   --sl-color-accent-low: #f4dcc6;
@@ -31,7 +38,7 @@
   --sl-color-gray-6: #2a2826;
   --sl-color-black: #1b1a19;
 }
-.site-title { font-family: var(--familiar-display); font-weight: 400; font-size: 1.6rem; letter-spacing: -0.01em; }
+.site-title img { height: 2.1rem; width: auto; }
 .sl-markdown-content h1, .sl-markdown-content h2, .hero h1, h1#_top {
   font-family: var(--familiar-display); font-weight: 400;
 }

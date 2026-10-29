@@ -8,7 +8,7 @@
 
 - **Required context:** `.familiar/core/voice.md`, `.familiar/core/plain-language.md`, `.familiar/core/file-handling.md` → Naming and copies, `.familiar/state-schema.md` (the user-preferences row only), `5-System/user-preferences.md`, and `~/.familiar/user-preferences.md` when it exists.
 - **Conditional context:** none.
-- **Excluded context:** Other projects, `~/.familiar/fleet.md` (owned by the Fleet branch), every other file under `~/.familiar/`, and project content unrelated to preferences.
+- **Excluded context:** Other projects, `~/.familiar/fleet.md` (owned by the fleet hub), every other file under `~/.familiar/`, and project content unrelated to preferences.
 - **Updates:** `5-System/user-preferences.md` for this project's signature or a project-only entry, and `~/.familiar/user-preferences.md` (created if absent) for the default signature or a global entry. This branch's write to the global file is the declared exception to `CORE-WORKSPACE-SILO`: it is the only out-of-project write the branch makes, and only on an explicit user request.
 - **Capabilities:** file-read and file-write. Where a host cannot read or write outside the project folder, say so and stop; do not substitute a project-level write for a global one.
 - **Completion:** The user has seen both files and which one wins, and any change they approved is written with its revision header updated — or they are told nothing was changed.
@@ -59,5 +59,5 @@
 5. Write the approved change and nothing else in that file. Read it back and tell the user the line
    that changed. If the signature changed, say it takes effect at the next session's bind line.
 
-Never write to `~/.familiar/fleet.md`; that is the Fleet branch. Apply `CORE-NO-DELETE`: removing a preference deletes only the
+Never write to `~/.familiar/fleet.md`; the fleet hub owns it. Apply `CORE-NO-DELETE`: removing a preference deletes only the
 single entry the user named, after they confirm it.

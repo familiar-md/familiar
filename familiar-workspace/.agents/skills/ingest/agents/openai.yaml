@@ -1,5 +1,5 @@
 interface:
   display_name: "familiar:ingest"
-  short_description: "familiar workflow"
+  short_description: "Explicit familiar workflow"
 policy:
-  allow_implicit_invocation: true
+  allow_implicit_invocation: false

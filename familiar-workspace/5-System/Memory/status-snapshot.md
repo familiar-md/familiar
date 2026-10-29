@@ -3,7 +3,7 @@
 <!-- last-updated: not-yet-written -->
 # Status Snapshot — NOT YET WRITTEN
 
-> **Stub.** `checkin` replaces this file with the opening snapshot on its first real run in this
+> **Stub.** `/project-status` → Check-in replaces this file with the opening snapshot on its first real run in this
 > project. Format: `.familiar/core/status-format.md` at the project root.
 >
 > This is **current state only**, kept small and updated **in place**. History belongs in

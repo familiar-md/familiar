@@ -4,6 +4,6 @@
   contradiction-sensitive routes; updated in place with revision checks.
 - `status-log.md` — **append-only** dated history; never overwritten.
 - `save-progress.md` — what the user is coming back to. Disposable; overwritten by
-  `/save progress`, read by `ongoing-work`; never loaded at session start, never logged.
+  `/save progress`, read by `/project-status` → Where are we; never loaded at session start, never logged.
 
 Formats and rules: `.familiar/core/status-format.md` at the project root.

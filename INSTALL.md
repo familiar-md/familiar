@@ -15,7 +15,7 @@ assistant inside. Nothing runs on your machine to set it up.
   Without it, tracking a project, check-ins, and text ingest still work, with the assistant doing
   the bookkeeping checks by hand and saying so. Document builds and PDF extraction need it.
 
-[`README.md`](README.md#your-first-session) walks through the first session and the everyday workflow.
+[`docs/using-familiar.md`](docs/using-familiar.md#your-first-session) walks through the first session and the everyday workflow.
 
 ## Getting started
 
@@ -24,7 +24,7 @@ assistant inside. Nothing runs on your machine to set it up.
    unzip it. It holds one folder, `familiar-workspace/`, and the licence.
 2. Rename `familiar-workspace/` to whatever you want to call this project, and move it where you
    want it. That folder *is* the project — see
-   [`README.md`](README.md#where-things-live) for its layout. familiar reads and writes only
+   [`docs/using-familiar.md`](docs/using-familiar.md#where-things-live) for its layout. familiar reads and writes only
    inside it (`CORE-WORKSPACE-SILO`); nothing outside the folder is in scope.
 3. If you already have source material to start from, put it under `1-Inputs/Sources/`, `1-Inputs/Admin/`,
    or `1-Inputs/Templates/` before your first session.
@@ -44,11 +44,11 @@ choose.
 There is no setup step to invoke. The project marker (`.familiar-project`) ships already in place,
 so familiar binds and loads project state from the first message in the folder.
 
-The first time you run `checkin`, it establishes the project: it asks for and confirms a Project
+The first time you run `/project-status` → Check-in, it establishes the project: it asks for and confirms a Project
 Name and stamps `.familiar-project`'s `created` date. If this project has no familiar signature of
 its own yet, it says so once and points you to `/system-settings` → Preferences, which writes the
 project's signature to its `5-System/user-preferences.md`, and a default signature and any standing
-preferences to the global file for every project. Every later `checkin` just reconciles state as usual.
+preferences to the global file for every project. Every later check-in just reconciles state as usual.
 
 ## Host support
 
@@ -57,8 +57,8 @@ Every host reads the same content, from different native locations:
 | Host | Skills | Subagents | Notes |
 |---|---|---|---|
 | Claude Code | `.claude/skills/` | `.claude/agents/*.md` | |
-| Codex | `.agents/skills/` | `.codex/agents/*.toml` | Start a skill with `$skill-name` or the `/skills` picker. `agents/openai.yaml` per skill sets `interface.display_name` and whether Codex may pick the skill from your request: it may for `ingest` and `ongoing-work`, and may not for the other seven. |
-| Gemini CLI | `.agents/skills/` | `.gemini/agents/*.md` | No per-skill command: ask for a skill by name ("run the triage skill") and confirm when asked. Skill names show with no namespace prefix — a spec limit, not a bug. |
+| Codex | `.agents/skills/` | `.codex/agents/*.toml` | Start a skill with `$skill-name` or the `/skills` picker. `agents/openai.yaml` per skill sets `interface.display_name` and whether Codex may pick the skill from your request: it may not, for any of the eight. |
+| Gemini CLI | `.agents/skills/` | `.gemini/agents/*.md` | No per-skill command: ask for a skill by name ("run the project-status skill") and confirm when asked. Skill names show with no namespace prefix — a spec limit, not a bug. |
 
 **Other assistants.** An assistant that reads `AGENTS.md` and the skill folders (Cursor, GitHub
 Copilot in VS Code and OpenCode among them) should load familiar's bootstrap. Skills may appear twice
@@ -143,7 +143,22 @@ when your project has a release manifest — the file `.familiar/release-manifes
 which every release carries. Use the [manual
 procedure](#updating-by-hand) below when it does not, or when you would rather move your content by hand.
 
-### With the updater
+### From a session (no terminal)
+
+1. Download the new `familiar-workspace-<version>.zip` and unzip it as its own folder, anywhere
+   outside your project (your Downloads folder is fine).
+2. Open your agent in the project and run `/ili-system-settings update` (`$system-settings` on
+   Codex). Tell it where the unzipped folder is.
+   → verify: it reports both versions and whether the state schema matches.
+3. Read its summary of what would change, and answer yes to apply it.
+   → verify: it reports `applied` and a backup folder under `5-System/_update-backups/`.
+4. Close the session and start a new one; nothing from the new release is live until then.
+
+The session runs the same updater described next, so everything below about what it keeps, backs up
+and moves applies. If your agent cannot run commands or read the downloaded folder, it gives you the
+command to run yourself.
+
+### With the updater, from a terminal
 
 The updater, `update.py`, ships in every release. You run the **new** release's copy, from a
 terminal, against your existing project. It replaces only the release's own files, one by one, and
@@ -161,7 +176,8 @@ release file you edited are left as they are. It deletes nothing.
 
    → verify: the report lists each release file as `same`, `update` (replaced, safely),
    `add` (new in this release), `diverged` (you or someone edited it; left alone) or `retired`
-   (no longer shipped; left in place), and ends with `report only`.
+   (no longer shipped: moved to the backup, or left in place if you edited it), and ends with
+   `report only`.
 3. If the report starts with `STOP`, nothing was written. The reason says what to do: a different
    `state-schema` is a migration that needs the release notes in [`CHANGELOG.md`](CHANGELOG.md)
    first, and a missing manifest means [updating by hand](#updating-by-hand).
@@ -243,9 +259,9 @@ release's own integrity before it writes anything.
 The fleet hub is a separate folder that answers questions across all your registered projects. It
 is not part of this download: get it from
 [familiar-hub](https://github.com/familiar-md/familiar-hub), whose `INSTALL-HUB.md` covers setup and what the
-hub reads. Setting up the hub creates `~/.familiar/fleet.md`, the list of your projects; after that,
-`/system-settings` → Fleet adds, removes or updates a project's own row. Without a hub, the Fleet
-branch registers nothing. Whether a project is active, paused or closed is recorded in the hub, not in the project.
+hub reads. Setting up the hub creates `~/.familiar/fleet.md`, the list of your projects, and the hub keeps it:
+ask `/fleet` to add, exclude or recategorise a project. Nothing inside a project writes the list.
+Whether a project is active, paused or closed is recorded in the hub, not in the project.
 
 ## Extensions
 

@@ -1,5 +1,0 @@
-interface:
-  display_name: "familiar:triage"
-  short_description: "Explicit familiar workflow"
-policy:
-  allow_implicit_invocation: false

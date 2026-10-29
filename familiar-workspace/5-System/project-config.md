@@ -3,7 +3,7 @@
 <!-- last-updated: not-yet-written -->
 # Project Config — NOT YET WRITTEN
 
-> **Stub.** `checkin` replaces this whole file on its first real run in this project. What marks the
+> **Stub.** `/project-status` → Check-in replaces this whole file on its first real run in this project. What marks the
 > project as new is `.familiar-project`'s `created` line together with this stub's `revision: 0`.
 > Shape: `.familiar/core/state-schema.md` → Template — `project-config.md`.
 >

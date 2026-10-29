@@ -105,7 +105,7 @@ stamped with the extension's own `schema_version`, not this file's.
 
 ## Templates
 
-These are the only templates for the surfaces in the table above. `checkin` writes the first two
+These are the only templates for the surfaces in the table above. `/project-status` → Check-in writes the first two
 once, on its first real run in a fresh project; the rest are written and updated by the routes named
 in the surface table.
 

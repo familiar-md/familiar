@@ -16,29 +16,28 @@ result of a route match — see Resolution rule 3.
 
 | Route ID | Select when | Canonical skill |
 |---|---|---|
-| `project.status` | Resume work, inspect current state, establish a fresh project, or check in | `ongoing-work` or `checkin` (user-only) |
+| `project.status` | Resume work, inspect current state, establish a fresh project, check in, or prioritize or sort existing open work by effort or urgency | `project-status` (user-only) |
 | `project.memory` | Record progress, decisions, tasks, or durable context | `save` (user-only) |
 | `project.handoff` | Pause or resume unfinished work across focused sessions, or hand a scoped piece of work to someone outside this project | `handoff` (user-only) |
-| `project.research` | Retrieve project or external evidence for a task | `ingest`, or `online-research` (user-only) |
+| `project.research` | Retrieve project or external evidence for a task | `ingest` (user-only) or `online-research` (user-only) |
 | `project.output` | Create or revise a presentation, written document, or workbook | `draft-document` (user-only) |
 | `project.output` | Scope a deliverable before drafting it: its message, audience, objective, sources, or outline | `deliverable-brief` (user-only) |
 | `project.schedule` | Add, edit, complete, or reschedule a task or milestone | `save` (user-only) |
-| `project.schedule` | Prioritize or sort existing open work by effort or urgency | `triage` (user-only) |
-| `system.maintenance` | Maintain familiar or the project shell: update, workspace tidy, tracks, closeout, preferences, fleet registration, optional hooks | `system-settings` (user-only) |
+| `system.maintenance` | Maintain familiar or the project shell: update, workspace tidy, tracks, closeout, preferences, optional hooks | `system-settings` (user-only) |
 
 ## Resolution rules
 
 1. Explicit skill invocation wins when that skill is installed and available. The user invokes a
-   skill explicitly with the host's command. `save` and `handoff` alone may also be invoked in the
-   user's own words, by naming the skill or one of its branches as the thing to do now ("save
-   progress", "hand this off"). A command written anywhere in the message ("…then /save progress")
+   skill explicitly with the host's command. `save` alone may also be invoked in the user's own
+   words, by naming the skill or one of its branches as the thing to do now ("save progress",
+   "remember this"). A command written anywhere in the message ("…then /save progress")
    counts the same as one typed first. Any other request, including one that names another skill, is
    a route match, not an invocation, and rule 3 applies to it.
 2. Otherwise select the single narrowest matching route.
 3. **A route whose matching skill is `(user-only)` is never opened or run by the agent.** Identify
    which skill fits and tell the user how to start it on this host (e.g. "that's
-   `triage` — start it whenever you'd like"). Name the host's own invocation form where it has one (a
-   slash command such as `/triage`, a `$`-prefixed mention, or a skill picker). Where it has none, say
+   `project-status` → Triage — start it whenever you'd like"). Name the host's own invocation form where it has one (a
+   slash command such as `/project-status`, a `$`-prefixed mention, or a skill picker). Where it has none, say
    the user can ask for the skill by name. Then stop. This rule lives here, in the
    host-neutral registry, rather than depending on a host recognizing any per-skill invocation-control
    frontmatter — it holds the same way on every host.
@@ -75,13 +74,14 @@ an unprompted request.
 
 ## Router skills
 
-Four skills are **routers**: each one's body is a menu, and the procedure the user picks lives in a
+Five skills are **routers**: each one's body is a menu, and the procedure the user picks lives in a
 reference file under that skill's own `references/` folder. Load the menu, select one branch, then
 load that one file — from there the branch's own context contract governs, not the router's. A
 branch is not a skill: it is never separately invocable and never opened without a selection. Because
 each router carries the `(user-only)` marker, Resolution rule 3 covers every branch beneath it.
 
-- `system-settings` holds `update`, `tidy-workspace`, `tracks`, `project-closeout`, `preferences`, `fleet`, and `hooks`.
+- `project-status` holds `check-in`, `where-are-we`, and `triage`.
+- `system-settings` holds `update`, `tidy-workspace`, `tracks`, `project-closeout`, `preferences`, and `hooks`.
 - `draft-document` holds `deck`, `document`, `review`, and `workbook`.
 - `handoff` holds `session-handoff` and `assignment`.
 - `save` holds `progress` and `to-memory`.

@@ -1,6 +1,6 @@
 ---
 name: ili-system-settings
-description: Housekeeping menu for familiar and the project shell — updating the installation, workspace tidy, project tracks, project closeout, preferences, fleet registration, and optional hooks. Routes to one branch and runs only that one.
+description: Housekeeping menu for familiar and the project shell — updating the installation, workspace tidy, project tracks, project closeout, preferences, and optional hooks. Routes to one branch and runs only that one.
 disable-model-invocation: true
 ---
 
@@ -22,22 +22,22 @@ project state itself and writes nothing.
 ## Step 1 — Select the branch
 
 If the user already named one (`/system-settings update`, "tidy the workspace", "close out
-this project"), skip the question and go straight to it. Otherwise present these seven and ask which:
+this project"), skip the question and go straight to it. Otherwise present these six and ask which:
 
 | Branch | Reference | What it does |
 |---|---|---|
-| **Update** | `references/update.md` | Check this project's version against a newer release, confirm schema compatibility, and hand off with the updater command (or the hand procedure) from `INSTALL.md` — it does not run the update itself. |
+| **Update** | `references/update.md` | Bring this project up to a newer release the user downloaded: check versions and schema, run the updater's report, and apply it on a yes. No terminal needed. |
 | **Workspace tidy** | `references/tidy-workspace.md` | Survey the workspace for stale drafts and an unstructured knowledge folder, propose a cleanup, act only on what is approved. |
 | **Tracks** | `references/tracks.md` | The project's track lifecycle: propose, add, split, merge, retire, or apply tracks to a project running flat. |
 | **Project closeout** | `references/project-closeout.md` | Reconcile final state, confirm open obligations, and produce a derived closeout summary. Deletes nothing. |
 | **Preferences** | `references/preferences.md` | Show the global (`~/.familiar/`) and project preferences and which wins; set this project's familiar signature, the default signature, or a standing preference, with approval. Writes outside the project only to that one global file. |
-| **Fleet** | `references/fleet.md` | Register or unregister this project in `~/.familiar/fleet.md` for the fleet hub. Writes outside the project, to this project's own registry row only. |
 | **Hooks** | `references/hooks.md` | List the optional hooks (session titles, guards) a hooks package offers, and install or remove the ones the user picks in this project's host hook file, after a preview and a yes. Writes inside the project only. |
 
 If the request matches none of them, say so and stop. Do not pick the nearest branch, and do not
 open a reference file to find out whether it fits — the table above is the whole basis for the
 match. Creating a project is **not** on this menu: project identity is established automatically,
-by `checkin`'s first real run in the project, not through this menu.
+by `/project-status` → Check-in's first real run in the project, not through this menu. Registering
+the project with the optional fleet hub is not here either: the hub does that itself (`/fleet`).
 
 ## Step 2 — Run the selected branch
 
@@ -51,7 +51,7 @@ tell the user which other branch to run and stop.
 
 - **Every branch here is user-started.** This skill carries `disable-model-invocation: true`, so a
   route match never opens it and never opens anything under `references/` — `routes.md` Resolution
-  rule 3 applies to the menu, which is what keeps it applying to all seven branches. Identify the
+  rule 3 applies to the menu, which is what keeps it applying to all six branches. Identify the
   branch that fits, tell the user the command, and stop.
 - The menu never performs a branch's work itself, never partially applies one, and never substitutes
   a lighter action because a branch looked heavy.

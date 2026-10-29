@@ -8,7 +8,7 @@ true" and §13.
 appears here as the interface core defines and enforces; no extension is described.
 
 > This document is the consolidated technical description of familiar core: every mechanism, where
-> it lives, what enforces it, and where it stops. `README.md` is the product overview and user guide,
+> it lives, what enforces it, and where it stops. `README.md` is the product overview and `docs/using-familiar.md` the user guide,
 > `INSTALL.md` the operator procedures. Where either disagrees with the
 > executable behavior, the executable behavior wins and the prose is the defect.
 
@@ -99,7 +99,7 @@ familiar-workspace/
 │   ├── scripts/                        stdlib helpers: project_check.py, doctor.py, ...
 │   ├── installed.json                  core version, per-adapter capability states
 │   └── release-manifests/              built releases only: fingerprints of release-owned files
-├── .claude/skills/                     10 skills, one folder each; .claude/agents/ holds the native workers
+├── .claude/skills/                     8 skills, one folder each; .claude/agents/ holds the native workers
 ├── .agents/skills/                     Codex and Gemini native skills — byte-identical to .claude/skills/
 ├── .codex/agents/, .gemini/agents/     native workers for Codex and Gemini
 ├── 1-Inputs/                           Sources/, Admin/, Templates/ — read-only
@@ -110,7 +110,7 @@ familiar-workspace/
 ```
 
 `.familiar-project` ships inside the folder by default, with `created: not-yet-set` — every download
-is bound from the moment it's renamed and opened. `checkin` stamps `created` with a real date the
+is bound from the moment it's renamed and opened. `project-status` → Check-in stamps `created` with a real date the
 first time it runs in the project (§4.1, §12). It replaces `project-config.md` only while that file
 is still the shipped stub (`revision: 0`); a filled-in configuration beside an unset marker — a
 migrated project — is reconciled in place, never reset to defaults.
@@ -138,7 +138,7 @@ gates.
 
 **Cost profile.** The always-loaded protocol floor is `bootstrap.md` at 500 words / 3,529 characters — at the
 declared ceiling. Startup also reads the bounded preference and title context (§4.1).
-The route registry adds 941 words when read, held under a 1,000-word ceiling. Other context is on
+The route registry adds 937 words when read, held under a 1,000-word ceiling. Other context is on
 demand. The entry files, the registry and one skill together come to a few thousand tokens; the host's
 own instructions and tools are usually several times that.
 On a host that eagerly surfaces skill descriptions, add the description lines of
@@ -181,7 +181,7 @@ The signature is a **confirmation that the bootstrap is active**, and the file s
 it does not claim mechanical enforcement is available. This distinction was deliberate — the marker
 is evidence the protocol loaded, nothing more. Its detection value depends on the key being one the
 user chose and recognises, which is why the user sets it through `/system-settings` → Preferences,
-`checkin` only points there, and the shipped `5-System/user-preferences.md` carries no signature at
+`project-status` → Check-in only points there, and the shipped `5-System/user-preferences.md` carries no signature at
 all. A signature baked into the template would make every project emit the same key and the canary
 would confirm nothing.
 
@@ -267,21 +267,21 @@ regeneration script**; `test_entry_file_bootstrap_matches_core` compares it agai
 bootstrap performs. It is a table plus seven resolution rules — deliberately not instructions, so
 reading it is cheap.
 
-Seven routes:
+Seven routes, with `project.output` on two rows:
 
 | Route ID | Select when | Canonical skill |
 |---|---|---|
-| `project.status` | Resume work, inspect current state, establish a fresh project, or check in | `ongoing-work` or `checkin` (user-only) |
+| `project.status` | Resume work, inspect current state, establish a fresh project, check in, or sort open work by effort or urgency | `project-status` (user-only) |
 | `project.memory` | Record progress, decisions, tasks, or durable context | `save` (user-only) |
 | `project.handoff` | Pause or resume unfinished work across focused sessions, or hand a scoped piece of work to someone outside this project | `handoff` (user-only) |
-| `project.research` | Retrieve project or external evidence | `ingest`, or `online-research` (user-only) |
+| `project.research` | Retrieve project or external evidence | `ingest` (user-only) or `online-research` (user-only) |
 | `project.output` | Create or revise a presentation, written document, or workbook | `draft-document` (user-only) |
 | `project.output` | Scope a deliverable before drafting it | `deliverable-brief` (user-only) |
-| `project.schedule` | Maintain tasks or milestones | `triage` (user-only) |
-| `system.maintenance` | Maintain familiar or the project shell: update, workspace tidy, tracks, closeout | `system-settings` (user-only) |
+| `project.schedule` | Add, edit, complete, or reschedule a task or milestone | `save` (user-only) |
+| `system.maintenance` | Maintain familiar or the project shell: update, workspace tidy, tracks, closeout, preferences, optional hooks | `system-settings` (user-only) |
 
-There is no fleet-scope route. `triage` is project-scope only, like every other skill; the
-cross-project view is the separate fleet hub (§6.4).
+There is no fleet-scope route. `project-status` → Triage is project-scope only, like every other
+skill; the cross-project view is the separate fleet hub (§6.4).
 
 A route ID appearing on more than one row would be **one route with several distinct triggers**, not
 a duplicate — rule 6 says so explicitly. `project.output` repeats: drafting a deliverable and
@@ -290,11 +290,10 @@ scoping one before drafting are distinct triggers.
 ### 5.2 Resolution rules
 
 1. Explicit skill invocation wins when that skill is installed and available. The user invokes a
-   skill explicitly with the host's command. `save` and `handoff` alone may also be invoked in the
-   user's own words ("save progress", "hand this off"); any other request, including one that names
-   another skill, is a route match, and rule 3 applies. Added 2026-10-24, after two weeks of real use
-   typed `/save` and `/handoff` dozens of times mid-sentence; every other user-only skill still
-   starts only from its command.
+   skill explicitly with the host's command, anywhere in the message. `save` alone may also be
+   invoked in the user's own words ("save progress", "remember this"); any other request, including
+   one that names another skill, is a route match, and rule 3 applies. Every other skill starts only
+   from its command.
 2. Otherwise select the single narrowest matching route.
 3. **A route whose matching skill is `(user-only)` is never opened or run by the agent.** Identify
    the fit, tell the user how to start it on this host — the host's own form where it has one (a
@@ -309,28 +308,29 @@ scoping one before drafting are distinct triggers.
 
 ### 5.3 `(user-only)` and why it lives in the registry
 
-Eight of the 10 core skills carry `disable-model-invocation: true` in their frontmatter. Claude
+All 8 core skills carry `disable-model-invocation: true` in their frontmatter, so 0 are
+model-invocable: the agent can name the skill that fits, but only the user starts one. Claude
 Code honors that frontmatter. Each `(user-only)` skill also ships a pre-baked
 `agents/openai.yaml` with `allow_implicit_invocation: false`, so both adapters report
 `user-invocation-control: active`. Gemini CLI remains instruction-level: all skill descriptions may
 reach the model there.
 
-**Starting a skill differs by host.** On Claude Code a skill is a slash command: `/ili-triage`. Each
+**Starting a skill differs by host.** On Claude Code a skill is a slash command: `/ili-project-status`. Each
 `.claude/skills/<skill>/SKILL.md` sets `name: ili-<skill>`, so the `/` menu lists every familiar skill
-under `/ili`; the folder name still invokes it (`/triage`), and the `.agents/` copy keeps
+under `/ili`; the folder name still invokes it (`/project-status`), and the `.agents/` copy keeps
 `name: <skill>` (the one sanctioned difference between the two copies). On Codex
-it is a `$` mention (`$triage`) or the `/skills` picker. Gemini CLI has no per-skill command: the model
-activates a skill after the user confirms, so ask for it by name ("run triage"). The same registry rule 3
+it is a `$` mention (`$project-status`) or the `/skills` picker. Gemini CLI has no per-skill command: the model
+activates a skill after the user confirms, so ask for it by name ("run project-status"). The same registry rule 3
 sentence therefore resolves to a different gesture on each host, and on a host with no explicit gesture
 the user's plain request is the start signal. Use the form your host documents; the skill content is
 identical on all three.
 
-> **Recommended: put the command first** (`/online-research <question>`, `$triage`). That is the form
+> **Recommended: put the command first** (`/online-research <question>`, `$project-status`). That is the form
 > every host documents. A command written at the end or mid-sentence often works, but it is not
 > guaranteed: if the host does not expand it, it arrives as plain text, and because a `(user-only)`
 > skill is hidden from the model, the assistant can only report that it found no such skill and fall
-> back to unrouted behavior. If a skill did not run, resend with the command first. `save` and
-> `handoff` are the designed exception (§5.2 rule 1).
+> back to unrouted behavior. If a skill did not run, resend with the command first. `save` in plain
+> words is the designed exception (§5.2 rule 1).
 
 Rule 3 is the host-neutral guarantee. It lives in the registry text itself rather than depending on
 any host recognizing per-skill frontmatter, so the promise holds identically everywhere. Two gates
@@ -347,8 +347,8 @@ accepts either placement.
 
 ### 5.4a Router skills and branches
 
-Four skills in core are **routers**: `system-settings`, `draft-document`, `handoff`, and
-`save`. Each one's body is a menu; each operation it offers lives in a reference file under
+Five skills in core are **routers**: `project-status`, `system-settings`, `draft-document`,
+`handoff`, and `save`. Each one's body is a menu; each operation it offers lives in a reference file under
 its own `skills/<router>/references/`, and the router loads exactly one after the user picks. From
 that point the branch's own context contract governs — its Required, Conditional, Excluded, Updates,
 Capabilities and Completion declarations replace the router's, which covered only the menu. A run
@@ -356,18 +356,18 @@ therefore loads the menu plus one procedure, the same budget as invoking one ski
 
 | Router | Branches |
 |---|---|
-| `system-settings` | `update`, `tidy-workspace`, `tracks`, `project-closeout`, `preferences`, `fleet`, `hooks` |
+| `project-status` | `check-in`, `where-are-we`, `triage` |
+| `system-settings` | `update`, `tidy-workspace`, `tracks`, `project-closeout`, `preferences`, `hooks` |
 | `draft-document` | `deck`, `document`, `review`, `workbook` |
 | `handoff` | `session-handoff`, `assignment` |
 | `save` | `progress`, `to-memory` |
 
-Two branches write outside the project, each to one file under `~/.familiar/` and only on an explicit
-request, declared in the branch's own contract as the exception to `CORE-WORKSPACE-SILO`: `preferences`
-writes `user-preferences.md`, and `fleet` writes this project's own row of `fleet.md` (register,
-unregister by setting `included` to `no`); lifecycle is the hub's, in its registry. The cross-project overview
-that reads `fleet.md` is a separate fleet hub, distributed on its own. The hub
-alone creates `fleet.md` (`fleet_overview.py --discover <dir> --apply`, a script, so it works the same
-on every host); the branch edits an existing file and, when there is none, says to set up the hub.
+One branch writes outside the project, to one file under `~/.familiar/` and only on an explicit
+request, declared in its own contract as the exception to `CORE-WORKSPACE-SILO`: `preferences`
+writes `user-preferences.md`. No project skill touches `~/.familiar/fleet.md`. The fleet hub,
+distributed on its own, creates and keeps that registry itself: `fleet_overview.py --discover <dir>
+--apply` adds projects, and `--set-included`, `--set-category` and `--set-lifecycle` change one row
+each (scripts, so they work the same on every host).
 
 Consolidating them removed entries from the command list for operations that share an occasion —
 housekeeping, producing a deliverable, moving work off the user's plate, filing durable state — but
@@ -381,7 +381,7 @@ Two properties make this safe rather than a hole in the routing model:
   `project-closeout`, `deck`, `document`, `assignment`, and `to-memory` user-started, which they were
   not all before — the deliberate price of each consolidation. The setup skill stayed a top-level
   model-invocable one at the time, as the first command a new user ran — until it retired entirely
-  2026-09-04 (§12), when `checkin` absorbed the one piece of its first-run work a human still needs
+  2026-09-04 (§12), when check-in absorbed the one piece of its first-run work a human still needs
   to do.
 - **Branches stay under gate coverage.** `CONTRACTS` in the maintainer's gate suite is `SKILLS` plus
   every `references/*.md` carrying a context contract, so contract completeness, disjointness,
@@ -484,7 +484,7 @@ in both directions, full stop. Nothing in a sibling project is ever read, and no
 outside the active workspace.
 
 A project never reads another project. The cross-project view is the fleet hub, a separate folder
-outside every project that reads each registered project as data (§5.4a → `fleet`); nothing inside a
+outside every project that reads each registered project as data (§5.4a; the hub keeps its own registry); nothing inside a
 project can name another project to read from.
 
 ### 6.5 Extension state surfaces
@@ -501,12 +501,12 @@ replaced, living state is not.
 ## 7. The workspace
 
 The folder ships already scaffolded — nothing copies a template into a new project. The workspace,
-including `.familiar-project`, ships filled in as far as it truthfully can; `checkin` writes the
+including `.familiar-project`, ships filled in as far as it truthfully can; `project-status` → Check-in writes the
 project's own facts into the remaining stub surfaces on its first real run (§4.1, §12).
 
 ```text
 familiar-workspace/
-├── .familiar-project                   ships with created: not-yet-set; checkin stamps it first-run
+├── .familiar-project                   ships with created: not-yet-set; check-in stamps it first-run
 ├── .familiar/
 │   ├── routes.md, state-schema.md, extension-contract.md,
 │   │   capabilities.json, extension-manifest.schema.json    protocol
@@ -559,39 +559,36 @@ Enforcement:
   specific user-requested write. The gate also tolerates a second such exception that lives in an
   optional extension rather than in core.
 
-### 8.2 The 10 core skills
+### 8.2 The 8 core skills
 
-**Model-invocable (2)** — a route may select and run these:
-
-| Skill | Purpose |
-|---|---|
-| `ongoing-work` | Stateless read-only query: what is open right now |
-| `ingest` | Digest one approved source into `3-Knowledge/` |
+**Model-invocable (0)** — none. A route match names the skill that fits and stops (§5.2 rule 3).
 
 **User-only (8)** — identified by a route but never started by the agent:
 
 | Skill | Purpose |
 |---|---|
-| `checkin` | Recurring check-in: pre-draft from state, reconcile, health-check; establishes a fresh project on its first real run (§4.1, §12) |
-| `triage` | Sort this project's open work by effort or urgency; read-only |
+| `project-status` | Status menu; routes to `check-in`, `where-are-we` or `triage` (§5.4a) |
+| `ingest` | Digest one approved source into `3-Knowledge/` |
 | `online-research` | External research, bypassing the local-library check |
-| `system-settings` | Housekeeping menu; routes to one of seven branch procedures (§5.4a) |
+| `system-settings` | Housekeeping menu; routes to one of six branch procedures (§5.4a) |
 | `deliverable-brief` | Scope a deliverable in `2-Drafts/<slug>/_brief.md` (core, argument, headline outline), then lock it for `draft-document`. Starts from a matching profile (global `~/.familiar/brief-profiles/`, or an extension's `brief-profiles/`), built on request from the user's own examples, and a read-only harvest of project state and knowledge |
-| `draft-document` | Deliverable menu; routes to `deck`, `document` or `review` (§5.4a) |
+| `draft-document` | Deliverable menu; routes to `deck`, `document`, `review` or `workbook` (§5.4a) |
 | `handoff` | Handoff menu; routes to `session-handoff` or `assignment` (§5.4a) |
 | `save` | Memory menu; routes to `progress` or `to-memory` (§5.4a) |
 
-**Branches (12)** — procedures, not skills: no frontmatter, no route, no slash command, reachable
+**Branches (17)** — procedures, not skills: no frontmatter, no route, no slash command, reachable
 only through their router's menu. They are covered by the contract gates via `CONTRACTS`:
 
 | Router | Branch | Purpose |
 |---|---|---|
+| `project-status` | `check-in` | Recurring check-in: pre-draft from state, reconcile, health-check; establishes a fresh project on its first real run (§4.1, §12) |
+| `project-status` | `where-are-we` | Stateless read-only query: what is open right now |
+| `project-status` | `triage` | Sort this project's open work by effort or urgency; read-only |
 | `system-settings` | `update` | Update core or selected extensions without touching other components' files |
 | `system-settings` | `tidy-workspace` | Survey, propose, and on approval move stale workspace files |
 | `system-settings` | `tracks` | Own the whole track lifecycle: propose, add, split, merge, retire |
 | `system-settings` | `project-closeout` | Reconcile final state and produce a derived closeout summary |
 | `system-settings` | `preferences` | Set this project's familiar signature (in `5-System/user-preferences.md`), the default signature, and standing preferences (in the global `~/.familiar/user-preferences.md`) |
-| `system-settings` | `fleet` | Register or unregister this project in `~/.familiar/fleet.md`; the hub owns lifecycle; the hub that reads it is distributed separately |
 | `draft-document` | `deck` | Build or revise a presentation |
 | `draft-document` | `document` | Create or revise a written document (`.docx` or degraded Markdown) |
 | `draft-document` | `review` | Tracked-change and comment-reply passes on a team-owned Word file (`tracked_edit.py`) |
@@ -609,13 +606,13 @@ bodies short:
 
 | File | Loaded by | Contents |
 |---|---|---|
-| `check-in.md` | `checkin` | Read state → pre-draft the delta → reconcile → health check → close |
+| `check-in.md` | `project-status` → Check-in | Read state → pre-draft the delta → reconcile → health check → close |
 | `ingest.md` | `ingest` | Read mode vs. ingest mode, size check and bulk ingest, the ingest procedure, source dates and conflicts, privacy and failure |
 | `status-format.md` | memory/track skills | Memory file formats, read order, update rules, decision records |
 | `handoff-format.md` | `handoff` → Session handoff | What a handoff is for, one file per thread, the four status values, template, writing and reading one |
 | `deck-rules.md` / `deck-build.md` | `draft-document` → Deck | Template precedence, template inventory and brand rules, the headline test, visual design for presented decks, content and bullet discipline, validation and delivery; the build procedure |
 | `docx-rules.md` | `draft-document` → Document, conditionally | Word-document content, copies, build and validation |
-| `calendar-rules.md` | `save` → To memory, `checkin` | Timeline-plus-memory as sole source of truth; propagation order; guardrails |
+| `calendar-rules.md` | `save` → To memory, `project-status` → Check-in | Timeline-plus-memory as sole source of truth; propagation order; guardrails |
 | `familiar-behavior.md` | any route needing lifecycle guidance | Neutral project-lifecycle behavior; explicitly *not* a startup checklist |
 | `voice.md` | a skill that authors prose; on its own for a routed chat response | §9 |
 | `plain-language.md` | authored output longer than a chat reply | §9 |
@@ -780,7 +777,7 @@ fields.
 Once a deliverable is a file the team edits, the `review` branch takes over from `document`.
 `build_docx.py --revise` cannot write tracked changes and rebuilds the runs it touches, so
 `scripts/tracked_edit.py` is the only editor on such a file. It is additive by construction: every
-edit is a `w:ins`/`w:del` or comment by "Claude (AI)", replies thread under the parent comment,
+edit is a `w:ins`/`w:del` or comment by "AI Review", replies thread under the parent comment,
 and fields, hyperlinks and other authors' tracked text are opaque. Replies to client-addressed
 comments (`Note to ...`) are refused, and `--apply` is all-or-nothing. `--check` is the evidence a
 pass was safe: rejecting Claude's changes reproduces the source, and everything from the source is
@@ -867,7 +864,7 @@ Workers ship as `.claude/agents/*.md`, `.codex/agents/*.toml`, and
 current model rather than embedding Claude model names. Skills invoke a worker by its project-level
 name (for an extension, `<namespace>-<agent>`, §11.3).
 
-`INSTALL.md` → Host support is the user-facing comparison of all three, and `README.md` covers invoking
+`INSTALL.md` → Host support is the user-facing comparison of all three, and `docs/using-familiar.md` covers invoking
 skills on each. Both are hand-written from this matrix. Host APIs change independently, so a change to
 the matrix should land together with matching documentation updates.
 
@@ -958,19 +955,19 @@ the user edited one of those files first, so the user should look before deletin
 There is no install step for a new project. `familiar-workspace/` ships pre-baked and complete —
 protocol, every host's native skills and workers, scaffolded empty content folders, and a filled-in
 `.familiar-project` (`created: not-yet-set`) — so a user gets a working project just by renaming the
-folder and opening a coding host inside it. `checkin` stamps `created` with a real date, and asks for
+folder and opening a coding host inside it. `project-status` → Check-in stamps `created` with a real date, and asks for
 a `Project Name` (pointing to `/system-settings` → Preferences if the project has no familiar
 Signature of its own) the first time it runs in the project (§4.1, §8.2) — the setup skill retired 2026-09-04 and is no
 longer invoked for this. No script scaffolds a project, nothing is compiled at that point, and there is
 no `SessionStart` prose injection or separate rule compiler.
 
-One script updates a project, `.familiar/scripts/update.py`, and the user runs it from a terminal, never
-a session (§12.1). `system-settings` → Update (§5.4a) is the only route that concerns updates; a user
+One script updates a project, `.familiar/scripts/update.py`. `system-settings` → Update runs it from a
+session, so most users never open a terminal; it can also be run from one (§12.1). `system-settings` → Update (§5.4a) is the only route that concerns updates; a user
 reaches it deliberately, never as a route match, since the whole `system-settings` menu is `(user-only)`.
 
 ### 12.1 What Update does
 
-**Update only reports; it changes nothing.** `references/update.md` reads the project's version from
+**Update runs the updater on a yes.** `references/update.md` reads the project's version from
 `.familiar/installed.json` → `core.version` and the marker, and the new release's `VERSION`. It also
 reads `core.build` from both `installed.json` files. A release build
 stamps `core.build` with the commit it came from (with `-dirty` if the tree had uncommitted
@@ -980,21 +977,25 @@ changes); a copy taken straight from the maintainer's source tree has none.
 - The same version with a missing build is reported as undecidable, and the user chooses.
 
 Update then checks the `state-schema` lines, since a mismatch is a migration no procedure performs.
-Finally it hands off: when the project carries `.familiar/release-manifests/familiar.json` it gives
-the user the updater command with both paths filled in, and otherwise it points to the hand
-procedure in `INSTALL.md` → Updating (a fresh folder, extensions re-dropped, the five content folders
-moved across).
+It then runs the new release's `update.py` against the project in report mode, explains the report,
+and on the user's yes runs it with `--apply` and reads the result back. The release folder is one the
+user named, read for this task only (`routes.md` → Files outside the project); every write is the
+updater's, inside the project. Where the host cannot run the command, the branch gives it to the user
+with both paths filled in; a project without `.familiar/release-manifests/familiar.json` goes to the
+hand procedure in `INSTALL.md` → Updating (a fresh folder, extensions re-dropped, the five content
+folders moved across).
 
-**The updater.** `update.py` runs from the new release's copy against the project, because it reads
-one folder and writes another, which no session bound to either can do (`CORE-WORKSPACE-SILO`). It
-decides file by file against the project's own release manifests, one per owner (`familiar` for core,
+**The updater.** `update.py` runs from the new release's copy against the project: it reads the
+release and writes only the project. It decides file by file against the project's own release manifests, one per owner (`familiar` for core,
 each extension its own id), which a release build writes with a fingerprint of every file it ships:
 - `same`: the project's copy matches the new release.
 - `update`: it still matches what the old release shipped, so replacing it loses nothing.
 - `diverged`: it matches neither, so someone edited it. It is left alone and reported.
 - `add`: new in this release.
-- `retired`: no longer shipped. It is left in place (`CORE-NO-DELETE`) and stays listed in the
-  manifest so later runs keep reporting it.
+- `retired`: no longer shipped. An untouched copy is moved into the update's backup folder, and a
+  folder it leaves empty goes too, so a retired skill stops loading and nothing is lost
+  (`CORE-NO-DELETE`). An edited copy is left in place and stays listed in the manifest so later runs
+  keep reporting it.
 
 Entry files are compared and replaced only inside their `familiar:start`/`familiar:end` block. The
 updater stops before any write when the schemas differ, when the project has no core manifest, or
@@ -1120,14 +1121,14 @@ resolving to `AGENTS.md`).
 `skills/ingest/scripts/extract_encite.py`, `skills/ingest/scripts/source_register.py` (the input
 ledger ingest scans before and records after, `3-Knowledge/_source-register.md`) (each under both `.claude/skills/` and `.agents/skills/`, per
 `test_claude_and_agents_skill_trees_are_byte_identical`), and `.familiar/scripts/project_check.py`,
-the read-only project health check `checkin` runs at `check-in.md` → 4. Health check (stdlib only;
+the read-only project health check `project-status` → Check-in runs at `check-in.md` → 4. Health check (stdlib only;
 if it cannot run, check-in makes the same checks by reading files). Beside it, `.familiar/scripts/timeline_views.py`
 renders `4-Trackers/_views/next-two-weeks.md` and `gantt.md` from `timeline.md`, stamped with
 its revision, and lists dependency problems without moving any date; `--json` prints the same
 overdue/upcoming/problem lists as data and writes nothing (the separately distributed fleet hub reads that); `--json --window N` widens "upcoming" to N days for that reader, while the views stay at 14. `.familiar/scripts/meetings_view.py` does the same for `4-Trackers/meetings.md` (optional): it expands each series rule, applies moves, cancellations and extras, and writes `_views/meetings-next-weeks.md`; `--json --window N` prints the occurrences and problems as data, each occurrence with its agenda from the file's `## Agendas` section. Three more read-only helpers count what the model
 used to estimate: `ref_count.py` (claim tags and citation markers on a page, against its
 `ref_carry_through` stamp; ingest step 5), `index_check.py` (index rows against page front matter;
-ingest step 6), and `task_frontier.py` (open tasks whose blockers are cleared; triage, ongoing-work,
+ingest step 6), and `task_frontier.py` (open tasks whose blockers are cleared; Triage, Where are we,
 check-in). Each has a fallback: if it cannot run, the step is done by reading and says so.
 `.familiar/scripts/tracker_edit.py` is the one script that writes a single milestone or task change (`milestone --id M-04 --due ... --reason ...`, `task --id T-12 --done`; `--dry-run` previews): it checks and bumps the revision, replaces the file atomically, appends the status-log entry, regenerates the views, and lists the places (snapshot, tasks, downstream milestones) that still name the old date. It never deletes a row and never moves another date. The fleet hub calls it for cross-project edits. `--title "..." --reason ...` renames a milestone or task in place (IDs never change; a blocker that names the old title in words is listed, not rewritten). `tracker_edit.py meeting <add-series|add-oneoff|move|cancel|edit-series|rename|agenda>` does the same for `meetings.md` (a move or cancel changes one date of a series through an exception row, or a single meeting in place, and a moved date takes its agenda with it; `edit-series` changes the series row itself; `agenda --id S-01 --date YYYY-MM-DD|standing --items "A; B"` or `--none "reason"` sets one date's topic list or a series' standing list), refuses a change that would leave the file with a problem it did not have, and reports a new overlap.
 `.familiar/scripts/draft_save.py` is the save path for `2-Drafts/` (`next`, `register`, `adopt`, `migrate`; it plans every

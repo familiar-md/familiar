@@ -1,6 +1,7 @@
 ---
 name: ili-ingest
 description: Digest a source document into Knowledge — reports, protocols, scope records, presentations, meeting notes, and published material. Use when the user shares or points to a document and wants it read, summarized, absorbed, or added to project knowledge.
+disable-model-invocation: true
 ---
 
 # familiar — Ingest a Source
@@ -22,10 +23,9 @@ description: Digest a source document into Knowledge — reports, protocols, sco
 
 ## Step 1 — Choose the mode
 
-`ingest.md` → Read mode or ingest mode defines them. **The user started this skill** (typed its command, or asked for an
-ingest by name): ingest mode. Run the pipeline; do not ask whether the source is worth keeping. **You started it** from a
-question about a source: read mode. Answer, write nothing, and offer a full ingest if the source looks like durable
-project knowledge.
+`ingest.md` → Read mode or ingest mode defines them. This skill is user-only, so the user started it: ingest mode. Run
+the pipeline; do not ask whether the source is worth keeping. When the user asked only what the source says: read mode.
+Answer, write nothing, and offer a full ingest if the source looks like durable project knowledge.
 
 ## Step 2 — Full ingest pipeline (only if warranted)
 

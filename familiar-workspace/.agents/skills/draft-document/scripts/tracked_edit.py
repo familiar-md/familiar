@@ -12,7 +12,7 @@ author's tracked change, comment or reference-manager field.
     python tracked_edit.py --accept-copy SOURCE.docx COPY.docx
 
 EDITS.json:
-    {"author": "Claude (AI)",                      # optional; this is the default
+    {"author": "AI Review",                      # optional; this is the default
      "protect_prefixes": ["Note to "],             # optional; replies to comments starting with
                                                    #   one of these are refused (default shown)
      "protect_comments": ["7"],                    # optional; refuse replies to these ids
@@ -68,7 +68,7 @@ COMMENTS_REL = OFFICE_REL + "/comments"
 COMMENTS_EX_REL = "http://schemas.microsoft.com/office/2011/relationships/commentsExtended"
 COMMENTS_CT = "application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml"
 COMMENTS_EX_CT = "application/vnd.openxmlformats-officedocument.wordprocessingml.commentsExtended+xml"
-DEFAULT_AUTHOR = "Claude (AI)"
+DEFAULT_AUTHOR = "AI Review"
 DEFAULT_PROTECT = ["Note to "]
 OPAQUE = "￼"
 

@@ -10,10 +10,10 @@ external source authoritative merely because it was retrieved.
   wants the read to stay visible later.
 - **Ingest mode:** create or update one knowledge page and its index entry.
 
-A user who starts ingest (by its command, or by asking for an ingest) wants ingest mode: do not ask
-whether the source is worth keeping. Read mode is for ingest the assistant started itself from a
-question about a source, and for a user who asks only what a source says. If neither fits and
-writing would result, ask which mode they want.
+Ingest is user-only: it runs only from its command, and the assistant never starts it from a
+question about a source. A user who starts it wants ingest mode: do not ask whether the source is
+worth keeping. Read mode is for a user who starts it but asks only what a source says. If neither
+fits and writing would result, ask which mode they want.
 
 ## Size check
 

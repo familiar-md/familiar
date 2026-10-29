@@ -19,7 +19,7 @@ new document, or revising your own draft, is the Document branch.
 
 ## Rules
 
-1. **Every edit is a tracked change** by the author "Claude (AI)", or a comment by that author. A
+1. **Every edit is a tracked change** by the author "AI Review", or a comment by that author. A
    reply goes inside the existing thread.
 2. **Never accept, reject or delete** another person's tracked change or comment. Never edit or resolve
    a comment addressed to the client (`Note to <client>:`); the script will not reply to one.
@@ -41,7 +41,7 @@ new document, or revising your own draft, is the Document branch.
    the files on its `Standards` line apply to this pass as if they were listed above. An edit that
    would change the brief's argument is a comment to the user, not an edit.
 2. Read the document and list its comments: `python scripts/tracked_edit.py --list-comments <file>`.
-   Sort the comments into: addressed to Claude, addressed to the team, addressed to the client
+   Sort the comments into: addressed to the AI, addressed to the team, addressed to the client
    (`Note to ...`). Act only on the first group unless asked.
 3. Write an `edits.json` (shape in the script's docstring): `replace`, `delete`, `insert_after`,
    `comment`, `reply`. Anchors are exact text from one paragraph. Cite per `docx-rules.md` → Editor
@@ -52,9 +52,9 @@ new document, or revising your own draft, is the Document branch.
    `python scripts/tracked_edit.py --apply <source> edits.json <new-path>`. It is all-or-nothing: any
    refused edit is listed and nothing is written. Fix the anchor or drop the edit, and rerun.
 5. Verify, in order:
-   - `python scripts/tracked_edit.py --check <source> <new>`: rejecting Claude's changes reproduces the
+   - `python scripts/tracked_edit.py --check <source> <new>`: rejecting the AI Review changes reproduces the
      source text, every tracked change, comment and field in the source is byte-identical, and all new
-     markup is by "Claude (AI)".
+     markup is by "AI Review".
    - `python scripts/tracked_edit.py --accept-copy <new> <scratch-copy>` then
      `python scripts/build_docx.py --validate <scratch-copy> --source <source>`. Run the formatting
      checks on the accepted copy, because tracked insertions skew the font-share check. Delete the

@@ -1,12 +1,12 @@
 ---
 title: familiar
-description: A project-memory and workflow layer for LLM agents, where nothing has to be explained twice.
+description: A project-memory and workflow layer that makes AI agents instantly familiar with your work, progress, and decisions.
 template: splash
 editUrl: false
 hero:
-  tagline: A project-memory and workflow layer for LLM agents, where nothing has to be explained twice.
+  tagline: A project-memory and workflow layer that makes AI agents instantly familiar with your work, progress, and decisions.
   image:
-    html: '<img src="/familiar/assets/familiar-hearth-banner.jpg" alt="familiar: bound to your work" width="680" height="376">'
+    html: '<img src="/familiar/assets/familiar-banner.svg" alt="familiar: bound to your work" width="680">'
   actions:
     - text: Get started
       link: /familiar/start/download/
@@ -19,25 +19,24 @@ hero:
 
 import { Card, CardGrid } from '@astrojs/starlight/components';
 
-familiar is a folder. Download it, rename it to your project's name, and open your AI coding assistant
-inside it. The folder holds what the project is, what has been decided, what is open, and where the
-source for each claim lives, so every session starts from that record instead of from nothing.
+Download one folder, give it your project's name, and open your AI coding agent inside it. Every
+session then starts from the project's record instead of from nothing.
 
 <CardGrid>
-  <Card title="Nothing explained twice" icon="document">
-    Status, tasks, decisions and handoffs live as Markdown beside your work. A new session reads them and
+  <Card title="Remembers the project" icon="document">
+    Status, tasks, decisions and handoffs live as Markdown in the folder. A new session reads them and
     picks up where the last one stopped.
   </Card>
   <Card title="Answers from your sources" icon="magnifier">
     Ingested documents become cited pages with a locator on every claim, so answers trace back to your
     own files rather than the model's memory.
   </Card>
-  <Card title="One folder per project" icon="seti:folder">
-    Each project keeps its own memory and stays out of the others. Confidential material stays inside the
-    project it belongs to.
+  <Card title="Workflows built in" icon="rocket">
+    Check-ins, ingest, deliverable briefs, Word, PowerPoint and Excel drafts, research and handoffs.
   </Card>
-  <Card title="Yours, on your disk" icon="open-book">
-    Plain Markdown and a few small scripts. No account, no server, nothing running in the background.
+  <Card title="Free, open, yours" icon="open-book">
+    Plain Markdown and a few small scripts. No account, no server, nothing to sign up for. Nothing is
+    stored outside the folder.
   </Card>
 </CardGrid>
 
@@ -46,7 +45,5 @@ source for each claim lives, so every session starts from that record instead of
 The optional [fleet hub](https://github.com/familiar-md/familiar-hub) reads every project and writes
 you a daily brief: what is overdue, what lands in the next two weeks, and what you can start today.
 
-<img src="/familiar/assets/fleet-brief-example.png" alt="The fleet hub's daily brief, built from fictional projects" width="750" />
-
-Built and tested with Claude Code. familiar follows the open `AGENTS.md` and agent skills conventions,
-so other assistants that read them should work too.
+Works with coding agents that open a folder: built and tested with Claude Code, also used with Codex
+and Gemini CLI. Not for Claude.ai chat or Claude Cowork.

@@ -1,5 +1,0 @@
-interface:
-  display_name: "familiar:ongoing-work"
-  short_description: "familiar workflow"
-policy:
-  allow_implicit_invocation: true

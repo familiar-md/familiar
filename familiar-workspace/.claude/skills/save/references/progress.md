@@ -48,7 +48,7 @@ not produce a new state surface; it reconciles the ones that already exist.
 
 ## Guardrails
 
-- **Never lint, never re-interview.** Those belong to `checkin`; running them here turns every
+- **Never lint, never re-interview.** Those belong to `/project-status` → Check-in; running them here turns every
   break into ceremony.
 - **`5-System/Memory/save-progress.md` is derived and disposable, not authoritative.** If it ever contradicts
   `5-System/Memory/status-snapshot.md`, the snapshot wins.

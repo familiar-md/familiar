@@ -6,4 +6,4 @@
 
 | Deliverable | Current file | Version / date | Track | Status | Produced by | AI runtime | Versions |
 |---|---|---|---|---|---|---|---|
-| Recommendation deck | `2026-08-01_recommendation-deck-outline_DRAFT_v1.md` | v1 / 2026-08-01 | | superseded | `unknown — predates provenance policy` | `unknown — predates provenance policy` | |
+| Competitor brief outline | `2026-08-17_competitor-brief-outline_DRAFT_v1.md` | v1 / 2026-08-17 | DELIV | draft | `unknown — predates provenance policy` | `unknown — predates provenance policy` | |

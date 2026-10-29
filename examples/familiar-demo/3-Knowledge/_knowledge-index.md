@@ -7,6 +7,6 @@
 
 | Page | Source date | Track | One-line summary | Supersedes / superseded by | Last updated |
 |------|-------------|-------|------------------|----------------------------|--------------|
-| [Northgate SOW](./2026-07-20_Northgate-SOW.md) | 2026-07-20 | shared | Engagement scope, deliverables, timeline, Depot 3 lease flag | — | 2026-08-24 |
-| [Kickoff Notes](./2026-07-22_Kickoff-Notes.md) | 2026-07-22 | shared | Base-case decision, scenario scope, Depot 3 lease deadline Sept 3 | — | 2026-08-24 |
-| [Regional Logistics Market Note](./2026-06_Regional-Logistics-Market-Note.md) | 2026-06 (unknown day) | RESEARCH | External benchmarks on consolidation savings and lease-timing risk | — | 2026-08-24 |
+| [Cauldron SOW](./2026-08-03_Cauldron-SOW.md) | 2026-08-03 | shared | Engagement scope, deliverables, timeline, Daybreak opening-date flag | — | 2026-08-24 |
+| [Kickoff Notes](./2026-08-10_Kickoff-Notes.md) | 2026-08-10 | shared | Regional-launch focus, price-list comparison, Daybreak opens Sept 12 | — | 2026-08-24 |
+| [Regional Expansion Market Note](./2026-07_Regional-Expansion-Market-Note.md) | 2026-07 (unknown day) | RESEARCH | External benchmarks on how chains enter a region and how local roasters respond | — | 2026-08-24 |

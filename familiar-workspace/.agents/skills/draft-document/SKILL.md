@@ -27,7 +27,7 @@ question and go straight to it. Otherwise ask which:
 |---|---|---|
 | **Deck** | `references/deck.md` | A presentation for a project start, status update, recommendation, or review — built and visually validated with `scripts/build_pptx.py`. |
 | **Document** | `references/document.md` | A written deliverable — memo, report, or Word file — built and validated with `scripts/build_docx.py` when the format is `.docx`, or written directly for Markdown/plain text. |
-| **Review** | `references/review.md` | An existing team-owned Word file, edited in review passes as tracked changes and comment replies by "Claude (AI)", never rebuilt — via `scripts/tracked_edit.py`. |
+| **Review** | `references/review.md` | An existing team-owned Word file, edited in review passes as tracked changes and comment replies by "AI Review", never rebuilt — via `scripts/tracked_edit.py`. |
 | **Workbook** | `references/workbook.md` | An Excel deliverable — tracker, screening or extraction tool, register, summary — planned sheet by sheet, built readable, and checked with `scripts/xlsx_check.py` so nothing its source had is lost. |
 
 If the request matches none of them, say so and stop. Do not pick the nearest branch, and do not open a

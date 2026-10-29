@@ -18,7 +18,7 @@ files. It is a dedicated workspace for the agent, not a replacement for that fol
 [How the workspace fits your project](#how-the-workspace-fits-your-project). Nothing else needs
 downloading: this page and the pages it links are the documentation.
 
-![The demo project answering /ili-project-status ongoing](assets/familiar-demo-session.png)
+![The demo project answering a first hello with its bound line](assets/familiar-demo-session.png)
 
 ## Works with
 
@@ -108,16 +108,7 @@ work best.
 
 ## How the workspace fits your project
 
-```text
-your project folder                      the workspace (the agent's desk)
-───────────────────                      ────────────────────────────────
-reference files   ── copy in what ──▶    1-Inputs/      what the agent should know
-                     matters                 │ ingest
-                                         3-Knowledge/   cited pages it reads instead
-                                             │ draft
-approved files    ◀── rename and ──      2-Drafts/      versions, iterated until approved
-                      copy out
-```
+![Reference files are copied into the workspace's 1-Inputs, ingested into 3-Knowledge and drafted into 2-Drafts; approved files are renamed and copied back out to your project folder](assets/familiar-workspace-flow.svg)
 
 - **Bring in only what the agent should know.** A file not worth keeping in the agent's memory can
   stay out of the workspace entirely.

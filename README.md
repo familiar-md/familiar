@@ -40,7 +40,11 @@ session then starts from the project's record instead of from nothing.
   under that provider's terms.
 
 <p align="center">
-  <img src="docs/assets/familiar-demo-session.png" alt="The fictional demo project answering /ili-project-status ongoing: status, next steps and dates, read from the project's own files" width="560">
+  <img src="docs/assets/familiar-demo-session.png" alt="The fictional demo project answering a first hello with its bound line: (ili) familiar bound, then the project name" width="560">
+</p>
+
+<p align="center">
+  <img src="docs/assets/familiar-workspace-flow.svg" alt="Reference files are copied into the workspace's 1-Inputs, ingested into 3-Knowledge and drafted into 2-Drafts; approved files are renamed and copied back out to your project folder" width="720">
 </p>
 
 ## Get started

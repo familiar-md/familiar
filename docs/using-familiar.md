@@ -18,7 +18,7 @@ files. It is a dedicated workspace for the agent, not a replacement for that fol
 [How the workspace fits your project](#how-the-workspace-fits-your-project). Nothing else needs
 downloading: this page and the pages it links are the documentation.
 
-<!-- Screenshot to add: the Cauldron Roasters demo answering /ili-project-status where. -->
+![The demo project answering /ili-project-status ongoing](assets/familiar-demo-session.png)
 
 ## Works with
 
@@ -103,7 +103,7 @@ work best.
   the window.
 - **Mind the cache.** Agents cache the conversation for a while (in Claude Code, an hour on a
   subscription, five minutes on an API key). Coming back to a long session after a break re-reads
-  all of it at full price; a fresh session that starts with `/ili-project-status where` is often
+  all of it at full price; a fresh session that starts with `/ili-project-status ongoing` is often
   cheaper.
 
 ## How the workspace fits your project
@@ -134,7 +134,7 @@ Days vary; this one shows how the skills hand off to each other.
 
 | When | You | Skill | What happens |
 |---|---|---|---|
-| Morning | "Where are we?" | `/ili-project-status where` | Current work, what is startable today, open handoffs. Writes nothing. |
+| Morning | "Where are we?" | `/ili-project-status ongoing` | Current work, what is startable today, open handoffs. Writes nothing. |
 | Weekly, or after time away | Check in | `/ili-project-status check-in` | Reconciles state and flags drift: overdue tasks, a status not confirmed lately, a sync conflict copy. |
 | Yesterday's minutes arrive | Ingest them | `/ili-ingest` | One knowledge page with a locator on every claim. |
 | A decision comes up mid-conversation | "Remember this" | `save` → To memory | Filed where that kind of fact lives. |
@@ -187,7 +187,7 @@ which also starts from plain words ("save progress", "remember this").
 
 | Skill | What it does | Branches |
 |---|---|---|
-| `project-status` | Check in and reconcile state (the first run sets up a fresh project), see where things stand, or sort what you can start today. | Check-in, Where are we, Triage |
+| `project-status` | Check in and reconcile state (the first run sets up a fresh project), see where things stand, or sort what you can start today. | Check-in, Ongoing, Triage |
 | `ingest` | Turns a source document into a cited knowledge page that later sessions read instead of the original. | — |
 | `deliverable-brief` | Settles a deliverable's message, audience, key points and outline before drafting, then locks it. Learns a kind of deliverable from your own examples. | — |
 | `draft-document` | Builds a deck, a Word or Markdown document, or an Excel workbook, or reviews a team-owned Word file. | Deck, Document, Review, Workbook |

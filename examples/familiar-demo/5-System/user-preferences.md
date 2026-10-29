@@ -1,6 +1,6 @@
 # User Preferences (this project)
 
-- **familiar signature:** [o]
+- **familiar signature:** ili
 
 Your behavioural preferences and feedback for familiar on THIS project. familiar records feedback
 here — never in the central instruction files — and follows it. You can review or delete anything

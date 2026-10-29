@@ -7,7 +7,7 @@ documents, kept here so you can read populated state instead of empty templates.
 Download it as `familiar-demo-<version>.zip` from the Releases page of the familiar repository on
 GitHub. It unzips to a folder named `Cauldron-Roasters`, after the client, the same way you rename the
 workspace for your own: a complete project you can open your AI assistant in. Run
-`/ili-project-status where` (Claude Code; `$project-status where` on Codex) to see familiar answer
+`/ili-project-status ongoing` (Claude Code; `$project-status ongoing` on Codex) to see familiar answer
 from a project with history. Its dates are moved when each release is built, so it was last checked in
 a few days before you downloaded it. Keep it separate from your real projects, and start your own from `familiar-workspace`.
 

@@ -21,14 +21,14 @@ off to exactly one of them. It reads no project state itself and writes nothing.
 ## Step 1 — Select the branch
 
 If the user already named one ("where are we?", "check in", "what should I run first?") — including
-by argument, `/project-status check-in`, `/project-status where` or `/project-status triage` — skip
+by argument, `/project-status check-in`, `/project-status ongoing` or `/project-status triage` — skip
 the question and go straight to it. On a project with no memory yet, choose Check-in. Otherwise
 present these three and ask which:
 
 | Branch | Reference | What it does |
 |---|---|---|
 | **Check-in** | `references/check-in.md` | Reconcile project state, report health and drift, and set up a fresh project on its first run. Writes state. |
-| **Where are we** | `references/where-are-we.md` | Answer what is open and in progress right now, from saved state. Writes nothing. |
+| **Ongoing** | `references/ongoing.md` | Answer what is open and in progress right now, from saved state. Writes nothing. |
 | **Triage** | `references/triage.md` | Sort the open work you can start today by effort or urgency. Writes nothing. |
 
 If the request matches none, say so and stop. Do not pick the nearest branch, and do not open a

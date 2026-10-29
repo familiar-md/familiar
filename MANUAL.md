@@ -356,7 +356,7 @@ therefore loads the menu plus one procedure, the same budget as invoking one ski
 
 | Router | Branches |
 |---|---|
-| `project-status` | `check-in`, `where-are-we`, `triage` |
+| `project-status` | `check-in`, `ongoing`, `triage` |
 | `system-settings` | `update`, `tidy-workspace`, `tracks`, `project-closeout`, `preferences`, `hooks` |
 | `draft-document` | `deck`, `document`, `review`, `workbook` |
 | `handoff` | `session-handoff`, `assignment` |
@@ -567,7 +567,7 @@ Enforcement:
 
 | Skill | Purpose |
 |---|---|
-| `project-status` | Status menu; routes to `check-in`, `where-are-we` or `triage` (§5.4a) |
+| `project-status` | Status menu; routes to `check-in`, `ongoing` or `triage` (§5.4a) |
 | `ingest` | Digest one approved source into `3-Knowledge/` |
 | `online-research` | External research, bypassing the local-library check |
 | `system-settings` | Housekeeping menu; routes to one of six branch procedures (§5.4a) |
@@ -582,7 +582,7 @@ only through their router's menu. They are covered by the contract gates via `CO
 | Router | Branch | Purpose |
 |---|---|---|
 | `project-status` | `check-in` | Recurring check-in: pre-draft from state, reconcile, health-check; establishes a fresh project on its first real run (§4.1, §12) |
-| `project-status` | `where-are-we` | Stateless read-only query: what is open right now |
+| `project-status` | `ongoing` | Stateless read-only query: what is open right now |
 | `project-status` | `triage` | Sort this project's open work by effort or urgency; read-only |
 | `system-settings` | `update` | Update core or selected extensions without touching other components' files |
 | `system-settings` | `tidy-workspace` | Survey, propose, and on approval move stale workspace files |
@@ -1128,7 +1128,7 @@ its revision, and lists dependency problems without moving any date; `--json` pr
 overdue/upcoming/problem lists as data and writes nothing (the separately distributed fleet hub reads that); `--json --window N` widens "upcoming" to N days for that reader, while the views stay at 14. `.familiar/scripts/meetings_view.py` does the same for `4-Trackers/meetings.md` (optional): it expands each series rule, applies moves, cancellations and extras, and writes `_views/meetings-next-weeks.md`; `--json --window N` prints the occurrences and problems as data, each occurrence with its agenda from the file's `## Agendas` section. Three more read-only helpers count what the model
 used to estimate: `ref_count.py` (claim tags and citation markers on a page, against its
 `ref_carry_through` stamp; ingest step 5), `index_check.py` (index rows against page front matter;
-ingest step 6), and `task_frontier.py` (open tasks whose blockers are cleared; Triage, Where are we,
+ingest step 6), and `task_frontier.py` (open tasks whose blockers are cleared; Triage, Ongoing,
 check-in). Each has a fallback: if it cannot run, the step is done by reading and says so.
 `.familiar/scripts/tracker_edit.py` is the one script that writes a single milestone or task change (`milestone --id M-04 --due ... --reason ...`, `task --id T-12 --done`; `--dry-run` previews): it checks and bumps the revision, replaces the file atomically, appends the status-log entry, regenerates the views, and lists the places (snapshot, tasks, downstream milestones) that still name the old date. It never deletes a row and never moves another date. The fleet hub calls it for cross-project edits. `--title "..." --reason ...` renames a milestone or task in place (IDs never change; a blocker that names the old title in words is listed, not rewritten). `tracker_edit.py meeting <add-series|add-oneoff|move|cancel|edit-series|rename|agenda>` does the same for `meetings.md` (a move or cancel changes one date of a series through an exception row, or a single meeting in place, and a moved date takes its agenda with it; `edit-series` changes the series row itself; `agenda --id S-01 --date YYYY-MM-DD|standing --items "A; B"` or `--none "reason"` sets one date's topic list or a series' standing list), refuses a change that would leave the file with a problem it did not have, and reports a new overlap.
 `.familiar/scripts/draft_save.py` is the save path for `2-Drafts/` (`next`, `register`, `adopt`, `migrate`; it plans every

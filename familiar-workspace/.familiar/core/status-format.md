@@ -32,7 +32,7 @@
 | `Memory/status-log.md` | Dated history, append-only | Add entries only | Only when history is needed |
 | `Decisions/<slug>.md` | Reasoning behind a gated decision | New file; updated if revisited | Only when a decision is questioned |
 | `Handoffs/<date>_<slug>.md` | In-flight work across a session break | New file per thread | **Never spontaneously** — only via `handoff` |
-| `Memory/save-progress.md` | What the user is coming back to, per track | Overwritten in place | Only via `/project-status` → Where are we, and only if it exists |
+| `Memory/save-progress.md` | What the user is coming back to, per track | Overwritten in place | Only via `/project-status` → Ongoing, and only if it exists |
 | `4-Trackers/tasks.md` | Open items and actions, each declaring what it is `Blocked by` | Every time an item opens, moves, or closes | When the snapshot's summary is not enough — and by `/project-status` → Triage |
 | `4-Trackers/timeline.md` | Milestones and dates | Whenever a date moves (`calendar-rules.md`) | When dates are in question |
 
@@ -186,7 +186,7 @@ Full rules: `handoff-format.md`.
 `Memory/save-progress.md` holds **intent** — what the user is coming back to — the one thing not
 derivable from the other files. Written and overwritten **only** via `/save progress`, fired
 at a break boundary rather than a clock or a session limit, and read back **only** via
-`/project-status` → Where are we. Not loaded before routing and never logged: it is disposable, not
+`/project-status` → Ongoing. Not loaded before routing and never logged: it is disposable, not
 history. **Non-authoritative** — where it conflicts with `status-snapshot.md`, the snapshot wins.
 
 **Parallel sessions on separate tracks each fire their own `/save progress` at their own break

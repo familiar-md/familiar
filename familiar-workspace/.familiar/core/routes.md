@@ -80,7 +80,7 @@ load that one file — from there the branch's own context contract governs, not
 branch is not a skill: it is never separately invocable and never opened without a selection. Because
 each router carries the `(user-only)` marker, Resolution rule 3 covers every branch beneath it.
 
-- `project-status` holds `check-in`, `where-are-we`, and `triage`.
+- `project-status` holds `check-in`, `ongoing`, and `triage`.
 - `system-settings` holds `update`, `tidy-workspace`, `tracks`, `project-closeout`, `preferences`, and `hooks`.
 - `draft-document` holds `deck`, `document`, `review`, and `workbook`.
 - `handoff` holds `session-handoff` and `assignment`.

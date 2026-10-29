@@ -39,6 +39,10 @@ session then starts from the project's record instead of from nothing.
   is stored outside the folder; the agent you open in it sends what it reads to its own provider,
   under that provider's terms.
 
+<p align="center">
+  <img src="docs/assets/familiar-demo-session.png" alt="The fictional demo project answering /ili-project-status ongoing: status, next steps and dates, read from the project's own files" width="560">
+</p>
+
 ## Get started
 
 1. Download `familiar-workspace-<version>.zip` from the [Releases page](https://github.com/familiar-md/familiar/releases) and unzip it.

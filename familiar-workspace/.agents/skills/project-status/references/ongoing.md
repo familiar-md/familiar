@@ -1,4 +1,4 @@
-# `/project-status` → Where are we
+# `/project-status` → Ongoing
 
 > Branch of the `project-status` router. Reached only from `/project-status`; the user starts it,
 > never a route match. Load this file after the branch is selected, then follow the context

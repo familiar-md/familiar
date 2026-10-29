@@ -4,7 +4,7 @@
 > never a route match. Load this file after the branch is selected, then follow the context
 > contract below and load nothing from the other branches.
 
-A **stateless query**, read-only like Where are we — it never edits a tracker. Answers one
+A **stateless query**, read-only like Ongoing — it never edits a tracker. Answers one
 question: *of what is actually workable right now, what should I run given the constraint I am
 under* — a big budget window with no time pressure, or the reverse.
 
@@ -41,7 +41,7 @@ If the user invoked this with a stated perspective, skip the question.
 below mechanically and lists the frontier and what blocks everything else; if it cannot run, say so
 and apply the rule by reading `tasks.md`. A task blocked by an open item or an external dependency cannot be started today
 regardless of its effort or urgency — exclude it from triage, same frontier definition as
-Where are we. Count excluded blocked items and report the count once; do not list them
+Ongoing. Count excluded blocked items and report the count once; do not list them
 individually unless the user asks.
 
 ## Step 3 — Classify every frontier item on both dimensions

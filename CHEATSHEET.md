@@ -9,7 +9,7 @@ CLI, ask for a skill by name ("run the project-status skill"). [`docs/using-fami
 
 | Command | Use it to | Branches |
 |---|---|---|
-| `/ili-project-status` | Check in and reconcile state (the first run sets up a fresh project), see where things stand, or sort what you can start today. | Check-in, Where are we, Triage |
+| `/ili-project-status` | Check in and reconcile state (the first run sets up a fresh project), see where things stand, or sort what you can start today. | Check-in, Ongoing, Triage |
 | `/ili-ingest` | Turn a source document into a cited knowledge page in `3-Knowledge/` that later sessions read instead of the original. | — |
 | `/ili-deliverable-brief` | Settle a deliverable's message, audience and outline before drafting. | — |
 | `/ili-draft-document` | Build a deck, a document or a workbook, or review a team-owned Word file. | Deck, Document, Review, Workbook |

@@ -1,8 +1,8 @@
 # familiar core — technical manual
 
-**Baseline:** core `1.0.0` · state schema `1.0` · extension contract `1.1` · install record schema `1.1`
+**Baseline:** core `1.0.1` · state schema `1.0` · extension contract `1.1` · install record schema `1.1`
 **Verified against:** the maintainer's source repository at release time — its gate suite passes in
-full (136 of 136) before every release. The suite is not in this download; see "How this document stays
+full (139 of 139) before every release. The suite is not in this download; see "How this document stays
 true" and §13.
 **Scope:** familiar **core** only — the `familiar-workspace/` tree as it ships. The extension contract
 appears here as the interface core defines and enforces; no extension is described.
@@ -115,7 +115,7 @@ first time it runs in the project (§4.1, §12). It replaces `project-config.md`
 is still the shipped stub (`revision: 0`); a filled-in configuration beside an unset marker — a
 migrated project — is reconciled in place, never reset to defaults.
 
-`tests/quality_gates.py` (in the maintainer's source repository; not part of this download) holds the 136 executable contracts.
+`tests/quality_gates.py` (in the maintainer's source repository; not part of this download) holds the 139 executable contracts.
 
 ---
 
@@ -138,7 +138,7 @@ gates.
 
 **Cost profile.** The always-loaded protocol floor is `bootstrap.md` at 500 words / 3,529 characters — at the
 declared ceiling. Startup also reads the bounded preference and title context (§4.1).
-The route registry adds 937 words when read, held under a 1,000-word ceiling. Other context is on
+The route registry adds 967 words when read, held under a 1,000-word ceiling. Other context is on
 demand. The entry files, the registry and one skill together come to a few thousand tokens; the host's
 own instructions and tools are usually several times that.
 On a host that eagerly surfaces skill descriptions, add the description lines of
@@ -432,8 +432,7 @@ disposable**. They never override the surfaces above.
 
 ### Freshness and session provenance
 
-Knowledge pages record `last_verified`, `review_by`, and `volatility`; the index exposes the first
-two. A scheduled freshness task may report overdue pages and contradictions, but it does not
+Knowledge pages record `last_verified` and `review_by`; the index exposes both. The check-in health check reports pages past their `review_by` date, but it does not
 silently rewrite project knowledge. Native host memory is non-authoritative and never overrides
 these files.
 
@@ -1025,8 +1024,8 @@ and degrade as their skills describe, and `doctor.py` (§9.5) reports the whole 
 ## 13. Quality gates
 
 The gate suite lives in the maintainer's source repository, not in this download, and runs before
-every release. It is run as `python tests/quality_gates.py` — 136 tests, all passing at this release;
-its final line reads `Ran 136 tests …
+every release. It is run as `python tests/quality_gates.py` — 139 tests, all passing at this release;
+its final line reads `Ran 139 tests …
 OK`. This section describes what it covers so you know which claims in this manual are mechanically
 defended and which are prose.
 
@@ -1148,7 +1147,7 @@ only). It checks the optional document toolchain (§9.5), and `INSTALL.md` names
 ```json
 {
   "schema": "1.1",
-  "core": { "id": "familiar", "version": "1.0.0" },
+  "core": { "id": "familiar", "version": "1.0.1" },
   "adapters": { "claude": { "project-instructions": "active", "...": "..." } }
 }
 ```

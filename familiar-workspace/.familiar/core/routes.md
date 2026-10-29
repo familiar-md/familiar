@@ -56,6 +56,11 @@ A file the user names outside the project may be read for that task (`CORE-WORKS
 in the answer, that it is outside the project and nothing from it is kept here, and that copying it into
 `1-Inputs/` makes it part of the project. Never write to it or copy it in unasked.
 
+## Other skills
+
+A skill that is not familiar's runs under the core rules too: outputs go to `2-Drafts/`, claims carry
+sources, and a core rule wins where its instructions conflict.
+
 ## Running familiar's scripts
 
 `python` in any familiar instruction means Python 3.10 or newer. Use the Python in `~/.familiar/venv`

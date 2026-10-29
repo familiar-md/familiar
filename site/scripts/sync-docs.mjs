@@ -17,7 +17,7 @@ const REPO = 'https://github.com/familiar-md/familiar/blob/main/';
 // (License lives in the footer and on GitHub).
 const README_GROUPS = {
   start: ['Download', 'Works with', 'Your first session', 'Working in sessions'],
-  use: ['How the workspace fits your project', 'An example day', 'The skills', 'Where things live',
+  use: ['How the workspace fits your project', 'An example day', 'The skills', 'Common questions', 'Where things live',
         'What the agent will not do', 'Working with synced folders', 'Troubleshooting', 'Going further'],
 };
 

@@ -1,16 +1,22 @@
 /* familiar brand on Starlight: cream, charcoal and the ember glow from the banner. Starlight's own
    tokens are redefined, so every component follows in both themes. */
-/* Goudy Bookletter 1911 (SIL OFL, see public/fonts/), self-hosted. It has one weight and no italic, so
-   synthesis is off and emphasis is carried by colour. */
+/* Two self-hosted SIL OFL faces (see public/fonts/): Goudy Bookletter 1911 for headings, Cormorant
+   Garamond for body text. Goudy has one weight and no italic, so synthesis is off; Cormorant is
+   variable (300-700) with a real italic, and body text sits at 500 because 400 reads thin on screen. */
 @font-face { font-family: 'Goudy Bookletter 1911'; font-style: normal; font-weight: 400; font-display: swap;
   src: url('/familiar/fonts/GoudyBookletter1911-Regular.woff2') format('woff2'); }
+@font-face { font-family: 'Cormorant Garamond'; font-style: normal; font-weight: 300 700; font-display: swap;
+  src: url('/familiar/fonts/CormorantGaramond-Variable.woff2') format('woff2'); }
+@font-face { font-family: 'Cormorant Garamond'; font-style: italic; font-weight: 300 700; font-display: swap;
+  src: url('/familiar/fonts/CormorantGaramond-Italic-Variable.woff2') format('woff2'); }
 :root {
-  --sl-font-system: 'Goudy Bookletter 1911', Georgia, 'Times New Roman', serif;
+  --sl-font-system: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
   --familiar-display: 'Goudy Bookletter 1911', Georgia, 'Times New Roman', serif;
   --sl-text-body: 1.125rem;
+  --sl-sidebar-width: 14rem;   /* 18.75rem at a 20px root left the text column too narrow for tables */
 }
-html { font-size: 125%; }   /* a 20px root: Goudy's x-height is small, 18px still read small */
-body { font-synthesis: none; }
+html { font-size: 125%; }   /* a 20px root: both faces have a small x-height, 18px still read small */
+body { font-synthesis: none; font-weight: 500; }
 strong, b { color: var(--sl-color-white); }
 :root[data-theme='light'] {
   --sl-color-accent-low: #f4dcc6;
@@ -40,7 +46,7 @@ strong, b { color: var(--sl-color-white); }
   --sl-color-black: #1b1a19;
 }
 .site-title img { height: 2.1rem; width: auto; }
-.sl-markdown-content h1, .sl-markdown-content h2, .hero h1, h1#_top {
+.sl-markdown-content :is(h1, h2, h3, h4, h5, h6), .hero h1, h1#_top {
   font-family: var(--familiar-display); font-weight: 400;
 }
 .hero img { border-radius: 8px; }
@@ -48,3 +54,8 @@ strong, b { color: var(--sl-color-white); }
 
 /* The wordmark is never set in the site font: the hero carries it as the SVG banner, so the text title is kept for screen readers only. */
 .hero h1 { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Plain-text blocks (folder trees, commands) take the brand ink, not the code theme's navy, and a
+   smaller size so a tree fits the column. */
+.expressive-code pre[data-language='text'] span { color: var(--sl-color-gray-1) !important; }
+.expressive-code pre[data-language='text'] { font-size: 0.8em; }

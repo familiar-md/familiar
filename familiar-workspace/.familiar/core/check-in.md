@@ -40,12 +40,15 @@ defaults.
      value (add `revision: 1` if an older layout has none), and set `last-updated:` to today. Stamp `created` with the earliest date the project's
      own records show — the oldest activity-log entry, or failing that the configuration's previous
      `last-updated` — and say which you used.
-4. If this project's `5-System/user-preferences.md` has no familiar signature of its own, say once
-   "This project has no signature of its own (it shows <the default, or `not set`>); run
-   `/system-settings` → Preferences to give it one" and continue. Do not ask for it here. "No
-   signature of its own" requires having read the file; if the read failed or was blocked, report
-   that read as a retrieval gap rather than claiming none exists. Do not cite project state as already recording
-   the gap unless you read it there.
+4. If this project's `5-System/user-preferences.md` has no familiar signature of its own, ask for
+   one as the conversation's last question: a three-character glyph that stands for this project in
+   the bound line and the fleet hub, such as `v_v`, `o.o`, `[o]` or `=w=`, or one of the user's own
+   in plain ASCII without `*`, `` ` ``, `|`, `~`, `<`, `>` or `\`. On an answer, write the line
+   `- **familiar signature:** <key>` under the file's title, applying `CORE-STALE-WRITE` to its
+   `revision:` header, and say it shows from the next session. If the user skips it, say once that
+   `/system-settings` → Preferences sets it later, and continue. "No signature of its own" requires
+   having read the file; if the read failed or was blocked, report that read as a retrieval gap
+   rather than claiming none exists, and do not ask.
 5. Carry the purpose, next outcome, and any deadline from step 1 above into "2. Pre-draft the delta"
    below as this project's first pre-draft input, so the first real check-in seeds status, tasks, and
    timeline instead of opening on an empty state the user must populate unprompted.
@@ -98,6 +101,7 @@ First run `python .familiar/scripts/project_check.py`. It is read-only and print
 - open tasks with no owner or date, or past due;
 - open milestones past their date;
 - schedule files older than `timeline.md`;
+- knowledge pages past their `review_by` date;
 - index gaps, byte-identical inputs, sync conflict copies, and retired `/familiar:` names.
 
 Use its findings as evidence, and confirm any you act on. If it cannot run, say so in one line and

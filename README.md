@@ -47,7 +47,30 @@ session then starts from the project's record instead of from nothing.
   <img src="docs/assets/familiar-workspace-flow.svg" alt="Reference files are copied into the workspace's 1-Inputs, ingested into 3-Knowledge and drafted into 2-Drafts; approved files are renamed and copied back out to your project folder" width="720">
 </p>
 
-## Get started
+## Who it's for
+
+Anyone whose work is a set of separate projects, each with its own documents, decisions and open
+questions:
+
+- **Lawyers** keeping a file per matter: pleadings, correspondence, deadlines, and what was decided
+  and why.
+- **Consultants** juggling several clients or engagements, each needing its own record and deliverables.
+- **Researchers and analysts** tracking sources, findings and the claims that rest on them.
+- **Grant writers and proposal teams** assembling drafts from a shared pile of reference material.
+- **Project and program managers** carrying status, risks and decisions across long-running work.
+- **Product managers** keeping specs, research and decision logs for each initiative.
+- **Journalists and writers** running a story or a book as a project, with sources and drafts.
+- **Freelancers and agencies** handing work between clients without losing the thread.
+- **Accountants and advisors** keeping a working file per engagement.
+
+One folder per project, so each matter, client or engagement keeps its own record.
+
+> **Privacy is not part of this project.** familiar is plain Markdown files and small scripts; it
+> adds no encryption, access control, redaction or confidentiality protection, and it makes no
+> compliance claims. Whatever your AI agent reads from the folder is sent to that agent's provider,
+> under the provider's terms. If your work carries confidentiality duties (client privilege, NDAs,
+> health or personal data, employer policy), check that your agent, its settings and your folder's
+> sync or backup location meet them before you put that material in. That responsibility is yours.
 
 1. Download `familiar-workspace-<version>.zip` from the [Releases page](https://github.com/familiar-md/familiar/releases) and unzip it.
 2. Rename the folder to your project's name.

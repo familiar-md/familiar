@@ -13,12 +13,14 @@ From the [Releases page](https://github.com/familiar-md/familiar/releases):
 | `familiar-workspace-<version>.zip` | The workspace. Unzip it; the folder inside is your first project. Give it a name you will recognise. |
 | `familiar-demo-<version>.zip` (optional) | A fictional project after a few weeks of use. It unzips to `Cauldron-Roasters/`, named after its project the way you would name yours. |
 
-Put the workspace beside, or one level inside, the folder that holds the rest of your project's
-files. It is a dedicated workspace for the agent, not a replacement for that folder; see
+The workspace is a dedicated folder for the agent, not a replacement for your project folder; see
 [How the workspace fits your project](#how-the-workspace-fits-your-project). Nothing else needs
 downloading: this page and the pages it links are the documentation.
 
-![The demo project answering a first hello with its bound line](assets/familiar-demo-session.png)
+> **Already have a project folder?** The workspace can sit inside it, one level down, beside your
+> other files. Open the agent in the workspace folder, not the outer one. The agent works only
+> inside the workspace; you move files in and out by hand. [Where things live](#where-things-live)
+> shows both layouts.
 
 ## Works with
 
@@ -52,8 +54,8 @@ Sonnet handles most drafting well.
    | Folder | Suggested use |
    |---|---|
    | `1-Inputs/Sources/` | Documents to ingest: reports, minutes, articles |
-   | `1-Inputs/Admin/` | Scope, timelines, correspondence |
-   | `1-Inputs/Templates/` | Your blank decks and documents. **Keep this name**: the deck builder looks here. |
+   | `1-Inputs/Admin/` | Scope, SOWs, contracts, timelines, correspondence |
+   | `1-Inputs/Templates/` | Files to build from: a branded PowerPoint template, a Word report template, a standard workbook. **Keep this name**: the deck builder looks here. |
    | `1-Inputs/Examples/` | Past deliverables to learn a style from |
 
    The other subfolders are suggestions: add, rename or nest your own as you like. Keep the five
@@ -65,11 +67,10 @@ Sonnet handles most drafting well.
    - Claude desktop app: the **Code** tab, with this folder chosen.
 4. **Run the check-in:** `/ili-project-status check-in`. It reads what is already in the folder, then
    asks only what the files cannot answer: a project name, what it is for, the next concrete outcome,
-   and any deadline. It leaves the project with a configuration, a status snapshot and a first set of
+   any deadline, and a signature: a three-character glyph, such as `v_v` or `o.o`, that stands for
+   this project. It leaves the project with a configuration, a status snapshot and a first set of
    tasks.
-5. **Give the project its signature:** `/ili-system-settings preferences`. A signature is a
-   three-character glyph, such as `v_v` or `o.o`, that stands for this project.
-6. **Start working.** From the next session on, the first reply opens with the bound line:
+5. **Start working.** From the next session on, the first reply opens with the bound line:
    `*(v_v) familiar bound*: Project Name`.
 
 ### The bound line
@@ -81,8 +82,8 @@ one is answering. The fleet hub labels each project with its signature too.
 |---|---|---|
 | Your project's signature and name | Loaded, right project | Nothing |
 | Another project's signature | The agent was opened in another project's folder | Reopen it in the right one |
-| Your default signature | This project has none of its own | Set one (step 5) |
-| `not set` | No signature anywhere yet | Set one (step 5) |
+| Your default signature | This project has none of its own | Set one: `/ili-system-settings preferences` |
+| `not set` | No signature anywhere yet | Set one: `/ili-system-settings preferences` |
 | `n/a` | Reading the signature failed | Ask it to try again; see [Troubleshooting](#troubleshooting) |
 | No line at all | The instructions did not load | See [Troubleshooting](#troubleshooting) |
 
@@ -121,54 +122,23 @@ work best.
 
 ## An example day
 
-Days vary; this one shows how the skills hand off to each other.
+You run a competitor study for a client. The kickoff was last week, the minutes arrived this
+morning, and a findings deck is due Friday. Here is how the day might go, and which skill does each
+part.
 
-| When | You | Skill | What happens |
-|---|---|---|---|
-| Morning | "Where are we?" | `/ili-project-status ongoing` | Current work, what is startable today, open handoffs. Writes nothing. |
-| Weekly, or after time away | Check in | `/ili-project-status check-in` | Reconciles state and flags drift: overdue tasks, a status not confirmed lately, a sync conflict copy. |
-| Yesterday's minutes arrive | Ingest them | `/ili-ingest` | One knowledge page with a locator on every claim. |
-| A decision comes up mid-conversation | "Remember this" | `save` → To memory | Filed where that kind of fact lives. |
-| A deck is due Friday | Scope it | `/ili-deliverable-brief` | Message, audience, key points and outline, then locked. |
-| | Build it | `/ili-draft-document deck` | Built from the locked brief, checked, saved as a new version. |
-| The team returns a Word file with comments | Answer them | `/ili-draft-document review` | Tracked changes and comment replies. |
-| Too much to do | Sort it | `/ili-project-status triage` | Startable work by effort or urgency. Writes nothing. |
-| An outside fact is needed | Look it up | `/ili-online-research` | Cited answer; saves nothing unless asked. |
-| Stopping mid-task | Park it | `/ili-handoff` | A handoff a later session resumes from. |
-| End of day | "Save progress" | `save` → Save progress | Reconciles every open thread before you step away. |
-
-### Ingest: what it is for
-
-- **Not every source needs it.** Ingest what you want the agent to keep and refer back to: meeting
-  minutes that track progress, or an article you plan to quote and cite in a report.
-- **It writes one knowledge page** in `3-Knowledge/`, with a locator (page, section or table) on
-  every claim, plus a row in the knowledge index and the source register.
-- **Later sessions read the page, not the original**, which saves time and tokens. The locators let
-  the agent go back to the original when exact wording matters.
-
-### Save: which one?
-
-- **To memory** files one thing: a decision, a risk, a task change. It reads only the file that holds
-  that kind of fact.
-- **Save progress** reconciles the whole project's state before a break: the status snapshot, tasks,
-  timeline and open handoffs.
-- **When unsure, use Save progress.** It reads more, so it costs a few more tokens, and misses
-  nothing.
-
-### Drafts and versions
-
-- A new draft never overwrites an old one; earlier versions move to `_superseded/`.
-- The Review branch edits a Word file your team already owns, without rebuilding it. Every edit is a
-  tracked change and every reply goes in the existing comment thread, under the author name
-  **AI Review**. It never accepts or rejects anyone else's changes and never touches a
-  reference-manager field.
-- A file edited outside the workspace comes back in as the next version, under the editor's initials.
-
-### Answers come from your record
-
-Questions are answered from the project's own record, with the exact reference. When the record has
-no answer, the agent reports a gap rather than guessing. When you want an outside source,
-`online-research` looks it up and cites each source with its access date.
+| Moment | Skill | What happens |
+|---|---|---|
+| Morning: "Where are we?" | `/ili-project-status ongoing` | Current work, what is startable today, open handoffs. Writes nothing. |
+| You have news, or want a proper status | `/ili-project-status check-in` | Give it your update, or ask where things stand; it reconciles tasks, timeline and status and flags drift. |
+| The minutes arrive | `/ili-ingest` | One knowledge page with a locator on every claim. |
+| A decision comes up: "Remember this" | `save` → To memory | Filed where that kind of fact lives. |
+| The deck is big and the story is not settled (optional) | `/ili-deliverable-brief` | Message, audience, key points and outline, agreed and locked before any building. |
+| Build the deck | `/ili-draft-document deck` | Built from the brief if there is one, otherwise from what you tell it; checked and saved as a new version. |
+| The team returns a Word file with comments | `/ili-draft-document review` | Tracked changes and comment replies. |
+| Too much to do | `/ili-project-status triage` | Startable work by effort or urgency. Writes nothing. In the fleet hub, `/ili-fleet tasks` does the same across all your projects. |
+| An outside fact is needed | `/ili-online-research` | Cited answer; saves nothing unless asked. |
+| Stopping mid-task | `/ili-handoff` | A handoff a later session resumes from. |
+| End of day: "Save progress" | `save` → Save progress | Reconciles every open thread before you step away. |
 
 ## The skills
 
@@ -190,16 +160,20 @@ which also starts from plain words ("save progress", "remember this").
 Name a branch to skip the menu: `/ili-save progress`, `/ili-draft-document deck`. The
 [skills quick reference](../QUICK-REFERENCE.md) puts every command on one page.
 
+**Your own skills work too.** Add them to the agent's skills folder as usual. familiar's rules still
+apply while they run: outputs go to `2-Drafts/`, claims carry sources, and familiar's rules win where
+a skill's own instructions disagree.
+
 ### `system-settings` branches
 
 | Branch | What it is for |
 |---|---|
-| Update | Brings the project up to a newer release, no terminal needed. Download the new workspace zip, unzip it anywhere outside the project, run `/ili-system-settings update` and tell it where the folder is. It checks the versions, shows what would change, and applies it on your yes. Your own edits are kept and every replaced file is backed up ([`INSTALL.md`](../INSTALL.md#updating)). |
+| Update | Brings the project, and any extensions, up to a newer release. Put the new zips in the project's `_update/` folder and run `/ili-system-settings update`. It shows what would change and applies it on your yes. Your own edits are kept and every replaced file is backed up ([`INSTALL.md`](../INSTALL.md#updating)). |
 | Workspace tidy | Finds stale drafts and loose knowledge files and proposes a cleanup; acts only on what you approve. |
 | Tracks | Optional labels for parallel strands of work in one project, such as a financial model, a market scan and a report. Tasks, timeline, knowledge index and status are then grouped by track. A single-strand project never needs it. |
 | Project closeout | Reconciles final state and writes a closeout summary. Deletes nothing. |
 | Preferences | Sets this project's signature, your default signature, and standing preferences for every project. |
-| Hooks | Installs optional hooks, such as session titles and guards, from [familiar-hooks](https://github.com/familiar-md/familiar-hooks). |
+| Hooks | Turns on optional hooks, such as session titles and guards, once the [familiar-hooks](https://github.com/familiar-md/familiar-hooks) package is in the project. Copying the package in only adds the files; this branch switches each hook on or off. |
 
 Registering a project with the optional fleet hub happens in the hub itself, not here.
 
@@ -215,20 +189,83 @@ Registering a project with the optional fleet hub happens in the hub itself, not
 Put the command first in the message. A command mid-sentence often works too; if a skill did not
 run, resend with the command first.
 
+## Common questions
+
+### Do I need a deliverable brief?
+
+No. It is optional, and worth it only before a large or complex deck or report. It settles the main
+message, audience, key points and outline before anything is built, so the draft needs fewer rounds
+and fewer tokens. `draft-document` builds from the brief when there is one, and without one
+otherwise.
+
+### What is ingest for?
+
+- **Not every source needs it.** Ingest what you want the agent to keep and refer back to: meeting
+  minutes that track progress, or an article you plan to quote and cite in a report.
+- **It writes one knowledge page** in `3-Knowledge/`, with a locator (page, section or table) on
+  every claim, plus a row in the knowledge index and the source register.
+- **Later sessions read the page, not the original**, which saves time and tokens. The locators let
+  the agent go back to the original when exact wording matters.
+
+### Which save?
+
+- **To memory** files one thing: a decision, a risk, a task change. It reads only the file that holds
+  that kind of fact.
+- **Save progress** reconciles the whole project's state before a break: the status snapshot, tasks,
+  timeline and open handoffs.
+- **When unsure, use Save progress.** It reads more, so it costs a few more tokens, and misses
+  nothing.
+
+### What happens to old drafts?
+
+- A new draft never overwrites an old one; earlier versions move to `_superseded/`.
+- The Review branch edits a Word file your team already owns, without rebuilding it. Every edit is a
+  tracked change and every reply goes in the existing comment thread, under the author name
+  **AI Review**. It never accepts or rejects anyone else's changes and never touches a
+  reference-manager field.
+- A file edited outside the workspace comes back in as the next version, under the editor's initials.
+
+### Where do answers come from?
+
+From the project's own record, with the exact reference. When the record has no answer, the agent
+reports a gap rather than guessing. When you want an outside source, `online-research` looks it up
+and cites each source with its access date.
+
 ## Where things live
 
+The demo project, Cauldron Roasters, shows the layout: a consultancy writing a competitor brief for
+a coffee roaster.
+
+**On its own.** The renamed workspace is the whole project:
+
 ```text
-<project>/                      (your renamed workspace folder)
-├── .familiar-project           marks the project boundary
-├── .familiar/                  rules, route table, helper scripts
-├── CLAUDE.md  AGENTS.md  GEMINI.md
-├── .claude/  .agents/  .codex/  .gemini/    skills and subagents, per agent
-├── 1-Inputs/                   source documents, templates, admin
-├── 2-Drafts/                   generated outputs pending approval
-├── 3-Knowledge/                ingested source material
-├── 4-Trackers/                 tasks, timeline
-└── 5-System/                   config, context, status, decisions, handoffs
+Cauldron-Roasters/
+├── 1-Inputs/
+│   ├── Sources/     market-note.pdf, kickoff-notes.docx
+│   ├── Admin/       Cauldron-SOW.pdf, contract.pdf
+│   ├── Templates/   branded-deck.potx, report.dotx
+│   └── Examples/    last-year-brief.pptx
+├── 2-Drafts/        competitor-brief/, versioned
+├── 3-Knowledge/     a page per ingested source
+├── 4-Trackers/      tasks.md, timeline.md
+├── 5-System/        config, status, decisions
+├── _update/         new release zips, when updating
+└── .familiar/ …     the agent's own files
 ```
+
+**Inside an existing project folder.** The workspace sits one level down, beside files the agent
+never sees. Open the agent in `Cauldron-Roasters-familiar/`, not in `Cauldron-Roasters/`:
+
+```text
+Cauldron-Roasters/
+├── Finance/                      invoices, budget.xlsx
+├── Deliverables/                 final decks you copied out
+└── Cauldron-Roasters-familiar/   the workspace, laid out as above
+```
+
+Name the workspace after the project, with `-familiar` on the end. Many editors and agents show the
+folder name when a session starts, so with several projects open you can tell them apart at a glance,
+before the first reply.
 
 | Folder | What is in it | Who writes it |
 |---|---|---|
@@ -244,8 +281,9 @@ stale write before it overwrites newer work.
 
 ## What the agent will not do
 
-These are instructions the agent follows in every session, not locks. For a mechanical check, add
-the guards from [familiar-hooks](https://github.com/familiar-md/familiar-hooks).
+These are instructions the agent follows in every session, not locks. The guards in
+[familiar-hooks](https://github.com/familiar-md/familiar-hooks) add a mechanical check on top. They
+catch the common cases, but they are not a guarantee.
 
 - **Delete your files.** It flags obsolete material and leaves removal to you.
 - **Write outside the project folder.** The one exception is your global preferences file,
@@ -307,7 +345,7 @@ needed, and delete the extra yourself; the agent will not.
 | | |
 |---|---|
 | [familiar-hub](https://github.com/familiar-md/familiar-hub) | One view and a daily brief across all your projects, from a separate folder kept next to them. It also keeps the list of projects it reads. |
-| [familiar-hooks](https://github.com/familiar-md/familiar-hooks) | Optional per-project hooks: session titles, and guards that block reads and writes outside the project before they run. |
+| [familiar-hooks](https://github.com/familiar-md/familiar-hooks) | Optional per-project hooks: session titles, and guards that block most reads and writes outside the project before they run. An extra layer, not a guarantee. |
 | [familiar-template](https://github.com/familiar-md/familiar-template) | Build your own specialty extension (marketing, consulting, proposal writing and more) with an AI agent. Tag its repo with the [`familiar-extension`](https://github.com/topics/familiar-extension) topic so others can find it. |
 | [`INSTALL.md`](../INSTALL.md) | Updating, agent differences, the document toolchain, synced folders. |
 | [`MANUAL.md`](../MANUAL.md) | The technical reference for how the core mechanism works. |

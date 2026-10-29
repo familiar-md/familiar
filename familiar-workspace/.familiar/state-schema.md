@@ -19,7 +19,7 @@ table's hop from label to path before it is a real path on disk.
 | `5-System/Decisions/*.md` | Approved decision, rationale, date, and consequences | New record; later amendments retain history |
 | `5-System/Handoffs/*.md` | Temporary in-flight instructions for the next focused session | New record; status may change in place |
 | `5-System/_update-backups/<old>-to-<new>_<date>/` | Copies of the release files `update.py` replaced in one update, for rollback | Written only by `update.py --apply`; never edited |
-| `5-System/user-preferences.md` | Project-specific statement of how the user wants familiar to work here, this project's familiar signature, and the referencing method | In place; the signature by `/system-settings` → Preferences on the user's yes (the default signature, shown by a project with none of its own, is in `~/.familiar/user-preferences.md`), the referencing method once on the first Word draft that cites (`docx-rules.md` → Editor notes → Referencing method), then explicit feedback via `/save to-memory` only |
+| `5-System/user-preferences.md` | Project-specific statement of how the user wants familiar to work here, this project's familiar signature, and the referencing method | In place; the signature by `/system-settings` → Preferences on the user's yes, or by the first `/project-status` → Check-in when the user gives one (the default signature, shown by a project with none of its own, is in `~/.familiar/user-preferences.md`), the referencing method once on the first Word draft that cites (`docx-rules.md` → Editor notes → Referencing method), then explicit feedback via `/save to-memory` only |
 | `5-System/notes.md` | Loose notes that fit no other surface | Append or in place, via `/save to-memory` |
 
 ## Tracker conventions

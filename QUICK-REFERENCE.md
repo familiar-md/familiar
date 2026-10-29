@@ -11,7 +11,7 @@ CLI, ask for a skill by name ("run the project-status skill"). [`docs/using-fami
 |---|---|---|
 | `/ili-project-status` | Check in and reconcile state (the first run sets up a fresh project), see where things stand, or sort what you can start today. | Check-in, Ongoing, Triage |
 | `/ili-ingest` | Turn a source document into a cited knowledge page in `3-Knowledge/` that later sessions read instead of the original. | — |
-| `/ili-deliverable-brief` | Settle a deliverable's message, audience and outline before drafting. | — |
+| `/ili-deliverable-brief` | Optional, for a large or complex deliverable: settle its message, audience, key points and outline before building, so the draft needs fewer rounds. | — |
 | `/ili-draft-document` | Build a deck, a document or a workbook, or review a team-owned Word file. | Deck, Document, Review, Workbook |
 | `/ili-save` | Reconcile state before a break, or file a note or task change. | Save progress, To memory |
 | `/ili-handoff` | Park work for a later session, or write a brief for someone outside the project. | Session handoff, Assignment brief |

@@ -1,14 +1,20 @@
 #!/usr/bin/env python3
 """update.py — bring an existing familiar project up to this release, in place.
 
+    python .familiar/scripts/update.py --project . --from _update [--apply]
     python <new familiar-workspace folder>/.familiar/scripts/update.py --project "<project>"
     python <new familiar-workspace folder>/.familiar/scripts/update.py --project "<project>" --apply
     ... --extension "<new extension drop-in folder>"     # repeatable; updates that extension too
 
-Run the NEW release's copy against the project: from a terminal, or from a session open in the
-project (`/system-settings` → Update), where the release is a folder the user named and is only read
-(CORE-WORKSPACE-SILO); every write lands in the project. The default release is the folder this
-script sits in; `--release` names another. Report only unless `--apply`.
+The usual way is `--from`: the user drops the downloaded zips (core, any extension, the hooks
+package) into the project's `_update/` folder, unzipped or not, and `/system-settings` → Update runs
+the project's own copy with `--from _update`. It unpacks the zips into a temporary folder outside the
+project, finds each release in them by its manifest (the newest one per owner, if several), and
+hands over to the NEW core release's copy of this script, or, with no core release among them,
+updates just the extensions against the project's current core. A session never has to read outside
+the project (CORE-WORKSPACE-SILO). Without `--from`, run the NEW release's copy against the project;
+its default release is the folder it sits in, and `--release` names another. Report only unless
+`--apply`.
 
 It decides file by file against the project's own release manifests
 (`.familiar/release-manifests/<owner>.json`, one per owner: core is `familiar`, each extension its
@@ -52,6 +58,8 @@ import re
 import shutil
 import subprocess
 import sys
+import tempfile
+import zipfile
 from datetime import date
 from pathlib import Path
 
@@ -175,8 +183,44 @@ def classify(project: Path, source: Path, old: dict, new: dict) -> dict:
     return result
 
 
-def plan(project: Path, release: Path, extension_roots: list) -> tuple:
-    if project.resolve() == release.resolve():
+def gather(source: Path, scratch: Path) -> tuple:
+    """Find the releases in a folder of downloads: zips are unpacked into `scratch`, folders are read
+    where they are. Returns (core root or None, extension roots, notes); the newest copy per owner wins."""
+    if not source.is_dir():
+        raise Stop(f"{source} is not a folder; put the downloaded zips in the project's _update folder")
+    places = []
+    for entry in sorted(source.iterdir()):
+        if entry.is_dir():
+            places.append(entry)
+        elif entry.suffix.lower() == ".zip":
+            target = scratch / entry.stem
+            with zipfile.ZipFile(entry) as z:
+                for name in z.namelist():
+                    if name.startswith(("/", "\\")) or ".." in Path(name).parts or ":" in name:
+                        raise Stop(f"{entry.name} holds an unsafe path ({name}); re-download it")
+                z.extractall(target)
+            places.append(target)
+    found = {}
+    for place in places:
+        for manifests in [place / MANIFEST_DIR, *place.glob("*/" + MANIFEST_DIR), *place.glob("*/*/" + MANIFEST_DIR)]:
+            for path in sorted(manifests.glob("*.json")) if manifests.is_dir() else []:
+                manifest = load_manifest(path)
+                root = manifests.parent.parent
+                found.setdefault(manifest["owner"], []).append((version_tuple(manifest.get("version", "0")), root))
+    if not found:
+        raise Stop(f"no familiar release found in {source}; it should hold the downloaded zips")
+    notes, chosen = [], {}
+    for owner, copies in sorted(found.items()):
+        copies.sort(key=lambda c: c[0])
+        chosen[owner] = copies[-1][1]
+        if len(copies) > 1:
+            notes.append(f"[{owner}] {len(copies)} copies in {source.name}; using the newest")
+    core = chosen.pop("familiar", None)
+    return core, list(chosen.values()), notes
+
+
+def plan(project: Path, release: Path, extension_roots: list, allow_self: bool = False) -> tuple:
+    if project.resolve() == release.resolve() and not allow_self:
         raise Stop("the project and the release are the same folder; run the NEW release's copy "
                    "of this script against the project")
     old_schema, new_schema = marker_field(project, "state-schema"), marker_field(release, "state-schema")
@@ -192,7 +236,9 @@ def plan(project: Path, release: Path, extension_roots: list) -> tuple:
                    "untouched ones. Use the manual procedure in INSTALL.md -> Updating "
                    "(https://github.com/familiar-md/familiar/blob/main/INSTALL.md#updating)")
 
-    owners = [("familiar", release, core_old, core_new)]
+    # Extensions only (`--from` with no core download): core is not compared with itself, since a
+    # local edit would read as a modified release; only the extensions are updated.
+    owners = [] if allow_self else [("familiar", release, core_old, core_new)]
     sources = {}
     for root in extension_roots:
         found = sorted((root / MANIFEST_DIR).glob("*.json"))
@@ -212,8 +258,8 @@ def plan(project: Path, release: Path, extension_roots: list) -> tuple:
             notes.append(f"[{owner}] installed at {load_manifest(path).get('version', '?')}; "
                          "no new copy given, left unchanged")
     for owner in sources:
-        notes.append(f"[{owner}] given but not installed in this project; drop it in by hand "
-                     "to install it, then update")
+        notes.append(f"[{owner}] given but not installed in this project (or installed by hand before "
+                     "it carried a manifest); copy it onto the project to install it, then update")
 
     new_version = core_new["version"]
     for pkg in sorted((project / ".familiar" / "extensions").glob("*/package/familiar-extension.json")):
@@ -282,17 +328,57 @@ def main(argv=None) -> int:
                                       "(default: the one this script sits in)")
     ap.add_argument("--extension", action="append", default=[],
                     help="a new extension drop-in folder; repeat for each")
+    ap.add_argument("--from", dest="source",
+                    help="a folder of downloaded release zips or folders, such as the project's _update")
     ap.add_argument("--apply", action="store_true", help="back up, then write")
     args = ap.parse_args(argv)
     project = Path(args.project).resolve()
+    if args.source:
+        source = Path(args.source)
+        return run_from(project, source if source.is_absolute() else project / source, args.apply)
     release = Path(args.release).resolve() if args.release else Path(__file__).resolve().parents[2]
+    return run(project, release, [Path(e).resolve() for e in args.extension], args.apply)
+
+
+def run_from(project: Path, source: Path, do_apply: bool) -> int:
+    scratch = Path(tempfile.mkdtemp(prefix="familiar-update-"))
     try:
-        reports, notes, new_version = plan(project, release, [Path(e).resolve() for e in args.extension])
+        try:
+            core, extensions, notes = gather(source, scratch)
+        except (Stop, zipfile.BadZipFile) as e:
+            print(f"STOP: {e}. Nothing was written.")
+            return 2
+        for note in notes:
+            print(note)
+        if core is None:
+            # Extensions only: core is compared with itself, so only the extensions change.
+            return run(project, project, extensions, do_apply, allow_self=True)
+        newer = core / ".familiar" / "scripts" / "update.py"
+        if newer.is_file() and newer.read_bytes() != Path(__file__).read_bytes():
+            # The new release's own updater does the work, so its rules apply, not this copy's.
+            cmd = [sys.executable, "-X", "utf8", str(newer), "--project", str(project), "--release", str(core)]
+            for root in extensions:
+                cmd += ["--extension", str(root)]
+            done = subprocess.run(cmd + (["--apply"] if do_apply else []), capture_output=True, text=True)
+            print(done.stdout, end="")
+            print(done.stderr, end="", file=sys.stderr)
+            return done.returncode
+        return run(project, core, extensions, do_apply)
+    finally:
+        shutil.rmtree(scratch, ignore_errors=True)
+
+
+def run(project: Path, release: Path, extensions: list, do_apply: bool, allow_self: bool = False) -> int:
+    try:
+        reports, notes, new_version = plan(project, release, extensions, allow_self)
     except Stop as e:
         print(f"STOP: {e}. Nothing was written.")
         return 2
 
     print(f"{project.name}: familiar {marker_field(project, 'familiar-version')} -> {new_version}")
+    builds = [load_manifest(r / MANIFEST_DIR / "familiar.json").get("build") for r in (project, release)]
+    if builds[0] != builds[1] and all(builds):
+        print(f"  core build {builds[0]} -> {builds[1]}")
     for owner, _, _, result in reports:
         print(f"  [{owner}] same {len(result['same'])}, update {len(result['update'])}, "
               f"add {len(result['add'])}, diverged {len(result['diverged'])}, retired {len(result['retired'])}")
@@ -304,7 +390,7 @@ def main(argv=None) -> int:
                 print(f"      {key:8} {rel}{tail}")
     for note in notes:
         print(f"  {note}")
-    if not args.apply:
+    if not do_apply:
         print("report only -- rerun with --apply to back up and write")
         return 0
 

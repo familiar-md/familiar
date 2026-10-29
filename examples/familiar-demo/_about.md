@@ -22,8 +22,7 @@ In this repository the folder holds only the project content; the release adds f
   says where the project stands now; the log only ever appends.
 - `4-Trackers/tasks.md` — every open item declares what it is `Blocked by`, which is what lets a
   check-in report what is actually startable today rather than a flat list.
-- `3-Knowledge/` — one page per source, each carrying `last_verified`, `review_by`, and `volatility`,
-  and `_knowledge-index.md` cataloguing them so a session finds the right page without opening all
+- `3-Knowledge/` — one page per source, each carrying its source date, track and provenance, and `_knowledge-index.md` cataloguing them so a session finds the right page without opening all
   of them.
 - `5-System/Decisions/` and `5-System/Handoffs/` — a decision record with its rationale and
   consequences, and a handoff written to survive a session break.

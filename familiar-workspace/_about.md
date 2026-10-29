@@ -13,6 +13,8 @@ place a file in `1-Inputs/` or name it explicitly for a task. Subfolders:
 - `4-Trackers/` — living tools: `timeline.md` (milestones, dates) and `tasks.md` (open items with
   blockers); the user may add others.
 - `5-System/` — config, context, and `Memory/` (snapshot + log); `user-preferences.md`.
+- `_update/` — where you drop a new release's zips before `/system-settings` → Update. Not
+  project content.
 
 Flow: Inputs -> familiar reads/ingests -> writes Knowledge + Drafts ->
 user moves finished drafts out. Trackers is the live task list; System is internal state.

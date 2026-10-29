@@ -32,12 +32,10 @@ assistant inside. Nothing runs on your machine to set it up.
    `AGENTS.md`, or `GEMINI.md`) is already present and self-contained — there is nothing else to point
    it at.
 
-The renamed folder does not have to be the top level of what you'd otherwise call "the project." It's
-equally supported to paste it as a subfolder one level inside an existing project directory that
-already holds other, non-familiar material — the coding host's working directory is that subfolder
-either way, `CORE-WORKSPACE-SILO` still bounds familiar to it, and you move files across that boundary
-by hand (source material in, finished drafts out to the surrounding project folder) whenever you
-choose.
+> **Already have a project folder?** The workspace can sit inside it, one level down, beside your
+> other files. Open the agent in the workspace folder, not the outer one. familiar works only inside
+> the workspace; you move files across by hand: sources in, finished drafts out.
+> [Where things live](docs/using-familiar.md#where-things-live) shows both layouts.
 
 ## First run
 
@@ -45,10 +43,10 @@ There is no setup step to invoke. The project marker (`.familiar-project`) ships
 so familiar binds and loads project state from the first message in the folder.
 
 The first time you run `/project-status` → Check-in, it establishes the project: it asks for and confirms a Project
-Name and stamps `.familiar-project`'s `created` date. If this project has no familiar signature of
-its own yet, it says so once and points you to `/system-settings` → Preferences, which writes the
-project's signature to its `5-System/user-preferences.md`, and a default signature and any standing
-preferences to the global file for every project. Every later check-in just reconciles state as usual.
+Name, stamps `.familiar-project`'s `created` date, and asks for the project's signature, written to
+its `5-System/user-preferences.md`. Skip that question and `/system-settings` → Preferences sets it
+later; Preferences also sets a default signature and standing preferences for every project. Every
+later check-in just reconciles state as usual.
 
 ## Host support
 
@@ -138,80 +136,54 @@ Document builds need Python on the machine: an assistant that cannot run it cann
 
 ## Updating
 
-Updating means bringing a project you already have up to a newer release. Use the updater script
-when your project has a release manifest — the file `.familiar/release-manifests/familiar.json`,
-which every release carries. Use the [manual
-procedure](#updating-by-hand) below when it does not, or when you would rather move your content by hand.
+Updating brings a project you already have up to a newer release. Core, extensions and the hooks
+package update together.
 
-### From a session (no terminal)
-
-1. Download the new `familiar-workspace-<version>.zip` and unzip it as its own folder, anywhere
-   outside your project (your Downloads folder is fine).
-2. Open your agent in the project and run `/ili-system-settings update` (`$system-settings` on
-   Codex). Tell it where the unzipped folder is.
-   → verify: it reports both versions and whether the state schema matches.
-3. Read its summary of what would change, and answer yes to apply it.
+1. Download the new `familiar-workspace-<version>.zip` from the
+   [Releases page](https://github.com/familiar-md/familiar/releases), plus the newer zip of any
+   extension or of the hooks package you use.
+2. Put the zips in your project's `_update/` folder. There is no need to unzip them.
+3. Open your agent in the project and run `/ili-system-settings update` (`$system-settings` on
+   Codex).
+   → verify: it lists what would change for each package, and anything it will leave alone.
+4. Answer yes to apply it.
    → verify: it reports `applied` and a backup folder under `5-System/_update-backups/`.
-4. Close the session and start a new one; nothing from the new release is live until then.
+5. Start a new session; nothing from the new release is live until then. Delete the zips from
+   `_update/` when you like.
 
-The session runs the same updater described next, so everything below about what it keeps, backs up
-and moves applies. If your agent cannot run commands or read the downloaded folder, it gives you the
-command to run yourself.
+**What it keeps.** Your content folders, your own notes below the `<!-- familiar:end -->` marker in
+`CLAUDE.md`, `AGENTS.md` and `GEMINI.md`, and any familiar file you edited (reported as
+`diverged`). Files a release no longer ships move into the backup, so nothing is deleted. To roll
+back, copy the backup folder's contents over the project.
 
-### With the updater, from a terminal
+**Extensions.** Each extension with a zip in `_update/` updates in the same run. One without is
+left as it is, and the report warns if the new core version is outside the range it declares. An
+extension built from [familiar-template](https://github.com/familiar-md/familiar-template) carries a
+release manifest once its author runs `check_extension.py --release`; one without a manifest is
+updated by copying its folders onto the project again.
 
-The updater, `update.py`, ships in every release. You run the **new** release's copy, from a
-terminal, against your existing project. It replaces only the release's own files, one by one, and
-only when your copy is still exactly what your old release shipped. Your content folders, your own
-notes below the `<!-- familiar:end -->` marker in `CLAUDE.md`, `AGENTS.md` and `GEMINI.md`, and any
-release file you edited are left as they are. It deletes nothing.
+**If the report starts with `STOP`,** nothing was written. A different `state-schema` is a
+migration: read the release notes in [`CHANGELOG.md`](CHANGELOG.md) first. A missing manifest means
+[updating by hand](#updating-by-hand).
 
-1. Download the new `familiar-workspace-<version>.zip` and unzip it as its own new folder. Do not
-   unzip it into, or over, your project. Close any assistant session that is open in the project.
-2. See what would change. Nothing is written:
+### From a terminal
 
-   ```text
-   python "<new familiar-workspace folder>/.familiar/scripts/update.py" --project "<your project folder>"
-   ```
+```text
+python .familiar/scripts/update.py --project . --from _update            # report only
+python .familiar/scripts/update.py --project . --from _update --apply    # back up, then write
+```
 
-   → verify: the report lists each release file as `same`, `update` (replaced, safely),
-   `add` (new in this release), `diverged` (you or someone edited it; left alone) or `retired`
-   (no longer shipped: moved to the backup, or left in place if you edited it), and ends with
-   `report only`.
-3. If the report starts with `STOP`, nothing was written. The reason says what to do: a different
-   `state-schema` is a migration that needs the release notes in [`CHANGELOG.md`](CHANGELOG.md)
-   first, and a missing manifest means [updating by hand](#updating-by-hand).
-4. Look at any `diverged` file. The updater keeps your version. If you want the release's version
-   instead, compare the two by hand and copy the release's over yours.
-5. If the project has extensions, add `--extension "<new extension drop-in folder>"` once for each
-   extension you have a newer download of. An extension you name no copy for is left unchanged, and
-   the report warns if the new core version is outside the range the extension declares.
-6. Apply it — the same command with `--apply` added:
+A project set up from `1.0.0` has an updater without `--from`. For that one update, unzip the new
+release outside the project and run its copy instead:
+`python "<new familiar-workspace folder>/.familiar/scripts/update.py" --project "<your project>"`,
+adding `--extension "<folder>"` per extension and `--apply` to write.
 
-   → verify: the output ends with `applied; familiar-version -> <new version>` and a
-   `project_check` line, and a rerun of step 2 shows `update 0, add 0`.
-7. Open your coding host in the project and start a new session. Skills, agents and entry files are
-   read at session start, so nothing from the new release is live until then.
+### Format notes in tracker files
 
-Every file the updater replaced, and the old `.familiar-project`, is copied first into
-`5-System/_update-backups/<old version>-to-<new version>_<date>/`. To roll back, copy that folder's
-contents back over the project. Running the updater again is safe: it finds everything `same` and
-keeps the first backup.
-
-`/system-settings` → Update checks your version against a downloaded release from inside a session
-and gives you the exact command. It does not run the updater itself, because the updater reads a
-folder outside the current project, which is out of scope for anything familiar does from inside a
-session (`CORE-WORKSPACE-SILO`).
-
-A few files under `4-Trackers/` and `3-Knowledge/` carry release prose mixed with your actual data —
-the format notes at the top of `tasks.md`, `timeline.md`, `_knowledge-index.md`, `_abbreviations.md`,
-and `2-Drafts/_draft-index.md`. Because they hold real content too, neither the updater nor the
-hand procedure replaces them the way it replaces `_about.md` and `_page-template.md`. The format notes
-stay as they are with your data, so format changes in a new release do not reach an existing project
-automatically. Compare them by hand afterward if a release's notes say one of those formats changed,
-and hand-merge only what you want. Each of those files now carries only a short pointer to its
-rules; the rules themselves live in `.familiar/core/state-schema.md`, which every update
-already brings. In practice, what can drift is a table's columns.
+The format notes at the top of `tasks.md`, `timeline.md`, `_knowledge-index.md`, `_abbreviations.md`
+and `2-Drafts/_draft-index.md` sit beside your data, so no update replaces them. The rules
+themselves live in `.familiar/core/state-schema.md`, which every update brings. If a release's notes
+say a table's columns changed, compare by hand.
 
 ### Updating by hand
 
@@ -250,10 +222,6 @@ Keep the old folder unchanged until you've confirmed the new one works; it's you
 Once you're satisfied, archive or delete it yourself — familiar does not do this step for you and
 does not need to.
 
-**Why the updater can work in place.** It touches only the files a release manifest lists, one owner
-at a time, so an extension's files are never part of core's update, and it checks the schema and the
-release's own integrity before it writes anything.
-
 ## The fleet hub
 
 The fleet hub is a separate folder that answers questions across all your registered projects. It
@@ -265,13 +233,24 @@ Whether a project is active, paused or closed is recorded in the hub, not in the
 
 ## Extensions
 
-An extension adds skills, agents, and knowledge for a specialty, in the same no-installer shape as
-this release: not a plugin, and not wired through an installer. To add one to an existing
-`familiar-workspace/` project, copy its `.claude/`, `.agents/`, `.codex/`, `.gemini/`, and
-`.familiar/` top-level folders into the project root, merging with what is already there. Nothing in
-a drop-in overwrites core files; it only adds skill, agent, and extension-package paths. No install
-step and no restart beyond opening a new session — skills and agents are discovered by file presence,
-same as core. No extension is part of this release. To write your own, start from
+An extension adds skills, agents and knowledge for a specialty. Like the workspace, it has no
+installer. To add one, copy its top-level folders (`.claude/`, `.agents/`, `.codex/`, `.gemini/`,
+`.familiar/`) into the project root, merging with what is already there. Nothing in an extension
+overwrites core files. Start a new session and its skills appear. No extension is part of this
+release; to write your own, start from
 [familiar-template](https://github.com/familiar-md/familiar-template) ("Use this template"), which
-follows `.familiar/core/extension-contract.md`; see each extension's own
-`_about.md` for what it adds and its exact drop-in instructions.
+follows `.familiar/core/extension-contract.md`. Each extension's own `_about.md` says what it adds.
+
+### Adding several at once
+
+Say you want the fleet hub, the hooks package and two extensions of your own:
+
+1. **The hub** is not added to a project. Unzip it as its own folder beside your projects; its
+   `INSTALL-HUB.md` covers the rest.
+2. **The hooks:** copy the `.familiar/` folder from the hooks zip onto the project, then run
+   `/ili-system-settings hooks` to switch on the ones you want. Copying alone turns nothing on.
+3. **Each extension:** copy its top-level folders onto the project root, one after the other. Order
+   does not matter.
+4. Start a new session.
+   → verify: typing `/ili` lists each extension's skills, and `/ili-system-settings hooks` lists the
+   hooks as installed.

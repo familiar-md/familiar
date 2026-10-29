@@ -87,8 +87,8 @@ never checked. Run it only on the user's yes.
      A byte difference alone does not prove a meaningful revision, and a newer file is not
      automatically the authority.
    Then identify the source, its owner or publisher, date/version, original location, stable
-   source ID (the register's `Source ID` when it already has one), volatility, last verification
-   date, and a review-by date for facts likely to change.
+   source ID (the register's `Source ID` when it already has one), last verification date, and a
+   review-by date for facts likely to change.
 2. Use the active extraction capability for its format. The adapter owns tool and platform details.
    For a PDF this is the ingest skill's `scripts/extract_pdf.py` — write its markdown output to
    `3-Knowledge/_extract-<stable-source-ID>.md`, preserving the `<!-- PDF page N
@@ -211,8 +211,9 @@ does not state one. When two sources disagree, the source date helps identify se
 decide authority by itself; preserve the conflict, provenance, and applicable owner or publisher.
 
 `last_verified` records when the cited source was actually checked. `review_by` is required for
-high-volatility external facts and may be `not scheduled` for stable internal records. A scheduled
-freshness check reports overdue pages for review; it does not silently replace project knowledge.
+external facts likely to change (prices, current guidance, a live web page) and may be `not scheduled` for stable internal records. The check-in health
+check (`project_check.py`) reports pages past their `review_by` date for review; it does not silently
+replace project knowledge.
 
 ## Privacy and failure
 

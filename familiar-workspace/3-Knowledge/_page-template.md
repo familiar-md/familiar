@@ -9,23 +9,26 @@
 source: <exact source filename in 1-Inputs/Sources>
 source_id: <the source's `Source ID` in `3-Knowledge/_source-register.md`>
 source_title: <human title>
-type: <technical report | published article | internal/confidential report | prior specialist review |
-  transcript | scope record | other>
+type: <one of, exactly as written: published article | news article | website | report |
+  guidance / regulatory | meeting notes / transcript | internal document | scope record |
+  prior specialist review | other. Detail goes in source_title or the Summary, not here.>
 source_date: <the date on the DOCUMENT — when it was written or published; "unknown" if it carries
-  none. Never today's date. This is the field the recency check reads (ingest.md).>
+  none. Never today's date. The index repeats it, and it puts two sources on one subject in order
+  (ingest.md → Source dates and conflicts).>
 version: <the document's own version/edition label, e.g. "v1.2" (as in "Market Review v1.2, Oct 2025") — for
-  versioned internal/confidential reports. Omit where the source carries none. The recency check
-  (ingest.md) reads this as a tiebreaker when source_date is equal or unknown on both sides.>
-authors: <first author et al. — published articles only. Omit otherwise.>
-journal: <journal name — published articles only. Omit otherwise.>
-volume_issue: <e.g. "42(3)" — published articles only. Omit otherwise.>
-doi: <DOI — published articles only. Omit otherwise.>
+  versioned internal/confidential reports. Omit where the source carries none. Orders two editions of
+  one document when source_date does not, and lookup reports it when source_date is unknown.>
+authors: <the people or organisation the source names as its author, for any type; "first author
+  et al." past three people. Omit where none is named.>
+publisher: <where it appeared: the journal, newspaper, website, agency or company. Omit where unknown.>
+issue: <volume and issue for a journal, e.g. "42(3)", or the edition otherwise. Omit where none.>
+identifier: <DOI where one exists, otherwise the URL, ISBN or report number. Omit where none.>
 date_ingested: YYYY-MM-DD
 last_verified: YYYY-MM-DD
 values_checked: <set by ingest.md → Check pass: "YYYY-MM-DD (<N> values, <M> corrected, <K> left for a
   person)", or "not yet">
-review_by: <YYYY-MM-DD for volatile facts, or "not scheduled">
-volatility: <low | medium | high — how quickly external facts in this source can change>
+review_by: <YYYY-MM-DD when the source holds facts likely to change (prices, current guidance, a live
+  web page), or "not scheduled">
 track: <code from project-config.md, or shared; omit where the project declares no tracks>
 supersedes: <page this one replaces, or "none">
 superseded_by: <page that replaces this one, or "none">
@@ -43,7 +46,8 @@ generated_at: <YYYY-MM-DD, the date this page's content was last (re)synthesized
 ref_carry_through: <"<N> claims tagged, <M> carried a source-native marker" for a source that cites
   its own claims in any style — numbered reference, footnote, superscript, or inline (Author, Year)
   citation (ingest.md step 4) — or "n/a — source carries no citation markers of its own" otherwise>
-tags: [<topic>, <topic>]
+tags: <[keyword, keyword] — products, organisations and subjects a person might search or browse the
+  folder for. familiar finds pages through _knowledge-index.md, not tags.>
 ---
 
 # <Source title>

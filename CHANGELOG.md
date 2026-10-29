@@ -9,6 +9,30 @@ an extension's contract only comes with a new major version, and
 
 ## [Unreleased]
 
+## [1.0.1] - 2026-10-29
+
+### Added
+
+- An `_update/` folder. To update, drop the new release zips in it (core, any extension, the hooks
+  package) and run `/system-settings` → Update. Everything updates in one run, and the session never
+  reads outside the project. `update.py --from _update` does the same from a terminal.
+- The first check-in asks for the project's signature, so a new project needs no separate
+  Preferences step.
+- Skills that are not familiar's run under the core rules too (`routes.md` → Other skills).
+
+### Changed
+
+- Knowledge page fields: `volatility` removed; `type` is a fixed list of ten values; `journal`,
+  `volume_issue` and `doi` become `publisher`, `issue` and `identifier`, for every source type.
+  `project_check.py` reports pages past their `review_by` date.
+
+### Updating from 1.0.0
+
+The 1.0.0 updater has no `--from`. For this one update, unzip `familiar-workspace-1.0.1.zip`
+outside the project, run `/system-settings` → Update and give it that folder, or run the new
+release's `update.py` from a terminal ([`INSTALL.md`](INSTALL.md#updating)). From 1.0.1 on, use
+`_update/`.
+
 ## [1.0.0] - 2026-10-27
 
 First public release. A project-memory and workflow layer that makes AI agents instantly familiar with your work, progress, and decisions. It is a plain folder

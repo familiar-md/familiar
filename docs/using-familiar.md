@@ -188,7 +188,7 @@ which also starts from plain words ("save progress", "remember this").
 | `system-settings` | Housekeeping for the installation and the project shell. | Update, Workspace tidy, Tracks, Project closeout, Preferences, Hooks |
 
 Name a branch to skip the menu: `/ili-save progress`, `/ili-draft-document deck`. The
-[cheat sheet](../CHEATSHEET.md) puts every command on one page.
+[skills quick reference](../CHEATSHEET.md) puts every command on one page.
 
 ### `system-settings` branches
 

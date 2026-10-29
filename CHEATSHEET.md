@@ -1,4 +1,4 @@
-# familiar cheat sheet
+# familiar skills quick reference
 
 One page of commands for familiar core, the fleet hub and the optional hooks. A printable version
 with a switch for your assistant is `docs/cheatsheet.html`. The commands are

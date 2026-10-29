@@ -3,7 +3,7 @@
   "core": {
     "id": "familiar",
     "version": "1.0.0",
-    "build": "70dc038296ba"
+    "build": "b122544c786e"
   },
   "adapters": {
     "claude": {

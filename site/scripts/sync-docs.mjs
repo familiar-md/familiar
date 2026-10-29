@@ -146,7 +146,7 @@ const group = (label, key, collapsed = false) => ({
 const sidebar = [
   group('Getting started', 'start'),
   group('Using familiar', 'use'),
-  { label: 'Cheat sheet', link: '/cheatsheet/' },
+  { label: 'Skills quick reference', link: '/cheatsheet/' },
   group('Install and update', 'install', true),
   group('Manual', 'manual', true),
   {

@@ -106,7 +106,7 @@ Each skill loads only the files its task needs. Short, focused sessions work bes
 
 ## How the workspace fits your project
 
-![Reference files are copied into the workspace's 1-Inputs, ingested into 3-Knowledge and drafted into 2-Drafts; approved files are renamed and copied back out to your project folder](assets/familiar-workspace-flow.svg)
+![Reference files are copied into the workspace's 1-Inputs, ingested into 3-Knowledge and drafted into 2-Drafts; approved files are renamed and copied back out to your project folder. 4-Trackers and 5-System hold what the project remembers: tasks, timeline, meetings, status, decisions and handoffs](assets/familiar-workspace-flow.svg)
 
 - **Bring in only what the agent needs to know.** Leave out any file that is not worth keeping in the
   agent's memory.
@@ -137,6 +137,8 @@ and a findings deck is due Friday. This is how the day can go, and which skill d
 | End of day: "Save progress" | `save` → Save progress | Brings every open thread up to date before you stop. |
 
 ## The skills
+
+![The project lifecycle. Set up: download, unzip, rename, then the first check-in. The repeatable middle: check-in, ongoing, triage and save, repeated for as long as the project runs. Close out: the project closeout. Alongside, the skills used as the work needs them: ingest and online research, deliverable brief and draft document, handoff, and system settings.](assets/familiar-lifecycle.svg)
 
 In Claude Code, type `/ili` to list every familiar skill. A skill starts only from its command. The
 agent can tell you which skill fits, but it never starts one on its own. The one exception is
@@ -375,6 +377,8 @@ These are your own edits, and the updater kept them. To roll back, use the backu
 `5-System/_update-backups/`. See [`INSTALL.md`](../INSTALL.md#updating).
 
 ## Going further
+
+![How extensions layer onto familiar core. Core is the base: its rules, routes and everyday skills. Extensions are folders dropped onto the project that add their own skills and routes; the template starts your own. Separately and optionally, familiar-hub gives one view across all your projects and familiar-hooks adds enforcement guards.](assets/familiar-extensions.svg)
 
 | | |
 |---|---|

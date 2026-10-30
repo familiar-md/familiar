@@ -25,8 +25,9 @@
   <a href="https://github.com/familiar-md/familiar-template">Build your own</a>
 </p>
 
-Download one folder, give it your project's name, and open your AI coding agent inside it. Every
-session then starts from the project's record instead of from nothing.
+familiar is simple: one folder and one AI coding agent. No installer to run, no MCP server to
+connect, no custom harness to learn. Download the folder, give it your project's name, and open
+your agent inside it. Every session then starts from the project's record instead of from nothing.
 
 <p align="center">
   <img src="docs/assets/familiar-demo-session.png" alt="The fictional demo project answering a first hello with its bound line: (ili) familiar bound, then the project name" width="100%">
@@ -44,7 +45,19 @@ session then starts from the project's record instead of from nothing.
   under that provider's terms.
 
 <p align="center">
-  <img src="docs/assets/familiar-workspace-flow.svg" alt="Reference files are copied into the workspace's 1-Inputs, ingested into 3-Knowledge and drafted into 2-Drafts; approved files are renamed and copied back out to your project folder" width="720">
+  <img src="docs/assets/familiar-cold-vs-bound.gif" alt="The same question asked twice: when is the draft due to the client? A plain agent in an empty folder says it has no record and asks which project. The agent in the familiar demo project answers 2026-11-16, names the milestone and the tracker file it comes from, and lists the related open tasks. A replay of real output, sped up." width="100%">
+</p>
+
+<p align="center">
+  <img src="docs/assets/familiar-lifecycle.svg" alt="The project lifecycle. Set up: download, unzip, rename, then the first check-in. The repeatable middle: check-in, ongoing, triage and save, repeated for as long as the project runs. Close out: the project closeout. Alongside, the skills used as the work needs them: ingest and online research, deliverable brief and draft document, handoff, and system settings." width="100%">
+</p>
+
+<p align="center">
+  <img src="docs/assets/familiar-draft-deck.gif" alt="One command, /ili-draft-document deck, drafts an internal weekly check-in deck from the project's trackers. The agent reads the project state, builds and validates the deck, renders every slide, finds three overflowing headlines, fixes them and registers the draft. A replay of one real run, condensed from about five minutes." width="100%">
+</p>
+
+<p align="center">
+  <img src="docs/assets/familiar-workspace-flow.svg" alt="Reference files are copied into the workspace's 1-Inputs, ingested into 3-Knowledge and drafted into 2-Drafts; approved files are renamed and copied back out to your project folder. 4-Trackers and 5-System hold what the project remembers: tasks, timeline, meetings, status, decisions and handoffs" width="720">
 </p>
 
 ## Who it is for
